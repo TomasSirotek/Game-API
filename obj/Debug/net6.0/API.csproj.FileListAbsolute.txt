@@ -1,3 +1,10 @@
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.csproj.AssemblyReference.cache
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.AssemblyInfoInputs.cache
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.AssemblyInfo.cs
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.MvcApplicationPartsAssemblyInfo.cs
+/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.MvcApplicationPartsAssemblyInfo.cache
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/appsettings.Development.json
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/appsettings.json
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/API
@@ -9,13 +16,6 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.csproj.AssemblyReference.cache
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.GeneratedMSBuildEditorConfig.editorconfig
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.AssemblyInfoInputs.cache
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.AssemblyInfo.cs
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.MvcApplicationPartsAssemblyInfo.cs
-/Users/Tomas/Projects/API/API/obj/Debug/net6.0/API.MvcApplicationPartsAssemblyInfo.cache
 /Users/Tomas/Projects/API/API/obj/Debug/net6.0/staticwebassets.build.json
 /Users/Tomas/Projects/API/API/obj/Debug/net6.0/staticwebassets.development.json
 /Users/Tomas/Projects/API/API/obj/Debug/net6.0/scopedcss/bundle/API.styles.css
