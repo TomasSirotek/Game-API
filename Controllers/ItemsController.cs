@@ -22,7 +22,6 @@ namespace API.Controllers
 		{
 			// For loading only once 
 			_ItemRepo = itemRepo;
-			//_ItemRepo = new InMemItemRepo();
 		}
 
 		// Get All items
