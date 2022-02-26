@@ -13,4 +13,5 @@ namespace API.Models
 		[Required]
 		public string? Note { get; set; }
 	}
+
 }

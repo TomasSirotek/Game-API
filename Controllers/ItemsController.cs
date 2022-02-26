@@ -12,7 +12,7 @@ namespace API.Controllers
 	[ApiController]
 	[Route("[controller]")] // Own route name 
 
-	public class ItemsController : ControllerBase
+	public class ItemsController : Controller
 	{
 		// Using interface repo
 		private IItems _ItemRepo;
@@ -26,21 +26,21 @@ namespace API.Controllers
 
 		// Get All items
 		[HttpGet]
-		public ActionResult<IEnumerable<ItemDTO>> GetItems()
+		public ActionResult<IEnumerable<ItemDto>> GetItems()
 		{
 			return _ItemRepo.GetItems()
-				.Select(x => new ItemDTO { Id = x.Id, Title = x.Title, Price = x.Price , Note = x.Note })
+				.Select(x => new ItemDto { Id = x.Id, Title = x.Title, Price = x.Price , Note = x.Note })
 				.ToList();
 		}
 
 		[HttpGet("{id}")]
-		public ActionResult<ItemDTO> GetItemById(Guid id)// structs 
+		public ActionResult<ItemDto> GetItemById(Guid id)// structs 
 		{
 			var item = _ItemRepo.GetItemById(id);
 
 			if (item == null) return NotFound();
 
-			var itemDTO = new ItemDTO {
+			var itemDTO = new ItemDto {
 				Id = item.Id,
 				Title = item.Title,
 				Price = item.Price,
@@ -51,7 +51,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult CreateItem(CreateItemDTO item)
+		public ActionResult CreateItem(CreateItemDto item)
 		{
 			var existingItem = new Item();
 			existingItem.Id = Guid.NewGuid();
@@ -66,7 +66,7 @@ namespace API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public ActionResult UpdateItem(Guid id, UpdateItemDTO item)
+		public ActionResult UpdateItem(Guid id, UpdateItemDto item)
 		{
 			// fetching single game from the repo 
 			var existingItem = _ItemRepo.GetItemById (id);

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace API.Dtos
 {
-	public class CreateItemDTO
+	public class CreateItemDto
 	{
 		[Required]
 		public string? Title { get; set; }
