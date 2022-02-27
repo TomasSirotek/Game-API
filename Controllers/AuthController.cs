@@ -12,11 +12,26 @@ namespace API.Controllers {
 	public class AuthController : ControllerBase {
 
 		private readonly IConfiguration _config;
-		public static User user = new ();
+		private static readonly User user = new ();
 
 		public AuthController (IConfiguration config)
 		{
 			_config = config;
+		}
+
+		[HttpPost ("Authenticate")] // From body 
+		public async Task<ActionResult<string>> Authenticate ([FromBody]UserDto request)
+		{
+			if (user.UserName != request.UserName) return BadRequest ("User does not exist");
+
+			if (user.EmailAddress != request.EmailAddress) return BadRequest ("Email Address does not exist");
+
+			if (!VerifyPasswordHash (request.Password, user.PasswordHash, user.PasswordSalt)) return BadRequest ("Wrong Password");
+
+
+			string token = CreateToken (user);
+			return Ok (token);
+
 		}
 
 		// Register 
@@ -34,34 +49,26 @@ namespace API.Controllers {
 
 		}
 
-		[HttpPost ("Login")] // From body 
-		public async Task<ActionResult<string>> Login ([FromBody]UserDto request)
-		{
-			if (user.UserName != request.UserName) return BadRequest ("User does not exist");
-			
-			if (user.EmailAddress != request.EmailAddress) return BadRequest ("Email Address does not exist");
-	
-			if (!VerifyPasswordHash(request.Password,user.PasswordHash,user.PasswordSalt)) return BadRequest ("Wrong Password");
-
-			string token = CreateToken (user);
-			return Ok (token);
-
-		}
 
 		private string CreateToken(User user)
 		{
 			List<Claim> claims = new () {
-				new Claim(ClaimTypes.Name, user.UserName)
+				new Claim(ClaimTypes.NameIdentifier, user.UserName),
+				new Claim (ClaimTypes.Email, user.EmailAddress),
+				new Claim (ClaimTypes.Role, user.Role),
 			};
 
 			var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
-				_config.GetSection("AppSettings:AuthToken").Value));
+				_config.GetSection("Jwt:AuthToken").Value));
 
 			var credentials = new SigningCredentials (key, SecurityAlgorithms.HmacSha512Signature);
 
 			var token = new JwtSecurityToken (
+ 				_config ["Jwt:Issuer"],
+				_config["Jwt:Audinece"],
+
 				claims: claims,
-				expires: DateTime.Now.AddDays (1),
+				expires: DateTime.Now.AddMinutes (15),
 				signingCredentials: credentials
 				);
 			var jwt = new JwtSecurityTokenHandler ().WriteToken (token);
@@ -82,6 +89,8 @@ namespace API.Controllers {
 			var computeHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
 			return computeHash.SequenceEqual (passwordHash);
 		}
+
+	
 	}
 }
 

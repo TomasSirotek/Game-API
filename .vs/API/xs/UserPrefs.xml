@@ -1,3 +1,46 @@
 ﻿<Properties StartupConfiguration="{23AA38B0-12F1-4AA3-BBCE-E0C8C11FB0DE}|Default">
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Brave Browser.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Dtos/UserDto.cs">
+    <Files>
+      <File FileName="Models/Item.cs" Line="9" Column="23" />
+      <File FileName="Controllers/AuthController.cs" Line="38" Column="62" />
+      <File FileName="Controllers/ItemsController.cs" Line="16" Column="3" />
+      <File FileName="Startup.cs" Line="36" Column="39" />
+      <File FileName="appsettings.json" Line="3" Column="15" />
+      <File FileName="appsettings.Development.json" Line="10" Column="1" />
+      <File FileName="Dtos/ItemDto.cs" Line="1" Column="1" />
+      <File FileName="Dtos/UserDto.cs" Line="6" Column="15" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="Models/User.cs" Line="11" Column="55" />
+      <File FileName="Enums/Role.cs" Line="1" Column="1" />
+      <File FileName="Models/UserConstants.cs" Line="20" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="API" expanded="True">
+            <Node name="API" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Dtos" expanded="True">
+                <Node name="UserDto.cs" selected="True" />
+              </Node>
+              <Node name="Enums" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
 </Properties>

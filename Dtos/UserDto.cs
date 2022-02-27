@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using API.Enums;
 
 namespace API.Dtos {
 	public class UserDto {
@@ -10,6 +11,7 @@ namespace API.Dtos {
 		[Required]
 		public string Password { get; set; } = String.Empty;
 
+		public string Role { get; set; } 
 	}
 }
 

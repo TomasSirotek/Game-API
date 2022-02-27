@@ -21,11 +21,13 @@
     <None Remove="Microsoft.IdentityModel.Tokens" />
     <None Remove="System.IdentityModel.Tokens.Jwt" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Dtos\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Enums\" />
   </ItemGroup>
 </Project>
