@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Data;
 using API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace API
 {
@@ -31,9 +35,25 @@ namespace API
         {
             // class as the singleton when start 
             services.AddSingleton<IItems, InMemItemRepo>();
-
+            
+            // Enable CORS
+            services.AddCors(c =>
+            {
+               c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+            
+            // JSON Serialization // Nuget package
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            
             services.AddMvc ();
             services.AddRazorPages ();
+
+            services.AddDbContext<DataContext>(
+                    o => Configuration.GetConnectionString("PostgresAppCon")
+            );
 
             services.AddControllers();
             services.AddSwaggerGen(c => {
@@ -50,6 +70,8 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Items v1"));
             }
 
+            app.UseCors((options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

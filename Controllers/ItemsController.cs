@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using API.Dtos;
 using API.Models;
 using API.Repositories;
+using Npgsql;
 
 // Service controller => ALL HTTP REQUESTS
 namespace API.Controllers
@@ -96,5 +98,7 @@ namespace API.Controllers
 
 			return NoContent();
 		}
+
+		
 	}
 }
