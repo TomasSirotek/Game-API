@@ -1,6 +1,7 @@
 using API.Models;
 using System.Threading;
 using System.Threading.Tasks;
+using API.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -17,11 +18,7 @@ public class DataContext: DbContext {
   {
     modelBuilder.UseSerialColumns();
   }
-    
-  public DbSet<Project> Project { get; set; }
+  
   public DbSet<AppUser> User { get; set; }
-  public DbSet<Category> Category { get; set; }
-  public DbSet<Language> Language { get; set; }
-
   
 }

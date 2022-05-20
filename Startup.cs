@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
-using API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +33,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // class as the singleton when start 
-            services.AddSingleton<IItems, InMemItemRepo>();
+            // services.AddSingleton<IItems, InMemItemRepo>();
             
             // Enable CORS
             services.AddCors(c =>
@@ -57,7 +56,7 @@ namespace API
 
             services.AddControllers();
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Items", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GameStore", Version = "v1" });
             });
         }
 

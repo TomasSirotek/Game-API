@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using API.Dtos;
+using API.Identity.Entities;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +22,9 @@ namespace API.Controllers
 		{
             var currentUser = GetCurrentUser();
 
-            return Ok ($"Auth ok your are logged as {currentUser.UserName}, Role : {currentUser.Role}");
-		}
+           // return Ok ($"Auth ok your are logged as {currentUser.UserName}, Role : {currentUser.Role}");
+           return Ok();
+        }
 
 
         // GET: api/values
@@ -34,7 +35,7 @@ namespace API.Controllers
         }
 
  
-        private User GetCurrentUser ()
+        private AppUser GetCurrentUser ()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
 
@@ -43,10 +44,10 @@ namespace API.Controllers
 
                 var userClaims = identity.Claims;
 
-                return new User {
-                    UserName = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value,
-                    EmailAddress = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Email)?.Value,
-                    Role = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Role)?.Value,
+                return new AppUser {
+                    // UserName = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value,
+                    // EmailAddress = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Email)?.Value,
+                    // Role = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Role)?.Value,
                 };
 
             }
