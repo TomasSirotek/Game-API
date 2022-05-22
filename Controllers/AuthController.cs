@@ -21,7 +21,7 @@ namespace API.Controllers {
 			_config = config;
 		}
 
-		[HttpPost ("Authenticate")] // From body 
+		[HttpPost ("Authenticate")] 
 		public async Task<ActionResult<string>> Authenticate ([FromBody]AppUser user)
 		{
 			// if (appUser.UserName != request.UserName) return BadRequest ("User does not exist");
