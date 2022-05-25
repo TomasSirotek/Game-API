@@ -13,9 +13,8 @@ namespace API.Controllers;
 public class UserController : DefaultController
 {
 
-    [HttpGet("Admin"),Authorize]
-   // [AllowAnonymous]
-   public IActionResult AdminEndpoint ()
+    [HttpGet("Admin")]
+    public IActionResult AdminEndpoint ()
     {
         var currentUser = GetCurrentUser();
 

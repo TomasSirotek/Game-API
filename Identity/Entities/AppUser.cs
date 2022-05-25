@@ -19,7 +19,7 @@ public class AppUser {
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
     
-    public List<AppRole> RolesList { get; set; }
+    public List<AppRole> Roles { get; set; }
 
     public string CreatedAt { get; set; }
     

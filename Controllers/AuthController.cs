@@ -8,9 +8,9 @@ using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
 
-namespace API.Controllers; 
+
+namespace API.Controllers;
 
 public class AuthController : DefaultController {
 
@@ -23,13 +23,12 @@ public class AuthController : DefaultController {
 	}
 
 	[HttpPost ("Authenticate")] 
-	public async Task<ActionResult<string>> Authenticate ([FromBody]CreateUserDto request)
+	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
 		if (appUser.UserName != request.UserName) return BadRequest ("User does not exist");
 
 		if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
-
-
+		
 		string token = CreateToken(appUser);
 		appUser.Token = token;
 		return Ok (token);
@@ -38,7 +37,7 @@ public class AuthController : DefaultController {
 
 	// Register 
 	[HttpPost ("Register")] // From body 
-	public async Task<ActionResult<AppUser>> Register ([FromBody] CreateUserDto request)
+	public async Task<ActionResult<AppUser>> Register ([FromBody] AuthPostBindingModel request)
 	{
 		CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
 			
@@ -50,7 +49,6 @@ public class AuthController : DefaultController {
 
 	}
 
-
 	private string CreateToken(AppUser user)
 	{
 		List<Claim> claims = new () {
@@ -59,14 +57,11 @@ public class AuthController : DefaultController {
 		};
 
 		var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
-			_config.GetSection("Jwt:AuthToken").Value));
+			_config.GetSection("JwtConfig:Secret").Value));
 
 		var credentials = new SigningCredentials (key, SecurityAlgorithms.HmacSha512Signature);
 
 		var token = new JwtSecurityToken (
-			_config ["Jwt:Issuer"],
-			_config["Jwt:Audience"],
-
 			claims: claims,
 			expires: DateTime.Now.AddMinutes(15),
 			signingCredentials: credentials
