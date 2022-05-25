@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using API.Dtos;
 using API.Identity.Entities;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -22,32 +23,29 @@ namespace API.Controllers {
 		}
 
 		[HttpPost ("Authenticate")] 
-		public async Task<ActionResult<string>> Authenticate ([FromBody]AppUser user)
+		public async Task<ActionResult<string>> Authenticate ([FromBody]CreateUserDto request)
 		{
-			// if (appUser.UserName != request.UserName) return BadRequest ("User does not exist");
+			 if (appUser.Email != request.Email) return BadRequest ("User does not exist");
 
-			if (appUser.Email != user.Email) return BadRequest ("Email Address does not exist");
-
-			// if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
+			 if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
 
 
-			string token = CreateToken(user);
+			string token = CreateToken(appUser);
 			return Ok (token);
 
 		}
 
 		// Register 
 		[HttpPost ("Register")] // From body 
-		public async Task<ActionResult<AppUser>> Register ([FromBody] AppUser user)
+		public async Task<ActionResult<AppUser>> Register ([FromBody] CreateUserDto request)
 		{
-		// 	CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
-			//
-			// user.UserName = request.UserName;
-			// user.EmailAddress = request.EmailAddress;
-			// user.PasswordHash = passwordHash;
-			// user.PasswordSalt = passwordSalt;
+			CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
+			
+			appUser.Email = request.Email;
+			appUser.PasswordHash = passwordHash;
+			appUser.PasswordSalt = passwordSalt;
 
-			return Ok (user);
+			return Ok (appUser);
 
 		}
 
@@ -55,8 +53,7 @@ namespace API.Controllers {
 		private string CreateToken(AppUser user)
 		{
 			List<Claim> claims = new () {
-				new Claim(ClaimTypes.NameIdentifier, user.FirstName),
-				new Claim (ClaimTypes.Email, user.Email),
+				new Claim(ClaimTypes.Email, user.Email)
 				// new Claim (ClaimTypes.Role, user.RolesList),
 			};
 

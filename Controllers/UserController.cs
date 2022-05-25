@@ -13,17 +13,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : Controller
     {
 
         [HttpGet("Admin")]
-        [Authorize]
         public IActionResult AdminEndpoint ()
 		{
             var currentUser = GetCurrentUser();
 
-           // return Ok ($"Auth ok your are logged as {currentUser.UserName}, Role : {currentUser.Role}");
-           return Ok();
+            return Ok ($"Auth ok your are logged as {currentUser.Email}, Role : {currentUser.Token}");
+           return Ok("noice");
         }
 
 

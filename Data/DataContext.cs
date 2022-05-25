@@ -19,6 +19,4 @@ public class DataContext: DbContext {
     modelBuilder.UseSerialColumns();
   }
   
-  public DbSet<AppUser> User { get; set; }
-  
 }
