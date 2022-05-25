@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
 using API.Data;
+using API.Services;
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +51,9 @@ namespace API
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+                    
+            // dependency injection
+            services.AddScoped<IUserInterface, UserService>();
             
             services.AddMvc ();
             services.AddRazorPages ();

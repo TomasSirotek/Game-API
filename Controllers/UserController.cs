@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Identity.Entities;
 using API.Models;
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +13,21 @@ namespace API.Controllers;
 
 public class UserController : DefaultController
 {
+    private readonly IUserInterface _user;
+
+    public UserController (IUserInterface user)
+    {
+        _user = user;
+    }
 
     [HttpGet("Admin")]
-    [Authorize(Roles ="Admin")]
-    public IActionResult GetAllUsers ()
+    //[Authorize(Roles ="Admin")]
+    public async Task<IActionResult> GetAllUsers ()
     {
        //  var currentUser = GetCurrentUser();
         // got service grab the function from repo 
-       var test = "test";
-       return Ok(test);
+        AppUser users = await _user.GetAllUsers();
+        return Ok(users);
     }
 
 
