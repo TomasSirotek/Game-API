@@ -4,9 +4,9 @@ namespace API.Identity.Entities;
 
 public class AppUser {
     public string Id { get; set; }
-    public string FirstName { get; set; }
+    public string UserName { get; set; }
 
-    public string LastName { get; set; }
+   // public string LastName { get; set; }
 
     public string Email { get; set; }
 
@@ -25,10 +25,10 @@ public class AppUser {
     
     public bool IsActive { get; set; }
 
-    public AppUser(string id, string firstName,string lastName,string email,bool isActive) {
+    public AppUser(string id, string userName,string email,bool isActive) {
         Id = id;
-        FirstName = firstName;
-        LastName = lastName;
+        UserName = userName;
+        //LastName = lastName;
         Email = email;
         IsActive = isActive;
     }

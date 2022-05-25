@@ -21,6 +21,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace API
@@ -37,21 +38,19 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            // var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+            //
+            // var tokenValidationParams = new TokenValidationParameters {
+            //     ValidateIssuerSigningKey = true,
+            //     IssuerSigningKey = new SymmetricSecurityKey(key),
+            //     ValidateIssuer = false,
+            //     ValidateAudience = false,
+            //     ValidateLifetime = true,
+            //     RequireExpirationTime = false,
+            //     ClockSkew = TimeSpan.Zero
+            // };
 
-            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
-            var tokenValidationParams = new TokenValidationParameters {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                RequireExpirationTime = false,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddSingleton(tokenValidationParams);
+          //   services.AddSingleton(tokenValidationParams);
             // Enable CORS
             services.AddCors(c =>
             {
@@ -81,35 +80,33 @@ namespace API
                     Description = "Please insert token",
                     Name="Authorization",
                     Type=SecuritySchemeType.ApiKey,
-                    BearerFormat = "JWT",
-                    Scheme="bearer"
+                   
                 });
-               c.AddSecurityRequirement(new OpenApiSecurityRequirement
-               {
-                   {
-                       new OpenApiSecurityScheme
-                       {
-                           Reference = new OpenApiReference
-                           {
-                               Type = ReferenceType.SecurityScheme,
-                               Id="Bearer"
-                           }
-                       },
-                       new string[]{}
-                   }
-               });
-               c.OperationFilter<AuthResponsesOperationFilter>();
+             
+               c.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-            
-            services.AddAuthentication(options => {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(jwt => {
-                    jwt.SaveToken = true;
-                    jwt.TokenValidationParameters = tokenValidationParams;
-                });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,  
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                        .GetBytes(Configuration["JwtConfig:Secret"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
+
+            // services.AddAuthentication(options => {
+            //         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //     })
+            //     .AddJwtBearer(jwt => {
+            //         jwt.SaveToken = true;
+            //         jwt.TokenValidationParameters = tokenValidationParams;
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,48 +133,48 @@ namespace API
             });
         }
     }
-    internal class AuthResponsesOperationFilter : IOperationFilter
-    {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            var attributes = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
-                .Union(context.MethodInfo.GetCustomAttributes(true));
-
-            if (attributes.OfType<IAllowAnonymous>().Any())
-            {
-                return;
-            }
-
-            var authAttributes = attributes.OfType<IAuthorizeData>();
-
-            if (authAttributes.Any())
-            {
-                operation.Responses["401"] = new OpenApiResponse { Description = "Unauthorized" };
-
-                if (authAttributes.Any(att => !String.IsNullOrWhiteSpace(att.Roles) || !String.IsNullOrWhiteSpace(att.Policy)))
-                {
-                    operation.Responses["403"] = new OpenApiResponse { Description = "Forbidden" };
-                }
-
-                operation.Security = new List<OpenApiSecurityRequirement>
-                {
-                    new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Id = "BearerAuth",
-                                    Type = ReferenceType.SecurityScheme
-                                }
-                            },
-                            Array.Empty<string>()
-                        }
-                    }
-                };
-            }
-        }
-    }
+    // internal class AuthResponsesOperationFilter : IOperationFilter
+    // {
+    //     public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    //     {
+    //         var attributes = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
+    //             .Union(context.MethodInfo.GetCustomAttributes(true));
+    //
+    //         if (attributes.OfType<IAllowAnonymous>().Any())
+    //         {
+    //             return;
+    //         }
+    //
+    //         var authAttributes = attributes.OfType<IAuthorizeData>();
+    //
+    //         if (authAttributes.Any())
+    //         {
+    //             operation.Responses["401"] = new OpenApiResponse { Description = "Unauthorized" };
+    //
+    //             if (authAttributes.Any(att => !String.IsNullOrWhiteSpace(att.Roles) || !String.IsNullOrWhiteSpace(att.Policy)))
+    //             {
+    //                 operation.Responses["403"] = new OpenApiResponse { Description = "Forbidden" };
+    //             }
+    //
+    //             operation.Security = new List<OpenApiSecurityRequirement>
+    //             {
+    //                 new OpenApiSecurityRequirement
+    //                 {
+    //                     {
+    //                         new OpenApiSecurityScheme
+    //                         {
+    //                             Reference = new OpenApiReference
+    //                             {
+    //                                 Id = "BearerAuth",
+    //                                 Type = ReferenceType.SecurityScheme
+    //                             }
+    //                         },
+    //                         Array.Empty<string>()
+    //                     }
+    //                 }
+    //             };
+    //         }
+    //     }
+    // }
 
 }

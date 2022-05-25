@@ -36,7 +36,6 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Newtonsoft.Json.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Newtonsoft.Json.Bson.dll
-/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.DotNet.PlatformAbstractions.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Npgsql.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/System.Data.SqlClient.dll
@@ -57,3 +56,6 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Extensions.Identity.Core.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Scrutor.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll

@@ -8,63 +8,58 @@ using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace API.Controllers; 
 
-namespace API.Controllers
+public class UserController : DefaultController
 {
-    [Route("api/[controller]")]
-    [Authorize]
-    public class UserController : Controller
+
+    [HttpGet("Admin"),Authorize]
+   // [AllowAnonymous]
+   public IActionResult AdminEndpoint ()
     {
+        var currentUser = GetCurrentUser();
 
-        [HttpGet("Admin")]
-        public IActionResult AdminEndpoint ()
-		{
-            var currentUser = GetCurrentUser();
-
-            return Ok ($"Auth ok your are logged as {currentUser.Email}, Role : {currentUser.Token}");
-           return Ok("noice");
-        }
+        //   return Ok ($"Auth ok your are logged as {currentUser.Email}, Role : {currentUser.Token}");
+        return Ok("noice");
+    }
 
 
-        // GET: api/values
-        [HttpGet("Public")]
-        public IActionResult Public()
-        {
-            return Ok ("Hi,public stuff");
-        }
+    // GET: api/values
+    [HttpGet("Public")]
+    public IActionResult Public()
+    {
+        return Ok ("Hi,public stuff");
+    }
 
  
-        private AppUser GetCurrentUser ()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
+    private AppUser GetCurrentUser ()
+    {
+        var identity = HttpContext.User.Identity as ClaimsIdentity;
 
 
-            if (identity != null) {
+        if (identity != null) {
 
-                var userClaims = identity.Claims;
+            var userClaims = identity.Claims;
 
-                return new AppUser {
-                    // UserName = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value,
-                    // EmailAddress = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Email)?.Value,
-                    // Role = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Role)?.Value,
-                };
+            return new AppUser {
+                // UserName = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value,
+                // EmailAddress = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Email)?.Value,
+                // Role = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Role)?.Value,
+            };
 
-            }
-            return null;
         }
-
-
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-
-
+        return null;
     }
-}
 
+
+
+    // GET api/values/5
+    [HttpGet("{id}")]
+    public string Get(int id)
+    {
+        return "value";
+    }
+
+
+
+}
