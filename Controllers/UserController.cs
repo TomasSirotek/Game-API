@@ -14,18 +14,19 @@ public class UserController : DefaultController
 {
 
     [HttpGet("Admin")]
-    public IActionResult AdminEndpoint ()
+    [Authorize(Roles ="Admin")]
+    public IActionResult GetAllUsers ()
     {
-        var currentUser = GetCurrentUser();
-
-        //   return Ok ($"Auth ok your are logged as {currentUser.Email}, Role : {currentUser.Token}");
-        return Ok("noice");
+       //  var currentUser = GetCurrentUser();
+        // got service grab the function from repo 
+       var test = "test";
+       return Ok(test);
     }
 
 
     // GET: api/values
     [HttpGet("Public")]
-    public IActionResult Public()
+    public IActionResult GetUserById()
     {
         return Ok ("Hi,public stuff");
     }

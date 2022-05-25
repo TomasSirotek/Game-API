@@ -31,12 +31,12 @@ public class AuthController : DefaultController {
 		
 		string token = CreateToken(appUser);
 		appUser.Token = token;
-		return Ok (token);
+		return Ok (appUser);
 
 	}
 
 	// Register 
-	[HttpPost ("Register")] // From body 
+	[HttpPost ("Register")] 
 	public async Task<ActionResult<AppUser>> Register ([FromBody] AuthPostBindingModel request)
 	{
 		CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
@@ -52,8 +52,8 @@ public class AuthController : DefaultController {
 	private string CreateToken(AppUser user)
 	{
 		List<Claim> claims = new () {
-			new Claim(ClaimTypes.Name, user.UserName)
-			// new Claim (ClaimTypes.Role, user.RolesList),
+			new Claim(ClaimTypes.Name, user.UserName),
+			new Claim (ClaimTypes.Role, "User")
 		};
 
 		var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
