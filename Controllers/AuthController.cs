@@ -25,14 +25,14 @@ public class AuthController : DefaultController {
 	[HttpPost ("Authenticate")] 
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
-		if (appUser.UserName != request.UserName) return BadRequest ("User does not exist");
+		if (appUser.Email != request.Email) return BadRequest ("User does not exist");
 
 		if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
 		
 		string token = CreateToken(appUser);
+		
 		appUser.Token = token;
 		return Ok (appUser);
-
 	}
 
 	// Register 
@@ -41,7 +41,7 @@ public class AuthController : DefaultController {
 	{
 		CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
 			
-		appUser.UserName = request.UserName;
+		appUser.Email = request.Email;
 		appUser.PasswordHash = passwordHash;
 		appUser.PasswordSalt = passwordSalt;
 
@@ -52,7 +52,7 @@ public class AuthController : DefaultController {
 	private string CreateToken(AppUser user)
 	{
 		List<Claim> claims = new () {
-			new Claim(ClaimTypes.Name, user.UserName),
+			new Claim(ClaimTypes.Email, user.Email),
 			new Claim (ClaimTypes.Role, "User")
 		};
 

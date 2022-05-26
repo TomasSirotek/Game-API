@@ -1,21 +1,29 @@
 using API.Identity.Entities;
+using API.RepoInterface;
 using API.Services.Interfaces;
 
-namespace API.Services {
 
+namespace API.Services {
     
     public class UserService : IUserInterface {
+        
+        private readonly IUserRepository _userRepository;
 
-        public Task<AppUser> GetAllUsers()
+        public UserService (IUserRepository userRepository)
         {
-            AppUser user = new(
-                Guid.NewGuid().ToString(),
-                "Admin",
-                "email@yahoo.com",
-                false
-                
-            );
-            return null;
+            _userRepository = userRepository;
         }
+
+        public async Task<List<AppUser>> GetAllUsers()
+        {
+            return await _userRepository.GetAllUsers();
+        }
+        
+        public async Task<AppUser> GetUserById(string id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
+
+       
     }
 }

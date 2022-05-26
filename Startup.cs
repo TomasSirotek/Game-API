@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
 using API.Data;
+using API.RepoInterface;
+using API.Repositories;
 using API.Services;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,6 +56,8 @@ namespace API
                     
             // dependency injection
             services.AddScoped<IUserInterface, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             
             services.AddMvc ();
             services.AddRazorPages ();

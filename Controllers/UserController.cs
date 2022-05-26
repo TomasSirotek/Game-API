@@ -24,21 +24,17 @@ public class UserController : DefaultController
     //[Authorize(Roles ="Admin")]
     public async Task<IActionResult> GetAllUsers ()
     {
-       //  var currentUser = GetCurrentUser();
-        // got service grab the function from repo 
-        AppUser users = await _user.GetAllUsers();
+        List<AppUser> users = await _user.GetAllUsers();
         return Ok(users);
     }
-
-
-    // GET: api/values
-    [HttpGet("Public")]
-    public IActionResult GetUserById()
+    
+    [HttpGet("index")]
+    public async Task<IActionResult> GetUserById(string id)
     {
-        return Ok ("Hi,public stuff");
+        AppUser user = await _user.GetUserById(id);
+        return Ok (user);
     }
-
- 
+    
     private AppUser GetCurrentUser ()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -57,16 +53,5 @@ public class UserController : DefaultController
         }
         return null;
     }
-
-
-
-    // GET api/values/5
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-        return "value";
-    }
-
-
 
 }
