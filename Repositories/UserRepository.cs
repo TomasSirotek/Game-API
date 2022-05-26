@@ -1,44 +1,51 @@
+using System.Data;
 using API.Identity.Entities;
 using API.RepoInterface;
+using Microsoft.AspNetCore.Mvc;
+using Npgsql;
+using NuGet.Protocol;
 
 namespace API.Repositories; 
 
 public class UserRepository : IUserRepository {
 
 	private readonly List<AppUser> _appUsers;
-
-		public UserRepository() 
-		{
-			_appUsers = new () {
- 				new AppUser(
-	                "343",
-	                "Admin",
-	                "email@yahoo.com",
-	                true
-	                ),
-                new AppUser(
-	                "222",
-	                "User",
-	                "email@yahoo.com",
-	                false
-                ),
-                new AppUser(
-	                "222",
-	                "User",
-	                "email@yahoo.com",
-	                true
-                )
-
-			};
-		}
+	private readonly IConfiguration _config;
 	
+	public UserRepository (IConfiguration config)
+	{
+		_config = config;
+	}
 		public async Task<List<AppUser>> GetAllUsers()
 		{
-			return _appUsers;
+			string query = $"select * from app_user";
+
+			List<AppUser> userList = new();
+			DataTable table = new DataTable();
+			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
+			NpgsqlDataReader appReader;
+			using (NpgsqlConnection conn = new NpgsqlConnection(sqlDataSource))
+			{
+				conn.Open();
+				using (NpgsqlCommand command = new NpgsqlCommand(query,conn))
+				{
+					appReader = command.ExecuteReader();
+					table.Load(appReader);
+
+					appReader.Close();
+					conn.Close();
+				
+			}
+
+
+				return null;
+		}		
 		}
+
 		public async Task<AppUser> GetUserById(string id)
 		{
 			var user = _appUsers.FirstOrDefault(x => x.Id == id);
 			return user;
 		}
-}
+		}
+	

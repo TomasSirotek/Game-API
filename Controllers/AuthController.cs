@@ -6,6 +6,7 @@ using API.Dtos;
 using API.Identity.Entities;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,15 +17,20 @@ public class AuthController : DefaultController {
 
 	private readonly IConfiguration _config;
 	private static readonly AppUser appUser = new ();
+	private readonly UserManager<AppUser> _userManager;
 
-	public AuthController (IConfiguration config)
+	public AuthController (IConfiguration config,UserManager<AppUser> userManager)
 	{
 		_config = config;
+		_userManager = userManager;
 	}
 
 	[HttpPost ("Authenticate")] 
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
+		var user = await _userManager.FindByEmailAsync(request.Email);
+		
+		return Ok (user);
 		if (appUser.Email != request.Email) return BadRequest ("User does not exist");
 
 		if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
@@ -32,7 +38,6 @@ public class AuthController : DefaultController {
 		string token = CreateToken(appUser);
 		
 		appUser.Token = token;
-		return Ok (appUser);
 	}
 
 	// Register 

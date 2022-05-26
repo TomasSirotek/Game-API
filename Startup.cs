@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
 using API.Data;
+using API.Identity.Entities;
 using API.RepoInterface;
 using API.Repositories;
 using API.Services;
@@ -42,11 +43,32 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+          //  services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
+          //  services.AddDefaultIdentity<IdentityRole>().AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<DataContext>();
+            
+          services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
+          
+          services.AddEntityFrameworkNpgsql()
+                .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));
             // Enable CORS
             services.AddCors(c =>
             {
                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+          // services.AddIdentity<DataContext, IdentityRole>()
+          //     .AddDefaultTokenProviders();
+          //   
+            services.AddDefaultIdentity<AppUser>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+            
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
             
             // JSON Serialization // Nuget package
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
@@ -61,10 +83,7 @@ namespace API
             
             services.AddMvc ();
             services.AddRazorPages ();
-
-            services.AddDbContext<DataContext>(
-                    o => Configuration.GetConnectionString("PostgresAppCon")
-            );
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
 
             services.AddControllers();
             

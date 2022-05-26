@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
@@ -24,8 +25,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="NuGet.PackageManagement" Version="6.2.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Remove="Controllers\" />
     <None Remove="Models\" />
@@ -37,6 +39,7 @@
     <None Remove="Enums\" />
     <None Remove="Microsoft.AspNetCore.Mvc.DataAnnotations" />
     <None Remove="System.Data.SqlClient" />
+    <None Remove="NuGet.PackageManagement" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
