@@ -43,10 +43,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          //  services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
-          //  services.AddDefaultIdentity<IdentityRole>().AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<DataContext>();
-            
-          services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
+            services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
           
           services.AddEntityFrameworkNpgsql()
                 .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));
@@ -55,9 +52,7 @@ namespace API
             {
                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-          // services.AddIdentity<DataContext, IdentityRole>()
-          //     .AddDefaultTokenProviders();
-          //   
+          
             services.AddDefaultIdentity<AppUser>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -65,6 +60,7 @@ namespace API
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
+            
             
             })
                 .AddRoles<IdentityRole>()
@@ -85,7 +81,7 @@ namespace API
             services.AddRazorPages ();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Commerce", Version = "v1" });
@@ -101,23 +97,43 @@ namespace API
                c.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            // {
+            //     options.TokenValidationParameters = new TokenValidationParameters
+            //     {
+            //         ValidateIssuerSigningKey = true,  
+            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            //             .GetBytes(Configuration["JwtConfig:Secret"])),
+            //         ValidateIssuer = false,
+            //         ValidateAudience = false,
+            //     };
+            // });
+            var key = Encoding.UTF8.GetBytes(Configuration["JwtConfig:Secret"]);
+            services.AddAuthentication(x =>
                 {
-                    ValidateIssuerSigningKey = true,  
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                        .GetBytes(Configuration["JwtConfig:Secret"])),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                };
-            });
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = false;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -138,6 +154,34 @@ namespace API
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+            CreateRoles(serviceProvider).Wait();
+        }
+        
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            string[] roleNames = { "Administrator", "User" };
+            IdentityResult roleResult;
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+            AppUser userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "admin@nurym.com");
+            if (userAdmin != null)
+            {
+                await userManager.AddToRoleAsync(userAdmin, "Administrator");
+                await userManager.AddToRoleAsync(userAdmin, "User");
+            }
+            AppUser userUser = await userManager.Users.FirstOrDefaultAsync(u => u.Email != "admin@yahoo.com");
+            if (userUser != null)
+            {
+                await userManager.AddToRoleAsync(userUser, "User");
+            }
         }
     }
 

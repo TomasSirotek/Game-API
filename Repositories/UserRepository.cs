@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository {
 	}
 		public async Task<List<AppUser>> GetAllUsers()
 		{
-			string query = $"select * from app_user";
+			string query = $"select * from AspNetUsers";
 
 			List<AppUser> userList = new();
 			DataTable table = new DataTable();

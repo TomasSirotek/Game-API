@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -8,6 +9,7 @@ using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -16,7 +18,6 @@ namespace API.Controllers;
 public class AuthController : DefaultController {
 
 	private readonly IConfiguration _config;
-	private static readonly AppUser appUser = new ();
 	private readonly UserManager<AppUser> _userManager;
 
 	public AuthController (IConfiguration config,UserManager<AppUser> userManager)
@@ -28,37 +29,51 @@ public class AuthController : DefaultController {
 	[HttpPost ("Authenticate")] 
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
-		var user = await _userManager.FindByEmailAsync(request.Email);
-		
-		return Ok (user);
-		if (appUser.Email != request.Email) return BadRequest ("User does not exist");
-
-		if (!VerifyPasswordHash (request.Password, appUser.PasswordHash, appUser.PasswordSalt)) return BadRequest ("Wrong Password");
-		
-		string token = CreateToken(appUser);
-		
-		appUser.Token = token;
-	}
-
-	// Register 
-	[HttpPost ("Register")] 
-	public async Task<ActionResult<AppUser>> Register ([FromBody] AuthPostBindingModel request)
-	{
-		CreatePasswordHash (request.Password, out byte [] passwordHash, out byte [] passwordSalt);
+		AppUser user = await _userManager.FindByEmailAsync(request.Email);
+		if (user != null)
+		{
+			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
+			if(result){
+				string token = CreateToken(user);
+				user.Token = token;
+				return Ok(user);
+		}
 			
-		appUser.Email = request.Email;
-		appUser.PasswordHash = passwordHash;
-		appUser.PasswordSalt = passwordSalt;
-
-		return Ok (appUser);
-
+		}
+		// Make better error handeling 
+		return NotFound("404");
+		
 	}
 
+	#region POST
+	[HttpPost ("Register")] 
+	public async Task<ActionResult<AppUser>> Register (AuthPostBindingModel request)
+	{
+		var user = new AppUser()
+		{
+			UserName = request.Email,
+			Email = request.Email
+		};
+
+		try
+		{
+			var result = await _userManager.CreateAsync(user, request.Password);
+			return Ok(result);
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+		
+		
+
+	}
+	#endregion
 	private string CreateToken(AppUser user)
 	{
 		List<Claim> claims = new () {
 			new Claim(ClaimTypes.Email, user.Email),
-			new Claim (ClaimTypes.Role, "User")
+			new Claim (ClaimTypes.Role, "Admin")
 		};
 
 		var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
@@ -76,6 +91,7 @@ public class AuthController : DefaultController {
 		return jwt;
 	}
 
+	// passoword hashing
 	private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)
 	{
 		using var hmac = new HMACSHA512 ();
