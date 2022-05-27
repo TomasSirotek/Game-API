@@ -6,6 +6,8 @@ namespace API.RepoInterface {
 		public Task<List<AppUser>> GetAllUsers();
 
 		public Task<AppUser> GetUserById(string id);
+
+		public Task<bool> DeleteUser(string id);
 	}
 }
 

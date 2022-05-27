@@ -5,7 +5,7 @@ using API.Services.Interfaces;
 
 namespace API.Services {
     
-    public class UserService : IUserInterface {
+    public class UserService : IUserService {
         
         private readonly IUserRepository _userRepository;
 

@@ -18,8 +18,39 @@ public class UserRepository : IUserRepository {
 	}
 		public async Task<List<AppUser>> GetAllUsers()
 		{
-			string query = $"select * from AspNetUsers";
+			
+			// List<AppUser> userList = new();
 
+			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
+			using var con = new NpgsqlConnection(sqlDataSource);
+
+			con.Open();
+
+			string sql = "SELECT * FROM AspNetUsers";
+			using var cmd = new NpgsqlCommand(sql, con);
+
+			using NpgsqlDataReader rdr = cmd.ExecuteReader();
+
+			while (rdr.Read())
+			{
+				Console.WriteLine("{0} {1} {2}", rdr.GetInt32(0), rdr.GetString(1),
+					rdr.GetInt32(2));
+			}
+			
+			return null;
+		}
+
+		public async Task<AppUser> GetUserById(string id)
+		{
+			var user = _appUsers.FirstOrDefault(x => x.Id == id);
+			return user;
+		}
+		
+		public  Task<bool> DeleteUser(string id)
+		{
+			string query = $"select * from AspNetUsers as u WHERE u.Id = @id ";
+			// (delete from "AspNetUsers" AS t WHERE t."Id" = 'f64c7e2b-7d0e-4bd7-9f12-d9ffd5c727a6';)
+			
 			List<AppUser> userList = new();
 			DataTable table = new DataTable();
 			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
@@ -35,17 +66,9 @@ public class UserRepository : IUserRepository {
 					appReader.Close();
 					conn.Close();
 				
-			}
-
-
-				return null;
-		}		
-		}
-
-		public async Task<AppUser> GetUserById(string id)
-		{
-			var user = _appUsers.FirstOrDefault(x => x.Id == id);
-			return user;
+				}
+			return null;
 		}
 		}
 	
+}

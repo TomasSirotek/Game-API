@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using API.Data;
 using API.Identity.Entities;
-using API.Models;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,40 +11,44 @@ namespace API.Controllers;
 
 public class UserController : DefaultController
 {
-    private readonly IUserInterface _user;
+    private readonly IUserService _userService;
     private readonly UserManager<AppUser> _userManager;
-    public UserController (IUserInterface user,UserManager<AppUser> userManager)
+    public UserController (IUserService userService,UserManager<AppUser> userManager)
     {
-        _user = user;
+        _userService = userService;
         _userManager = userManager;
     }
-
+    #region GET
     [HttpGet("Admin")]
     [Authorize]
     //[Authorize(Roles ="Admin")]
     public async Task<IActionResult> GetAllUsers ()
     {
-        var context = new DataContext(new DbContextOptions<DataContext>());
-        var users = context.Users.ToList();
-        return Ok(users);
+        List<AppUser> userList = await _userService.GetAllUsers();
+        if (userList != null) return Ok(userList);
+        
+        return BadRequest($"Could not find any users");
+        // var context = new DataContext(new DbContextOptions<DataContext>());
+        // var users = context.Users.ToList();
     }
     
-    [HttpGet("index")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(string id)
     {
         AppUser user = await _userManager.FindByIdAsync(id);
-        if (user != null)
-        {
-            return Ok (user);
-        }
-
+        if (user != null) return Ok (user);
+        
         return BadRequest($"Could not find user with Id : {id}");
     }
+    #endregion
     
-    public bool DeleteUser(string id)
+    [HttpDelete]
+    public async Task<IActionResult> DeleteUserById(string id)
     {
-        // find by id if exist delete from repo 
-        return false;
+        AppUser user = await _userManager.FindByIdAsync(id);
+        if (user != null) return Ok($"User with id {id} was successfully deleted");
+        
+        return BadRequest($"Could not delete user with Id : {id}");
     }
 
     

@@ -60,12 +60,24 @@ namespace API
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
-            
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
             
+            // needs more look into it 
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Authenticate";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
             // JSON Serialization // Nuget package
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -73,8 +85,10 @@ namespace API
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
                     
             // dependency injection
-            services.AddScoped<IUserInterface, UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IJWToken, JWToken>();
+
 
             
             services.AddMvc ();
@@ -97,17 +111,6 @@ namespace API
                c.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            // {
-            //     options.TokenValidationParameters = new TokenValidationParameters
-            //     {
-            //         ValidateIssuerSigningKey = true,  
-            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-            //             .GetBytes(Configuration["JwtConfig:Secret"])),
-            //         ValidateIssuer = false,
-            //         ValidateAudience = false,
-            //     };
-            // });
             var key = Encoding.UTF8.GetBytes(Configuration["JwtConfig:Secret"]);
             services.AddAuthentication(x =>
                 {

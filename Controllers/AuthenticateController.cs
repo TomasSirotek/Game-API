@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using API.Configuration;
 using API.Dtos;
 using API.Identity.Entities;
 using API.Models;
@@ -15,30 +16,32 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers;
 
-public class AuthController : DefaultController {
+public class AuthenticateController : DefaultController {
 
 	private readonly IConfiguration _config;
+	private readonly IJWToken _token;
 	private readonly UserManager<AppUser> _userManager;
 
-	public AuthController (IConfiguration config,UserManager<AppUser> userManager)
+	public AuthenticateController (IConfiguration config,UserManager<AppUser> userManager,IJWToken token)
 	{
 		_config = config;
 		_userManager = userManager;
+		_token = token;
 	}
 
-	[HttpPost ("Authenticate")] 
+	[HttpPost ()] 
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
 		AppUser user = await _userManager.FindByEmailAsync(request.Email);
 		if (user != null)
 		{
 			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
-			if(result){
-				string token = CreateToken(user);
+			if(result)
+			{
+				string token = _token.CreateToken(user);
 				user.Token = token;
 				return Ok(user);
-		}
-			
+			}
 		}
 		// Make better error handeling 
 		return NotFound("404");
@@ -62,36 +65,12 @@ public class AuthController : DefaultController {
 		}
 		catch (Exception ex)
 		{
-			throw ex;
+			throw new BadHttpRequestException($"Could not register user {ex}");
 		}
 		
-		
-
 	}
 	#endregion
-	private string CreateToken(AppUser user)
-	{
-		List<Claim> claims = new () {
-			new Claim(ClaimTypes.Email, user.Email),
-			new Claim (ClaimTypes.Role, "Admin")
-		};
 
-		var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
-			_config.GetSection("JwtConfig:Secret").Value));
-
-		var credentials = new SigningCredentials (key, SecurityAlgorithms.HmacSha512Signature);
-
-		var token = new JwtSecurityToken (
-			claims: claims,
-			expires: DateTime.Now.AddMinutes(15),
-			signingCredentials: credentials
-		);
-		var jwt = new JwtSecurityTokenHandler ().WriteToken (token);
-
-		return jwt;
-	}
-
-	// passoword hashing
 	private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)
 	{
 		using var hmac = new HMACSHA512 ();
