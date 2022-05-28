@@ -11,7 +11,7 @@ public class UserRepository : IUserRepository {
 
 	private readonly List<AppUser> _appUsers;
 	private readonly IConfiguration _config;
-	
+	private readonly NpgsqlConnection conn;
 	public UserRepository (IConfiguration config)
 	{
 		_config = config;
@@ -20,13 +20,11 @@ public class UserRepository : IUserRepository {
 		{
 			
 			// List<AppUser> userList = new();
-
 			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
 			using var con = new NpgsqlConnection(sqlDataSource);
-
 			con.Open();
 
-			string sql = "SELECT * FROM AspNetUsers";
+			string sql = "SELECT * FROM AspNetUsers ";
 			using var cmd = new NpgsqlCommand(sql, con);
 
 			using NpgsqlDataReader rdr = cmd.ExecuteReader();
@@ -35,6 +33,7 @@ public class UserRepository : IUserRepository {
 			{
 				Console.WriteLine("{0} {1} {2}", rdr.GetInt32(0), rdr.GetString(1),
 					rdr.GetInt32(2));
+				rdr[0].ToString();
 			}
 			
 			return null;
@@ -48,7 +47,7 @@ public class UserRepository : IUserRepository {
 		
 		public  Task<bool> DeleteUser(string id)
 		{
-			string query = $"select * from AspNetUsers as u WHERE u.Id = @id ";
+			string query = $"DELETE * from AspNetUsers as u WHERE u.Id = @id ";
 			// (delete from "AspNetUsers" AS t WHERE t."Id" = 'f64c7e2b-7d0e-4bd7-9f12-d9ffd5c727a6';)
 			
 			List<AppUser> userList = new();
@@ -62,6 +61,7 @@ public class UserRepository : IUserRepository {
 				{
 					appReader = command.ExecuteReader();
 					table.Load(appReader);
+				
 
 					appReader.Close();
 					conn.Close();
