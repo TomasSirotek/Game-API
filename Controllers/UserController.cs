@@ -1,22 +1,36 @@
 ﻿using System.Security.Claims;
 using API.Data;
+using API.Dtos;
 using API.Identity.Entities;
+using API.RepoInterface;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers; 
 
 public class UserController : DefaultController
 {
     private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
+    private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
-    public UserController (IUserService userService,UserManager<AppUser> userManager)
+    // private readonly UserValidator<AppUser> _userValidator;
+    private readonly IPasswordHasher<AppUser> _passwordHasher;
+    private readonly IPasswordValidator<AppUser> _passwordValidator;
+
+    public UserController (IUserService userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator)
     {
         _userService = userService;
         _userManager = userManager;
+        _userRepository = userRepository;
+        _signInManager = signInManager;
+        // _userValidator = userValidator;
+        _passwordHasher = passwordHasher;
+        _passwordValidator = passwordValidator;
     }
     #region GET
     [HttpGet("Admin")]
@@ -25,21 +39,79 @@ public class UserController : DefaultController
     public async Task<IActionResult> GetAllUsers ()
     {
         List<AppUser> userList = await _userService.GetAllUsers();
-        if (userList != null) return Ok(userList);
+        if (userList !=  null) return Ok(userList);
         
         return BadRequest($"Could not find any users");
-        // var context = new DataContext(new DbContextOptions<DataContext>());
-        // var users = context.Users.ToList();
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(string id)
     {
-        AppUser user = await _userManager.FindByIdAsync(id);
-        if (user != null) return Ok (user);
+        AppUser user = await _userService.GetUserById(id);
+        if (user != null) 
+            return Ok (user);
         
         return BadRequest($"Could not find user with Id : {id}");
     }
+     
+    #endregion
+
+    #region POST
+    [HttpPost()]
+    // Create User
+    public async Task<IActionResult> CreateUser([FromBody]UserPostBindingModel model)
+    {
+       // check roles
+       AppUser user = new AppUser()
+       {
+           UserName = model.UserName,
+           Email = model.Email,
+           FirstName = model.FirstName,
+           LastName = model.LastName
+       };
+       
+       IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+       if (result.Succeeded)
+           return Ok(user);
+       
+       return BadRequest($"Could not create user with Email : {model.Email}");
+
+    }
+    #endregion
+    
+    #region PUT
+
+    // Update User 
+    [HttpPut()]
+    public async Task<IActionResult> UpdateUser(UserPutBindingModel model)
+    {
+        AppUser user = await _userManager.FindByEmailAsync(model.Email);
+        if (user != null)
+        {
+            IdentityResult validPass = null;
+            if (model.Password != null)
+            {
+                validPass = await _passwordValidator.ValidateAsync(_userManager, user, model.Password);
+                if (validPass.Succeeded)
+                    user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                else
+                    BadRequest($"Could not Update user psw: {validPass}");
+            }
+            user.UserName = model.UserName;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded) return Ok(user);
+        }
+       
+     //  GetRolesAsync(AppUser user)
+        return Ok ("role");
+        
+       // return BadRequest($"Could not find user with Id : {id}");
+    }
+    
     #endregion
     
     [HttpDelete]

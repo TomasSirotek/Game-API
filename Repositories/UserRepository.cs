@@ -1,74 +1,60 @@
 using System.Data;
+using API.Dtos;
 using API.Identity.Entities;
 using API.RepoInterface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using NuGet.Protocol;
 
-namespace API.Repositories; 
+namespace API.Repositories;
 
 public class UserRepository : IUserRepository {
+    private readonly List<AppUser> _appUsers;
+    private readonly IConfiguration _config;
+    private readonly NpgsqlConnection conn;
+    private readonly UserManager<AppUser> _userManager;
 
-	private readonly List<AppUser> _appUsers;
-	private readonly IConfiguration _config;
-	private readonly NpgsqlConnection conn;
-	public UserRepository (IConfiguration config)
-	{
-		_config = config;
-	}
-		public async Task<List<AppUser>> GetAllUsers()
-		{
-			
-			// List<AppUser> userList = new();
-			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
-			using var con = new NpgsqlConnection(sqlDataSource);
-			con.Open();
+    public UserRepository(IConfiguration config, UserManager<AppUser> userManager)
+    {
+        _config = config;
+        _userManager = userManager;
+    }
 
-			string sql = "SELECT * FROM AspNetUsers ";
-			using var cmd = new NpgsqlCommand(sql, con);
+    public async Task<List<AppUser>> GetAllUsers()
+    {
+        return _userManager.Users.ToList();
+    }
 
-			using NpgsqlDataReader rdr = cmd.ExecuteReader();
+    public async Task<AppUser> GetUserById(string id)
+    {
+        return await _userManager.FindByIdAsync(id);
+    }
 
-			while (rdr.Read())
-			{
-				Console.WriteLine("{0} {1} {2}", rdr.GetInt32(0), rdr.GetString(1),
-					rdr.GetInt32(2));
-				rdr[0].ToString();
-			}
-			
-			return null;
-		}
 
-		public async Task<AppUser> GetUserById(string id)
-		{
-			var user = _appUsers.FirstOrDefault(x => x.Id == id);
-			return user;
-		}
-		
-		public  Task<bool> DeleteUser(string id)
-		{
-			string query = $"DELETE * from AspNetUsers as u WHERE u.Id = @id ";
-			// (delete from "AspNetUsers" AS t WHERE t."Id" = 'f64c7e2b-7d0e-4bd7-9f12-d9ffd5c727a6';)
-			
-			List<AppUser> userList = new();
-			DataTable table = new DataTable();
-			string sqlDataSource = _config.GetConnectionString("PostgresAppCon");
-			NpgsqlDataReader appReader;
-			using (NpgsqlConnection conn = new NpgsqlConnection(sqlDataSource))
-			{
-				conn.Open();
-				using (NpgsqlCommand command = new NpgsqlCommand(query,conn))
-				{
-					appReader = command.ExecuteReader();
-					table.Load(appReader);
-				
+    public async Task<IdentityResult> CreateUser(AppUser user)
+    {
+        if (user != null)
+        {
+             var resutl =  _userManager.CreateAsync(user);
+             return null;
+        }
 
-					appReader.Close();
-					conn.Close();
-				
-				}
-			return null;
-		}
-		}
-	
+        return null;
+    }
+
+
+    public async Task<bool> DeleteUser(string id)
+    {
+        AppUser user = await _userManager.FindByIdAsync(id);
+        if (user != null)
+        {
+            IdentityResult result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+                return false;
+        }
+
+        return false;
+    }
 }
+

@@ -49,26 +49,26 @@ public class AuthenticateController : DefaultController {
 	}
 
 	#region POST
-	[HttpPost ("Register")] 
-	public async Task<ActionResult<AppUser>> Register (AuthPostBindingModel request)
-	{
-		var user = new AppUser()
-		{
-			UserName = request.Email,
-			Email = request.Email
-		};
-
-		try
-		{
-			var result = await _userManager.CreateAsync(user, request.Password);
-			return Ok(result);
-		}
-		catch (Exception ex)
-		{
-			throw new BadHttpRequestException($"Could not register user {ex}");
-		}
-		
-	}
+	// [HttpPost ("Register")] 
+	// public async Task<ActionResult<AppUser>> Register (AuthPostBindingModel request)
+	// {
+	// 	AppUser user = new()
+	// 	{
+	// 		UserName = request.Email,
+	// 		Email = request.Email
+	// 	};
+	//
+	// 	try
+	// 	{
+	// 		var result = await _userManager.CreateAsync(user, request.Password);
+	// 		return Ok(result);
+	// 	}
+	// 	catch (Exception ex)
+	// 	{
+	// 		throw new BadHttpRequestException($"Could not register user {ex}");
+	// 	}
+	// 	
+	// }
 	#endregion
 
 	private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)

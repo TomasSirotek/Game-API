@@ -88,9 +88,9 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJWToken, JWToken>();
-
-
             
+
+
             services.AddMvc ();
             services.AddRazorPages ();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 

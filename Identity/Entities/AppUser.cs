@@ -4,14 +4,18 @@ using Microsoft.AspNetCore.Identity;
 namespace API.Identity.Entities; 
 
 public class AppUser : IdentityUser {
-
-    public Address Address { get; set; }
+    
+    public string FirstName { get; set; }
+    
+    public string LastName { get; set; }
+    
     public string? Token { get; set; }
-
-    public List<AppRole> Roles { get; set; }
-
-    public AppUser(string token,bool isActive) {
-        Token = token;
+    
+    public AppUser(string firstName,string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+     
     }
 
     public AppUser() { }
