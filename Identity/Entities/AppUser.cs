@@ -9,13 +9,20 @@ public class AppUser : IdentityUser {
     
     public string LastName { get; set; }
     
+    public string Email { get; set; }
+    
+   // public string Password { get; set; }
+    
     public string? Token { get; set; }
     
-    public AppUser(string firstName,string lastName)
+    public List<AppRole> Roles { get; set; }
+    
+    public AppUser(string firstName,string lastName,string email)
     {
         FirstName = firstName;
         LastName = lastName;
-     
+        Email = email;
+
     }
 
     public AppUser() { }

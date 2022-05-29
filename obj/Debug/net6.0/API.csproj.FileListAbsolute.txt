@@ -88,3 +88,7 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.UI.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Extensions.FileProviders.Embedded.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/MailKit.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/MimeKit.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/NETCore.MailKit.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/BouncyCastle.Crypto.dll

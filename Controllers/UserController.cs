@@ -28,7 +28,6 @@ public class UserController : DefaultController
         _userManager = userManager;
         _userRepository = userRepository;
         _signInManager = signInManager;
-        // _userValidator = userValidator;
         _passwordHasher = passwordHasher;
         _passwordValidator = passwordValidator;
     }
@@ -50,7 +49,6 @@ public class UserController : DefaultController
         AppUser user = await _userService.GetUserById(id);
         if (user != null) 
             return Ok (user);
-        
         return BadRequest($"Could not find user with Id : {id}");
     }
      
@@ -58,25 +56,17 @@ public class UserController : DefaultController
 
     #region POST
     [HttpPost()]
-    // Create User
     public async Task<IActionResult> CreateUser([FromBody]UserPostBindingModel model)
     {
-       // check roles
-       AppUser user = new AppUser()
+        AppUser user = new AppUser()
        {
            UserName = model.UserName,
            Email = model.Email,
            FirstName = model.FirstName,
            LastName = model.LastName
        };
-       
-       IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-       if (result.Succeeded)
-           return Ok(user);
-       
-       return BadRequest($"Could not create user with Email : {model.Email}");
-
+        IdentityResult result = await _userService.CreateUser(user, model.Password);
+       return result.Succeeded ? Ok(user) : BadRequest($"Could not create user with Email : {model.Email}");
     }
     #endregion
     
@@ -122,7 +112,6 @@ public class UserController : DefaultController
         
         return BadRequest($"Could not delete user with Id : {id}");
     }
-
     
     private AppUser GetCurrentUser ()
     {

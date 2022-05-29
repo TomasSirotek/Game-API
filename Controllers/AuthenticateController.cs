@@ -48,41 +48,18 @@ public class AuthenticateController : DefaultController {
 		
 	}
 
-	#region POST
-	// [HttpPost ("Register")] 
-	// public async Task<ActionResult<AppUser>> Register (AuthPostBindingModel request)
+	// private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)
 	// {
-	// 	AppUser user = new()
-	// 	{
-	// 		UserName = request.Email,
-	// 		Email = request.Email
-	// 	};
-	//
-	// 	try
-	// 	{
-	// 		var result = await _userManager.CreateAsync(user, request.Password);
-	// 		return Ok(result);
-	// 	}
-	// 	catch (Exception ex)
-	// 	{
-	// 		throw new BadHttpRequestException($"Could not register user {ex}");
-	// 	}
-	// 	
+	// 	using var hmac = new HMACSHA512 ();
+	// 	passwordSalt = hmac.Key;
+	// 	passwordHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
 	// }
-	#endregion
-
-	private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)
-	{
-		using var hmac = new HMACSHA512 ();
-		passwordSalt = hmac.Key;
-		passwordHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
-	}
-	// Verification psw hash
-	private bool VerifyPasswordHash(string password,byte[] passwordHash, byte[] passwordSalt)
-	{
-		using var hmac = new HMACSHA512 (passwordSalt);
-		var computeHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
-		return computeHash.SequenceEqual (passwordHash);
-	}
+	// // Verification psw hash
+	// private bool VerifyPasswordHash(string password,byte[] passwordHash, byte[] passwordSalt)
+	// {
+	// 	using var hmac = new HMACSHA512 (passwordSalt);
+	// 	var computeHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
+	// 	return computeHash.SequenceEqual (passwordHash);
+	// }
 
 }

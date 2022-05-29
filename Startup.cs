@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
 using API.Data;
+using API.ExternalServices;
 using API.Identity.Entities;
 using API.RepoInterface;
 using API.Repositories;
@@ -25,6 +26,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -88,9 +91,11 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJWToken, JWToken>();
+          //  services.AddScoped<IEmailService, EmailService>();
+
+            var emailOptions = Configuration.GetSection("Email").Get<MailKitOptions>();
+            services.AddMailKit(o => o.UseMailKit(emailOptions));
             
-
-
             services.AddMvc ();
             services.AddRazorPages ();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
@@ -174,7 +179,7 @@ namespace API
                     roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
-            AppUser userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "admin@nurym.com");
+            AppUser userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "new@yahoo.com");
             if (userAdmin != null)
             {
                 await userManager.AddToRoleAsync(userAdmin, "Administrator");

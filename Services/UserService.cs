@@ -4,6 +4,7 @@ using API.Identity.Entities;
 using API.RepoInterface;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using NETCore.MailKit.Core;
 
 
 namespace API.Services {
@@ -11,10 +12,17 @@ namespace API.Services {
     public class UserService : IUserService {
         
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<AppUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailService _emailService;
 
-        public UserService (IUserRepository userRepository)
+        public UserService (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<IdentityRole> roleManager,IEmailService emailService)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _emailService = emailService;
+
         }
 
         public async Task<List<AppUser>> GetAllUsers()
@@ -27,43 +35,26 @@ namespace API.Services {
             return await _userRepository.GetUserById(id);
         }
         
-        public async Task<IdentityResult> CreateUser(UserPostBindingModel model)
+        public async Task<IdentityResult> CreateUser(AppUser user,string password)
         {
-            // Image Upload 
+            // Create new user 
+            IdentityResult createUser = await _userManager.CreateAsync(user,password);
             
-            // Send new User 
-            // IdentityResult userCreationResult = await _userRepository.CreateUser(user,model.Password,model.Roles);
-            //
-            //
-            // IdentityResult userCreationResult = await _userRepository.CreateUser(user);
-            // if (userCreationResult.Succeeded) {
-            //     bool finalResult = false;
-            //
-            //     foreach (AppRole role in user.Roles) {
-            //         // Validate if Role exists
-            //         AppRole validatedRole = await _roleRepository.FindByNameAsync(role.Name, cancellationToken);
-            //         if (validatedRole != null) {
-            //             finalResult = await _roleRepository.AddRoleToUser(user, validatedRole);
-            //
-            //             if (!finalResult) {
-            //                 return IdentityResult.Failed(new IdentityError { Description = $"Could not save role to user" });
-            //             }
-            //         } else {
-            //             return IdentityResult.Failed(new IdentityError { Description = $"Could not find user role" });
-            //         }
-            //     }
-            //
-            //     if (finalResult) {
-            //         return IdentityResult.Success;
-            //     }
-            
-            //  await _userRepository.CreateUser();
-            
-            // assign roles 
+            // Send him email
+            // dependency injection of mail service 
+            if (createUser.Succeeded)
+            {
+                string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                 await _emailService.SendAsync("manuela.kreiger0@ethereal.email", "Testing", token);
+                
+            }
             
             
-            return null;
+            
+            
+            return IdentityResult.Success;
         }
+        
 
        
     }

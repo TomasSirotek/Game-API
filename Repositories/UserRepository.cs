@@ -32,12 +32,12 @@ public class UserRepository : IUserRepository {
     }
 
 
-    public async Task<IdentityResult> CreateUser(AppUser user)
+    public async Task<IdentityResult> CreateUser(AppUser user,string password)
     {
         if (user != null)
         {
-             var resutl =  _userManager.CreateAsync(user);
-             return null;
+             var result =  _userManager.CreateAsync(user,password);
+             return IdentityResult.Success;
         }
 
         return null;
