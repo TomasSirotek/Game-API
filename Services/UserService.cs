@@ -1,10 +1,10 @@
 using System.Security.Principal;
 using API.Dtos;
+using API.ExternalServices;
 using API.Identity.Entities;
 using API.RepoInterface;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using NETCore.MailKit.Core;
 
 
 namespace API.Services {
@@ -38,16 +38,16 @@ namespace API.Services {
         public async Task<IdentityResult> CreateUser(AppUser user,string password)
         {
             // Create new user 
-            IdentityResult createUser = await _userManager.CreateAsync(user,password);
+            //IdentityResult createUser = await _userManager.CreateAsync(user,password);
             
             // Send him email
             // dependency injection of mail service 
-            if (createUser.Succeeded)
-            {
+           // if (createUser.Succeeded)
+           // {
                 string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                 await _emailService.SendAsync("manuela.kreiger0@ethereal.email", "Testing", token);
-                
-            }
+                _emailService.SendEmail("willard.orn27@ethereal.email",user.FirstName,token,"test");
+
+            //}
             
             
             

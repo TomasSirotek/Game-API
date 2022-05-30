@@ -14,3 +14,7 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = /Users/Tomas/Projects/API/API
 build_property._RazorSourceGeneratorDebug = 
+
+[/Users/Tomas/Projects/API/API/wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = d3d3cm9vdC9FbWFpbFRlbXBsYXRlcy9Db25maXJtRW1haWxUZW1wbGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

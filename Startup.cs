@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
@@ -26,8 +28,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using NETCore.MailKit.Extensions;
-using NETCore.MailKit.Infrastructure.Internal;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -86,16 +86,24 @@ namespace API
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-                    
+            
+             // Email Service ( could use reformat and taking from appsettings       
+            services
+                .AddFluentEmail(Configuration.GetSection("Email")["Sender"])
+                .AddRazorRenderer()
+                .AddSmtpSender(new SmtpClient(Configuration.GetSection("Email")["Server"])
+                {
+                    UseDefaultCredentials = false,
+                    Port = Convert.ToInt32(Configuration.GetSection("Email")["Port"]) ,
+                    Credentials = new NetworkCredential("willard.orn27@ethereal.email", "HAG3njycGFEprwfqVj"),
+                    EnableSsl = true,
+                });
             // dependency injection
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJWToken, JWToken>();
-          //  services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
 
-            var emailOptions = Configuration.GetSection("Email").Get<MailKitOptions>();
-            services.AddMailKit(o => o.UseMailKit(emailOptions));
-            
             services.AddMvc ();
             services.AddRazorPages ();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 

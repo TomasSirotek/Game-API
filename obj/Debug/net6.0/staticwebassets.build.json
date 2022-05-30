@@ -1,11 +1,37 @@
 {
   "Version": 1,
-  "Hash": "bUm1vPqwZHJejLhtNIB7WgmMI8ngxypkYrDApg4MvgQ=",
+  "Hash": "4OECMBcM7LP0z0I3daLUlGGFp7p8nXOi79ic4KMNXd4=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "API/wwwroot",
+      "Source": "API",
+      "ContentRoot": "/Users/Tomas/Projects/API/API/wwwroot/",
+      "BasePath": "_content/API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/Tomas/Projects/API/API/wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/Tomas/Projects/API/API/wwwroot/",
+      "BasePath": "_content/API",
+      "RelativePath": "EmailTemplates/ConfirmEmailTemplate.cshtml",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml"
+    }
+  ]
 }
