@@ -11,7 +11,10 @@ namespace API.Data {
       
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     
-    // public DbSet<AppUser> user { get; set;}
+     // public DbSet<AppUser> user { get; set;}
+     //
+     // public DbSet<AppRole> role { get; set;}
+
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

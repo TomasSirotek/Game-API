@@ -9,7 +9,7 @@ namespace API.RepoInterface {
 
 		Task<AppUser> GetUserById(string id);
 		
-		Task<IdentityResult> CreateUser(AppUser user,string password);
+		Task<AppUser> CreateUser(AppUser user,string password);
 		
 		// Task<AppUser> UpdateUser(UserPutBindingModel model);
 		

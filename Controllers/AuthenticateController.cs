@@ -22,10 +22,10 @@ public class AuthenticateController : DefaultController {
 	private readonly IConfiguration _configuration;
 	private readonly IJWToken _token;
 	private readonly UserManager<AppUser> _userManager;
-	private readonly IUserService _userService;
+	private readonly IUserManager _userService;
 
 
-	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token, IUserService userService)
+	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token, IUserManager userService)
 	{
 		_configuration = configuration;
 		_userManager = userManager;
@@ -39,6 +39,23 @@ public class AuthenticateController : DefaultController {
 		AppUser user = await _userManager.FindByEmailAsync(request.Email);
 		if (user != null)
 		{
+			// this block work when i define the roles cuz it creates it from role the token
+			List<string> roles = new()
+			{
+				"Admin", "User"
+			};
+
+			List<AppRole> appRoles = new();
+			List<AppRole> userRoles = appRoles;
+			foreach (string role in roles)
+			{
+				var test = new IdentityRole
+				{
+					Name = role
+				};
+				//userRoles.Add(test);
+			}
+			// user.Roles = roles;
 			
 			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
 			if(result)

@@ -10,20 +10,21 @@ using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Rest;
 
 
 namespace API.Services {
     
-    public class UserService :IUserService {
+    public class UserManager : IUserManager {
         
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
 
-        public UserService (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,IEmailService emailService,IConfiguration configuration)
+        public UserManager (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<IdentityRole> roleManager,IEmailService emailService,IConfiguration configuration)
         {
             _userRepository = userRepository;
             _userManager = userManager;
@@ -53,45 +54,57 @@ namespace API.Services {
         
         public async Task<AppUser> CreateUser(AppUser user,List<string> roles,string password)
         {
-            List<AppRole> appRoles = new();
-            List<AppRole> userRoles = appRoles;
-            foreach (string role in roles)
-            {
-                var test = new AppRole
-                {
-                    Name = role
-                };
-                userRoles.Add(test);
-            }
-            user.Roles = userRoles;
             
-            // Create new user 
+            // List<AppRole> appRoles = new();
+            // List<AppRole> userRoles = appRoles;
+            // foreach (string role in roles)
+            // {
+            //     var test = new AppRole
+            //     {
+            //         Name = role
+            //     };
+            //     userRoles.Add(test);
+            // }
+            // user.Roles = userRoles;
+
+            if (!(await _roleManager.RoleExistsAsync("Admin")))
+            {
+                await _roleManager.CreateAsync(new AppRole("Admin"));
+            }
+            
+            // validate EMAIL 
             if (user.Email != null)
             {
+                // Create new user 
                 IdentityResult createUser = await _userManager.CreateAsync(user,password);
                     if (createUser.Succeeded)
                     {
-                     IdentityResult userCreated;
-                        
                         // fetch new user
-                        AppUser newUser = await _userManager.FindByIdAsync(user.Id);
-                        // find app role by name 
+                        AppUser userFromDb = await _userManager.FindByIdAsync(user.Id);
                         
-                        foreach (AppRole role in user.Roles)
+                        if (userFromDb != null)
                         {
-                            AppRole roleExists = await _roleManager.FindByNameAsync(role.Name);
-                            if (roleExists != null)
-                                userCreated = await _userManager.AddToRoleAsync(newUser, role.Name);
+                            foreach (var identityRole in user.Roles)
+                            {
+                                var role = (AppRole) identityRole;
+                                await _userManager.AddToRoleAsync(userFromDb, role.Name);
+                            }
+                            //
+                            // IF ACTIVE SEND EMAIL set active in email confirm function
+                                if (userFromDb.IsActive)
+                                {
+                                    // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
+                                    var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
+                                    var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
+                                    _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
+                                    
+                                }
+                            // IdentityResult addRole = await _userManager.AddToRoleAsync(newUser, roles);
+                            
                         }
                         
-                        if (newUser != null)  // send email if is active yes ( for now false )
-                        {
-                            // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
-                            var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                            var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
-                            _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
-                        }
-                        return newUser;
+                        
+                        return userFromDb;
                     }
             }
             // var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);

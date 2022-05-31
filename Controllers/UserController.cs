@@ -14,7 +14,7 @@ namespace API.Controllers;
 
 public class UserController : DefaultController
 {
-    private readonly IUserService _userService;
+    private readonly IUserManager _userService;
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
@@ -22,7 +22,9 @@ public class UserController : DefaultController
     private readonly IPasswordHasher<AppUser> _passwordHasher;
     private readonly IPasswordValidator<AppUser> _passwordValidator;
 
-    public UserController (IUserService userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator)
+    private readonly RoleManager<AppRole> _roleManager;
+
+    public UserController (IUserManager userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator,RoleManager<AppRole> roleManager)
     {
         _userService = userService;
         _userManager = userManager;
@@ -30,6 +32,7 @@ public class UserController : DefaultController
         _signInManager = signInManager;
         _passwordHasher = passwordHasher;
         _passwordValidator = passwordValidator;
+        _roleManager = roleManager;
     }
     #region GET
     [HttpGet("Admin")]

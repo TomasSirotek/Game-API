@@ -9,6 +9,7 @@ using API.Configuration;
 using API.Data;
 using API.ExternalServices;
 using API.Identity.Entities;
+using API.Identity.Managers;
 using API.RepoInterface;
 using API.Repositories;
 using API.Services;
@@ -55,22 +56,22 @@ namespace API
             {
                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-            
-          
+
+
             services.AddDefaultIdentity<AppUser>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 4;
-                options.User.AllowedUserNameCharacters =
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            
-            })
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 4;
+                    options.User.AllowedUserNameCharacters =
+                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+
+                })
                 .AddRoles<AppRole>()
                 .AddEntityFrameworkStores<DataContext>();
-            
+
             // needs more look into it 
             services.ConfigureApplicationCookie(options =>
             {
@@ -101,10 +102,13 @@ namespace API
                     EnableSsl = true,
                 });
             // dependency injection
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJWToken, JWToken>();
+            services.AddScoped<IRoleManager, RoleManager>();
             services.AddScoped<IEmailService, EmailService>();
+            
+            // services.AddScoped<IUserManager, UserManager>();
+           
 
             services.AddMvc ();
             services.AddRazorPages ();

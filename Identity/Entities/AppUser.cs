@@ -15,7 +15,7 @@ public class AppUser : IdentityUser {
     
     public string? Token { get; set; }
     
-    public List<AppRole> Roles { get; set; }
+    public List<IdentityRole> Roles { get; set; }
     
      public bool IsActive { get; set; }
    
