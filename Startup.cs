@@ -55,6 +55,7 @@ namespace API
             {
                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            
           
             services.AddDefaultIdentity<AppUser>(options =>
             {
@@ -67,7 +68,7 @@ namespace API
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             
             })
-                .AddRoles<IdentityRole>()
+                .AddRoles<AppRole>()
                 .AddEntityFrameworkStores<DataContext>();
             
             // needs more look into it 
@@ -87,7 +88,8 @@ namespace API
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             
-             // Email Service ( could use reformat and taking from appsettings       
+             // Email Service ( could use reformat and taking from appsettings ) 
+             // Smtp Sender settings 
             services
                 .AddFluentEmail(Configuration.GetSection("Email")["Sender"])
                 .AddRazorRenderer()
@@ -167,10 +169,12 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
-            CreateRoles(serviceProvider).Wait();
+          //  CreateRoles(serviceProvider).Wait();
         }
         
         private async Task CreateRoles(IServiceProvider serviceProvider)

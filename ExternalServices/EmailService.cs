@@ -14,7 +14,10 @@ namespace API.ExternalServices {
             _config = config;
             _serviceProvider = serviceProvider;
         }
-      //  Environment.GetEnvironmentVariable("FRONTEND_URL");
+  
+        
+      // Send Email with HTML template from wwwroot  
+      // TODO: Could use refactor with some models etc and other forms of sending emails (options)
       public async void SendEmail(string emailTo,string name,string body,string subject)
       {
           using var scope = _serviceProvider.CreateScope();
@@ -29,8 +32,7 @@ namespace API.ExternalServices {
                       Name = name,
                       Token = body
                   });
-                  
-              
+          
           await email.SendAsync();
       }
     }

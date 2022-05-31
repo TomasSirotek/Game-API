@@ -14,12 +14,15 @@ namespace API.Configuration {
             _config = config;
         }
         
-        public string CreateToken(AppUser user)
+        public string CreateToken(List<string> roles, string userId, double duration)
         {
             List<Claim> claims = new () {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim (ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, userId),
             };
+
+            foreach (var i in roles) 
+                claims.Add(new Claim(ClaimTypes.Role,i));
+            
 
             var key = new SymmetricSecurityKey (System.Text.Encoding.UTF8.GetBytes(
                 _config.GetSection("JwtConfig:Secret").Value));
@@ -28,7 +31,7 @@ namespace API.Configuration {
 
             var token = new JwtSecurityToken (
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddMinutes(duration),
                 signingCredentials: credentials
             );
             var jwt = new JwtSecurityTokenHandler ().WriteToken (token);

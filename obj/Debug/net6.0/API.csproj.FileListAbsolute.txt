@@ -583,3 +583,6 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/refs/System.Xml.XPath.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/refs/System.Xml.XPath.XDocument.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/refs/WindowsBase.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/UrlHelper.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/WebActivator.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Rest.ClientRuntime.dll

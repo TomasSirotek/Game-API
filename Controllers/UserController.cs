@@ -33,8 +33,9 @@ public class UserController : DefaultController
     }
     #region GET
     [HttpGet("Admin")]
-    [Authorize]
+    // [Authorize]
     //[Authorize(Roles ="Admin")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllUsers ()
     {
         List<AppUser> userList = await _userService.GetAllUsers();
@@ -58,20 +59,31 @@ public class UserController : DefaultController
     [HttpPost()]
     public async Task<IActionResult> CreateUser([FromBody]UserPostBindingModel model)
     {
-        AppUser user = new AppUser()
+        
+        var user = new AppUser()
        {
            UserName = model.UserName,
-           Email = model.Email,
-           FirstName = model.FirstName,
-           LastName = model.LastName
+           Email = model.Email
        };
-        IdentityResult result = await _userService.CreateUser(user, model.Password);
-       return result.Succeeded ? Ok(user) : BadRequest($"Could not create user with Email : {model.Email}");
+        AppUser resultUser = await _userService.CreateUser(user,model.Roles, model.Password);
+        
+       return resultUser.Email != null ? Ok(user) : BadRequest($"Could not create user with Email : {model.Email}");
     }
     #endregion
     
     #region PUT
 
+    // create address from manager 
+    
+    // update address
+    
+    // get /profile currently logged user 
+
+    // forgot psw
+    
+    // reset psw
+    
+    
     // Update User 
     [HttpPut()]
     public async Task<IActionResult> UpdateUser(UserPutBindingModel model)
@@ -89,9 +101,7 @@ public class UserController : DefaultController
                     BadRequest($"Could not Update user psw: {validPass}");
             }
             user.UserName = model.UserName;
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-
+            
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded) return Ok(user);
         }

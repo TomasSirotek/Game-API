@@ -5,11 +5,10 @@ namespace API.Identity.Entities;
 
 public class AppUser : IdentityUser {
     
-    public string FirstName { get; set; }
-    
-    public string LastName { get; set; }
-    
-    public string Email { get; set; }
+  //   public string Id { get; set; }
+  
+ //   public override UserName {get; set;}
+  //   public string Email { get; set; }
     
    // public string Password { get; set; }
     
@@ -17,13 +16,18 @@ public class AppUser : IdentityUser {
     
     public List<AppRole> Roles { get; set; }
     
-    public AppUser(string firstName,string lastName,string email)
+     public bool IsActive { get; set; }
+   
+    
+    public AppUser(bool isActive)
     {
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-
+      //  Id = id;
+     //   UserName = userName;
+      //  Email = email;
+      IsActive = isActive;
     }
 
     public AppUser() { }
+    
+    
 }
