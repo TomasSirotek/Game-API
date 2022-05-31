@@ -20,7 +20,7 @@ namespace API.Services {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
-        private RoleManager<AppRole> _roleManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IEmailService _emailService;
 
         public UserService (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,IEmailService emailService,IConfiguration configuration)
@@ -73,12 +73,17 @@ namespace API.Services {
                         // Add to role
                         
                      IdentityResult roleResult;
+                     IdentityResult roleResult2;
+
                      foreach (string role in roles)
                      {
                          List<AppRole> roles33 = _roleManager.Roles.ToList();
                          
                          Console.WriteLine(roles33);
-                         
+                         roleResult2 = await _roleManager.CreateAsync(new AppRole()
+                         {
+                             Name = "User"
+                         });
                          
                          var roleExist = await _roleManager.RoleExistsAsync(role);
                          if (roleExist)
