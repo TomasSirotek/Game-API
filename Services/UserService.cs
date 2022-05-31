@@ -15,7 +15,7 @@ using Microsoft.Rest;
 
 namespace API.Services {
     
-    public class UserService : IUserService {
+    public class UserService :IUserService {
         
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
@@ -53,14 +53,17 @@ namespace API.Services {
         
         public async Task<AppUser> CreateUser(AppUser user,List<string> roles,string password)
         {
-            // List<AppRole> appRoles = new();
-            // List<AppRole> userRoles = appRoles;
-            // foreach (string role in roles) {
-            //     userRoles.Add(new AppRole(Guid.NewGuid().ToString(), role));
-            // }
-            // user.Roles = userRoles;
-
-           
+            List<AppRole> appRoles = new();
+            List<AppRole> userRoles = appRoles;
+            foreach (string role in roles)
+            {
+                var test = new AppRole
+                {
+                    Name = role
+                };
+                userRoles.Add(test);
+            }
+            user.Roles = userRoles;
             
             // Create new user 
             if (user.Email != null)
@@ -68,40 +71,18 @@ namespace API.Services {
                 IdentityResult createUser = await _userManager.CreateAsync(user,password);
                     if (createUser.Succeeded)
                     {
+                     IdentityResult userCreated;
+                        
                         // fetch new user
                         AppUser newUser = await _userManager.FindByIdAsync(user.Id);
-                        // Add to role
+                        // find app role by name 
                         
-                     IdentityResult roleResult;
-                     IdentityResult roleResult2;
-
-                     foreach (string role in roles)
-                     {
-                         List<AppRole> roles33 = _roleManager.Roles.ToList();
-                         
-                         Console.WriteLine(roles33);
-                         roleResult2 = await _roleManager.CreateAsync(new AppRole()
-                         {
-                             Name = "User"
-                         });
-                         
-                         var roleExist = await _roleManager.RoleExistsAsync(role);
-                         if (roleExist)
-                         {
-                         await _userManager.AddToRoleAsync(newUser, role);
-                         }else 
-                             roleResult = await _roleManager.CreateAsync(new AppRole()
-                             {
-                                 Name = role
-                             });
-                             await _userManager.AddToRoleAsync(newUser, role);
-                             List<AppRole> roles333 = _roleManager.Roles.ToList();
-
-                     }
-                         
-                       
-                     
-                     
+                        foreach (AppRole role in user.Roles)
+                        {
+                            AppRole roleExists = await _roleManager.FindByNameAsync(role.Name);
+                            if (roleExists != null)
+                                userCreated = await _userManager.AddToRoleAsync(newUser, role.Name);
+                        }
                         
                         if (newUser != null)  // send email if is active yes ( for now false )
                         {
