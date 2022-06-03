@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CryptoHelper" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />

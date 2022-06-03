@@ -586,3 +586,6 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/UrlHelper.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/WebActivator.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Rest.ClientRuntime.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/IdentityServer4.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/IdentityServer4.AspNetIdentity.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/IdentityServer4.Storage.dll

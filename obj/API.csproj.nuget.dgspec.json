@@ -38,6 +38,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "CryptoHelper": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
             "FluentEmail.Razor": {
               "target": "Package",
               "version": "[3.0.2, )"

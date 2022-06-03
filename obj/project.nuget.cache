@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "+P/Wr0/AhCfkvag2gb7TNqR0nYCItRE5Bmj2veRomwllWqUIqrllqie20p2CpLckt/3rI8+M/arjwRRp1nvctA==",
+  "dgSpecHash": "XM2ZcCzwkT0PkPnTUTfkcdDUxkuppnOvc1BGySy4XBsIv263q8AtqlYob01knz4eW0rcmDKhEzSMjx8SQ94xng==",
   "success": true,
   "projectFilePath": "/Users/Tomas/Projects/API/API/API.csproj",
   "expectedPackageFiles": [
     "/Users/Tomas/.nuget/packages/automapper/10.0.0/automapper.10.0.0.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/cryptohelper/3.0.2/cryptohelper.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/duende.identityserver/5.2.0/duende.identityserver.5.2.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/duende.identityserver.aspnetidentity/5.2.0/duende.identityserver.aspnetidentity.5.2.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/duende.identityserver.entityframework/5.2.0/duende.identityserver.entityframework.5.2.0.nupkg.sha512",

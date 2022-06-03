@@ -15,6 +15,18 @@
           "lib/netstandard2.0/AutoMapper.dll": {}
         }
       },
+      "CryptoHelper/3.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/CryptoHelper.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/CryptoHelper.dll": {}
+        }
+      },
       "Duende.IdentityServer/5.2.0": {
         "type": "package",
         "dependencies": {
@@ -4097,6 +4109,19 @@
         "lib/net461/AutoMapper.xml",
         "lib/netstandard2.0/AutoMapper.dll",
         "lib/netstandard2.0/AutoMapper.xml"
+      ]
+    },
+    "CryptoHelper/3.0.2": {
+      "sha512": "6xFZdEnhuOmX58TgZAeb20MbddsL8/nR/4CnWhmjMXv9gfpOxD+1bBU7IDtYq2Q8rZJUT6xYWdhW16bKriU2Mw==",
+      "type": "package",
+      "path": "cryptohelper/3.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cryptohelper.3.0.2.nupkg.sha512",
+        "cryptohelper.nuspec",
+        "lib/netstandard2.0/CryptoHelper.dll",
+        "lib/netstandard2.0/CryptoHelper.xml"
       ]
     },
     "Duende.IdentityServer/5.2.0": {
@@ -12025,6 +12050,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "CryptoHelper >= 3.0.2",
       "FluentEmail.Razor >= 3.0.2",
       "FluentEmail.Smtp >= 3.0.2",
       "IdentityServer4.AspNetIdentity >= 4.1.2",
@@ -12089,6 +12115,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "CryptoHelper": {
+            "target": "Package",
+            "version": "[3.0.2, )"
+          },
           "FluentEmail.Razor": {
             "target": "Package",
             "version": "[3.0.2, )"

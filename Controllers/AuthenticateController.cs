@@ -37,6 +37,20 @@ public class AuthenticateController : DefaultController {
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
 		AppUser user = await _userManager.FindByEmailAsync(request.Email);
+		IList<string> roles = await _userManager.GetRolesAsync(user);
+		
+		List<AppRole> appRoles = new();
+		List<AppRole> userRoles = appRoles;
+		foreach (string role in roles)
+		{
+			var test = new AppRole
+			{
+				Name = role
+			};
+			userRoles.Add(test);
+		}
+		user.Roles = userRoles;
+		
 		if (user != null)
 		{
 			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
