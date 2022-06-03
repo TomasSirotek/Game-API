@@ -14,7 +14,7 @@ namespace API.Controllers;
 
 public class UserController : DefaultController
 {
-    private readonly IUserManager _userService;
+    private readonly IDefaultUserManager _userService;
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
@@ -24,7 +24,7 @@ public class UserController : DefaultController
 
     private readonly RoleManager<AppRole> _roleManager;
 
-    public UserController (IUserManager userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator,RoleManager<AppRole> roleManager)
+    public UserController (IDefaultUserManager userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator,RoleManager<AppRole> roleManager)
     {
         _userService = userService;
         _userManager = userManager;

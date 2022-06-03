@@ -83,6 +83,8 @@ namespace API
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+            
+            
             // JSON Serialization // Nuget package
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -101,15 +103,16 @@ namespace API
                     Credentials = new NetworkCredential("willard.orn27@ethereal.email", "HAG3njycGFEprwfqVj"),
                     EnableSsl = true,
                 });
+            
             // dependency injection
+            services.AddScoped<IDefaultUserManager, DefaultUserManager>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJWToken, JWToken>();
             services.AddScoped<IRoleManager, RoleManager>();
             services.AddScoped<IEmailService, EmailService>();
             
-            // services.AddScoped<IUserManager, UserManager>();
-           
-
+          
+            
             services.AddMvc ();
             services.AddRazorPages ();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 

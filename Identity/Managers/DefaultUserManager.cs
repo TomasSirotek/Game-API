@@ -9,6 +9,7 @@ using API.RepoInterface;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Rest;
@@ -16,15 +17,17 @@ using Microsoft.Rest;
 
 namespace API.Services {
     
-    public class UserManager : IUserManager {
+    public class DefaultUserManager : IDefaultUserManager {
         
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IEmailService _emailService;
 
-        public UserManager (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<IdentityRole> roleManager,IEmailService emailService,IConfiguration configuration)
+ 
+
+        public DefaultUserManager (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,IEmailService emailService,IConfiguration configuration)
         {
             _userRepository = userRepository;
             _userManager = userManager;
@@ -67,10 +70,10 @@ namespace API.Services {
             // }
             // user.Roles = userRoles;
 
-            if (!(await _roleManager.RoleExistsAsync("Admin")))
-            {
-                await _roleManager.CreateAsync(new AppRole("Admin"));
-            }
+            // if (!(await _roleManager.RoleExistsAsync("Admin")))
+            // {
+            //     await _roleManager.CreateAsync(new AppRole("Admin"));
+            // }
             
             // validate EMAIL 
             if (user.Email != null)
@@ -87,8 +90,9 @@ namespace API.Services {
                             foreach (var identityRole in user.Roles)
                             {
                                 var role = (AppRole) identityRole;
-                                await _userManager.AddToRoleAsync(userFromDb, role.Name);
+                                await _userManager.AddToRoleAsync(userFromDb, "User");
                             }
+
                             //
                             // IF ACTIVE SEND EMAIL set active in email confirm function
                                 if (userFromDb.IsActive)
@@ -99,7 +103,7 @@ namespace API.Services {
                                     _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
                                     
                                 }
-                            // IdentityResult addRole = await _userManager.AddToRoleAsync(newUser, roles);
+                      
                             
                         }
                         

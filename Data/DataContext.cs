@@ -11,23 +11,23 @@ namespace API.Data {
       
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     
-     // public DbSet<AppUser> user { get; set;}
+      //  public DbSet<AppUser> User { get; set;}
      //
-     // public DbSet<AppRole> role { get; set;}
+    //  public DbSet<AppRole> Role { get; set;}
 
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = configuration.GetConnectionString("PostgresAppCon");
-            optionsBuilder.UseNpgsql(connectionString);
-        }
-        base.OnConfiguring(optionsBuilder);
+        // if (!optionsBuilder.IsConfigured)
+        // {
+        //     IConfigurationRoot configuration = new ConfigurationBuilder()
+        //         .SetBasePath(Directory.GetCurrentDirectory())
+        //         .AddJsonFile("appsettings.json")
+        //         .Build();
+        //     // var connectionString = configuration.GetConnectionString("PostgresAppCon");
+        //     // optionsBuilder.UseNpgsql(connectionString);
+        // }
+        // base.OnConfiguring(optionsBuilder);
     }
     
     // protected override void OnModelCreating(ModelBuilder modelBuilder)

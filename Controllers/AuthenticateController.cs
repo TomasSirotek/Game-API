@@ -22,10 +22,10 @@ public class AuthenticateController : DefaultController {
 	private readonly IConfiguration _configuration;
 	private readonly IJWToken _token;
 	private readonly UserManager<AppUser> _userManager;
-	private readonly IUserManager _userService;
+	private readonly IDefaultUserManager _userService;
 
 
-	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token, IUserManager userService)
+	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token, IDefaultUserManager userService)
 	{
 		_configuration = configuration;
 		_userManager = userManager;
@@ -75,13 +75,6 @@ public class AuthenticateController : DefaultController {
 	[HttpPost ("register")] 
 	public async Task<IActionResult> Register ([FromBody]RegisterPostBindingModel request)
 	{
-		// AppUser user = new(
-		// 	Guid.NewGuid().ToString(), 
-		// 	request.Email,
-		// 	false,
-		// 	request.UserName
-		// );
-
 		AppUser user = new AppUser()
 		{
 			UserName = request.UserName,

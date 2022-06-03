@@ -16,7 +16,7 @@ namespace API.Controllers;
 
 public class RoleController : DefaultController
 {
-    private readonly IUserManager _userService;
+    private readonly IDefaultUserManager _userService;
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly IRoleManager _roleManager;
@@ -25,7 +25,7 @@ public class RoleController : DefaultController
     private readonly IPasswordHasher<AppUser> _passwordHasher;
     private readonly IPasswordValidator<AppUser> _passwordValidator;
 
-    public RoleController (IUserManager userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator, IRoleManager roleManager)
+    public RoleController (IDefaultUserManager userService,UserManager<AppUser> userManager,IUserRepository userRepository, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher,IPasswordValidator<AppUser> passwordValidator, IRoleManager roleManager)
     {
         _userService = userService;
         _userManager = userManager;
@@ -94,8 +94,6 @@ public class RoleController : DefaultController
     #region PUT
     
     // Update Role 
-    
-      
     [HttpPut()]
     public async Task<IActionResult> UpdateRole([FromBody]RolePutBindingModel model)
     {

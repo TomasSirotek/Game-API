@@ -23,6 +23,7 @@ public class UserRepository : IUserRepository {
 
     public async Task<List<AppUser>> GetAllUsers()
     {
+        
         return _userManager.Users.ToList();
     }
 

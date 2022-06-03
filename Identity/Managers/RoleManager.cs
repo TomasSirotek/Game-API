@@ -47,9 +47,12 @@ namespace API.Identity.Managers {
         {
             if (role != null)
             {
-                AppRole updatedRole = await _roleManager.FindByIdAsync(role.Id); 
-                IdentityResult updateRole = await _roleManager.UpdateAsync(updatedRole);
-                if (updateRole.Succeeded) return updatedRole;
+                // try to update
+                IdentityResult roleUpdated = await _roleManager.UpdateAsync(role);
+                // fetch updated role
+                AppRole updatedRole = await _roleManager.FindByIdAsync(role.Id);
+                // if done return back 
+                if (roleUpdated.Succeeded) return updatedRole;
                 
             }
 
