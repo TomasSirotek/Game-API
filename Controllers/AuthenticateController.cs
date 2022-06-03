@@ -39,24 +39,6 @@ public class AuthenticateController : DefaultController {
 		AppUser user = await _userManager.FindByEmailAsync(request.Email);
 		if (user != null)
 		{
-			// this block work when i define the roles cuz it creates it from role the token
-			List<string> roles = new()
-			{
-				"Admin", "User"
-			};
-
-			List<AppRole> appRoles = new();
-			List<AppRole> userRoles = appRoles;
-			foreach (string role in roles)
-			{
-				var test = new IdentityRole
-				{
-					Name = role
-				};
-				//userRoles.Add(test);
-			}
-			// user.Roles = roles;
-			
 			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
 			if(result)
 			{

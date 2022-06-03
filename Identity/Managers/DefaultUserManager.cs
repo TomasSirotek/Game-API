@@ -24,9 +24,8 @@ namespace API.Services {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IEmailService _emailService;
-
- 
-
+        private readonly UserStore<AppUser> _store;
+        
         public DefaultUserManager (IUserRepository userRepository,UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,IEmailService emailService,IConfiguration configuration)
         {
             _userRepository = userRepository;
@@ -44,7 +43,10 @@ namespace API.Services {
         
         public async Task<AppUser> GetUserById(string id)
         {
-            return await _userRepository.GetUserById(id);
+            AppUser userDb = await _userManager.FindByIdAsync(id);
+          //  List<string> roles = await _userManager.GetRolesAsync(userDb);
+            ///  return await _userRepository.GetUserById(id);
+            return null;
         }
         
         public async Task<AppUser> RegisterUser(AppUser user,string password)
@@ -58,22 +60,17 @@ namespace API.Services {
         public async Task<AppUser> CreateUser(AppUser user,List<string> roles,string password)
         {
             
-            // List<AppRole> appRoles = new();
-            // List<AppRole> userRoles = appRoles;
-            // foreach (string role in roles)
-            // {
-            //     var test = new AppRole
-            //     {
-            //         Name = role
-            //     };
-            //     userRoles.Add(test);
-            // }
-            // user.Roles = userRoles;
-
-            // if (!(await _roleManager.RoleExistsAsync("Admin")))
-            // {
-            //     await _roleManager.CreateAsync(new AppRole("Admin"));
-            // }
+            List<AppRole> appRoles = new();
+            List<AppRole> userRoles = appRoles;
+            foreach (string role in roles)
+            {
+                var test = new AppRole
+                {
+                    Name = role
+                };
+                userRoles.Add(test);
+            }
+            user.Roles = userRoles;
             
             // validate EMAIL 
             if (user.Email != null)
@@ -87,13 +84,11 @@ namespace API.Services {
                         
                         if (userFromDb != null)
                         {
-                            foreach (var identityRole in user.Roles)
+                            foreach (AppRole role in user.Roles)
                             {
-                                var role = (AppRole) identityRole;
-                                await _userManager.AddToRoleAsync(userFromDb, "User");
+                                await _userManager.AddToRoleAsync(userFromDb, role.Name);
                             }
-
-                            //
+                            
                             // IF ACTIVE SEND EMAIL set active in email confirm function
                                 if (userFromDb.IsActive)
                                 {
@@ -103,17 +98,11 @@ namespace API.Services {
                                     _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
                                     
                                 }
-                      
-                            
                         }
-                        
-                        
                         return userFromDb;
                     }
             }
-            // var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
-              //  var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
-              return null;
+            return null;
         }
 
         public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token)
@@ -124,8 +113,5 @@ namespace API.Services {
             if(result.Succeeded) return IdentityResult.Success;
             return IdentityResult.Failed();
         }
-        
-
-       
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7aDqTHh3EmHYTChENstx75URL25UHsm57sVWTZTBktgNj0hAfjCuUU+pGZysF1VV0WSJJGa/noF4O/ABuiE1xw==",
+  "dgSpecHash": "+P/Wr0/AhCfkvag2gb7TNqR0nYCItRE5Bmj2veRomwllWqUIqrllqie20p2CpLckt/3rI8+M/arjwRRp1nvctA==",
   "success": true,
   "projectFilePath": "/Users/Tomas/Projects/API/API/API.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,9 @@
     "/Users/Tomas/.nuget/packages/fluentemail.smtp/3.0.2/fluentemail.smtp.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/identitymodel/5.1.0/identitymodel.5.1.0.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/identityserver4/4.1.2/identityserver4.4.1.2.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/identityserver4.aspnetidentity/4.1.2/identityserver4.aspnetidentity.4.1.2.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/identityserver4.storage/4.1.2/identityserver4.storage.4.1.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/messagepack/2.1.152/messagepack.2.1.152.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/messagepack.annotations/2.1.152/messagepack.annotations.2.1.152.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/messagepackanalyzer/2.1.152/messagepackanalyzer.2.1.152.nupkg.sha512",

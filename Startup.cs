@@ -47,7 +47,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
+           //  services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
           
           services.AddEntityFrameworkNpgsql()
                 .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));

@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[3.0.2, )"
             },
+            "IdentityServer4.AspNetIdentity": {
+              "target": "Package",
+              "version": "[4.1.2, )"
+            },
             "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
               "target": "Package",
               "version": "[6.0.2, )"
