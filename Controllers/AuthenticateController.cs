@@ -7,7 +7,7 @@ using API.Configuration;
 using API.Dtos;
 using API.Identity.Entities;
 using API.Models;
-using API.Services.Interfaces;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +22,15 @@ public class AuthenticateController : DefaultController {
 	private readonly IConfiguration _configuration;
 	private readonly IJWToken _token;
 	private readonly UserManager<AppUser> _userManager;
-	private readonly IDefaultUserManager _userService;
 
 
-	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token, IDefaultUserManager userService)
+
+	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token)
 	{
 		_configuration = configuration;
 		_userManager = userManager;
 		_token = token;
-		_userService= userService;
+
 	}
 
 	[HttpPost ()] 
@@ -42,9 +42,10 @@ public class AuthenticateController : DefaultController {
 			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
 			if(result)
 			{
-				string token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
-				user.Token = token;
-				return Ok(user);
+				// fix role "name" to role.name
+				// string token = _token.CreateToken(user.Roles.Select(role => "name").ToList(), user.Id, 24);
+				// user.Token = token;
+				// return Ok(user);
 				// add email notificitation with date of loggin in DateTime.Now
 			}
 		}
@@ -57,13 +58,13 @@ public class AuthenticateController : DefaultController {
 	[HttpPost ("register")] 
 	public async Task<IActionResult> Register ([FromBody]RegisterPostBindingModel request)
 	{
-		AppUser user = new AppUser()
-		{
-			UserName = request.UserName,
-			Email = request.Email
-		};
-		AppUser newUser = await _userService.RegisterUser(user, request.Password);
-		if (newUser != null) return Ok(newUser);
+		// AppUser user = new AppUser()
+		// {
+		// 	UserName = request.UserName,
+		// 	Email = request.Email
+		// };
+	//	AppUser newUser = await _userService.RegisterUser(user, request.Password);
+	//	if (newUser != null) return Ok(newUser);
 	
 		return BadRequest($"Could not register :(");
 		
@@ -75,8 +76,8 @@ public class AuthenticateController : DefaultController {
 		if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
 			return NotFound();
 		
-		var result = await _userService.ConfirmEmailAsync(userId, token);
-		if (result.Succeeded) return Ok("Email confirmed");
+	//	var result = await _userService.ConfirmEmailAsync(userId, token);
+	// 	if (result.Succeeded) return Ok("Email confirmed");
 		 
 		return BadRequest($"Could not confirm account for user with id {userId}");
 	}

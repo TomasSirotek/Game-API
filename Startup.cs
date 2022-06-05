@@ -10,7 +10,6 @@ using API.Data;
 using API.ExternalServices;
 using API.Identity.Entities;
 using API.Identity.Managers;
-using API.RepoInterface;
 using API.Repositories;
 using API.Services;
 using API.Services.Interfaces;
@@ -49,8 +48,8 @@ namespace API
         {
            //  services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
           
-          services.AddEntityFrameworkNpgsql()
-                .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));
+          // services.AddEntityFrameworkNpgsql()
+          //       .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));
             // Enable CORS
             services.AddCors(c =>
             {
@@ -58,19 +57,19 @@ namespace API
             });
 
 
-            services.AddDefaultIdentity<AppUser>(options =>
-                {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 4;
-                    options.User.AllowedUserNameCharacters =
-                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-
-                })
-                .AddRoles<AppRole>()
-                .AddEntityFrameworkStores<DataContext>();
+            // services.AddDefaultIdentity<AppUser>(options =>
+            //     {
+            //         options.Password.RequireDigit = false;
+            //         options.Password.RequireLowercase = false;
+            //         options.Password.RequireNonAlphanumeric = false;
+            //         options.Password.RequireUppercase = false;
+            //         options.Password.RequiredLength = 4;
+            //         options.User.AllowedUserNameCharacters =
+            //             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //
+            //     })
+            //     .AddRoles<AppRole>()
+            //     .AddEntityFrameworkStores<DataContext>();
 
             // needs more look into it 
             services.ConfigureApplicationCookie(options =>
@@ -84,7 +83,7 @@ namespace API
                 options.SlidingExpiration = true;
             });
             
-            
+            // wtf I need this ? 
             // JSON Serialization // Nuget package
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -105,10 +104,12 @@ namespace API
                 });
             
             // dependency injection
-            services.AddScoped<IDefaultUserManager, DefaultUserManager>();
+            services.AddScoped<IAppUserService, AppUserService>();
+            services.AddScoped<IAppRoleService, AppRoleService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            
             services.AddScoped<IJWToken, JWToken>();
-            services.AddScoped<IRoleManager, RoleManager>();
             services.AddScoped<IEmailService, EmailService>();
             
           
@@ -184,32 +185,32 @@ namespace API
           //  CreateRoles(serviceProvider).Wait();
         }
         
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-            string[] roleNames = { "Administrator", "User" };
-            IdentityResult roleResult;
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-            AppUser userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "new@yahoo.com");
-            if (userAdmin != null)
-            {
-                await userManager.AddToRoleAsync(userAdmin, "Administrator");
-                await userManager.AddToRoleAsync(userAdmin, "User");
-            }
-            AppUser userUser = await userManager.Users.FirstOrDefaultAsync(u => u.Email != "admin@yahoo.com");
-            if (userUser != null)
-            {
-                await userManager.AddToRoleAsync(userUser, "User");
-            }
-        }
+        // private async Task CreateRoles(IServiceProvider serviceProvider)
+        // {
+        //     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //     var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+        //     string[] roleNames = { "Administrator", "User" };
+        //     IdentityResult roleResult;
+        //     foreach (var roleName in roleNames)
+        //     {
+        //         var roleExist = await roleManager.RoleExistsAsync(roleName);
+        //         if (!roleExist)
+        //         {
+        //             roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+        //         }
+        //     }
+        //     AppUser userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "new@yahoo.com");
+        //     if (userAdmin != null)
+        //     {
+        //         await userManager.AddToRoleAsync(userAdmin, "Administrator");
+        //         await userManager.AddToRoleAsync(userAdmin, "User");
+        //     }
+        //     AppUser userUser = await userManager.Users.FirstOrDefaultAsync(u => u.Email != "admin@yahoo.com");
+        //     if (userUser != null)
+        //     {
+        //         await userManager.AddToRoleAsync(userUser, "User");
+        //     }
+        // }
     }
 
 

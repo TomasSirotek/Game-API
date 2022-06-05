@@ -1,35 +1,46 @@
+using System.ComponentModel.DataAnnotations;
 using API.Models;
-using Microsoft.AspNetCore.Identity;
+using MessagePack;
+
 
 namespace API.Identity.Entities; 
 
-public class AppUser : IdentityUser {
+public class AppUser  {
     
-      // public string Id { get; set; }
-      //
-      // public string UserName {get; set;}
-      //
-      // public string Email { get; set; }
+      public string Id { get; set; }
+      
+      public string Email { get; set; }
+      
+      public string FirstName {get; set;}
+      
+      public string LastName { get; set; }
     
-   // public string Password { get; set; }
+      public string PasswordHash { get; set; }
     
-    public string? Token { get; set; }
+      public string Token { get; set; }
     
-    public Address Address { get; set; }
+    // public Address Address { get; set; }
     
-    public List<AppRole> Roles { get; set; }
+      public List<AppRole> Roles { get; set; }
     
-     public bool IsActive { get; set; }
-   
+      public bool IsActivated { get; set; }
+      
+      public DateTime CreatedAt { get; set; }
+      
+      public DateTime UpdateAt { get; set; }
     
-    // public AppUser()
-    // {
-    //    Id = id;
-    //    UserName = userName;
-    //   Email = email;
-    //  // IsActive = isActive;
-    // }
-
+    
+    public AppUser(string id,string email, string firstName,string lastName,string passwordHash,bool isActivated)
+    
+    {
+       Id = id;
+       Email = email;
+       FirstName = firstName;
+       LastName = lastName;
+       PasswordHash = passwordHash;
+       IsActivated = isActivated;
+    }
+    
     public AppUser() { }
     
     
