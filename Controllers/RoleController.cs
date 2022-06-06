@@ -2,7 +2,7 @@ using System.Security.Claims;
 using API.Data;
 using API.Dtos;
 using API.Identity.Entities;
-using API.Identity.Managers;
+using API.Identity.Services;
 using API.Repositories;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
