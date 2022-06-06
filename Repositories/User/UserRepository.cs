@@ -84,8 +84,8 @@ public class UserRepository : IUserRepository {
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            var sql = @"INSERT INTO app_user (id,email,firstName,lastName,passwordHash,isActivated,createdAt,updatedAt) 
-                        values (@id,@email,@firstName,@lastName,@passwordHash,@isActivated,@createdAt,@updatedAt)";
+            var sql = $@"INSERT INTO app_user (id,email,userName,firstName,lastName,passwordHash,isActivated,createdat,updatedat) 
+                        values (@id,@email,@userName,@firstName,@lastName,@passwordHash,@isActivated,@createdat,@updatedat)";
 
             var newUser = await cnn.ExecuteAsync(sql, user);
             if (newUser > 0)

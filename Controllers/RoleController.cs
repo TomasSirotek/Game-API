@@ -17,15 +17,11 @@ public class RoleController : DefaultController
 {
 
     private readonly IAppRoleService _roleService;
-   /// private readonly UserValidator<AppUser> _userValidator;
-    // private readonly IPasswordHasher<AppUser> _passwordHasher;
-    // private readonly IPasswordValidator<AppUser> _passwordValidator;
+  
 
     public RoleController (IAppRoleService roleService)
     {
         _roleService = roleService;
-        // _passwordHasher = passwordHasher;
-        // _passwordValidator = passwordValidator;
     }
     #region GET
     [HttpGet()]

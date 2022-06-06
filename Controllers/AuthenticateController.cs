@@ -67,7 +67,7 @@ public class AuthenticateController : DefaultController {
 		AppUser user = new AppUser()
 		 {
 			 Id = Guid.NewGuid().ToString(),
-			 FirstName = model.UserName,
+			 UserName = model.UserName,
 			 Email = model.Email,
 			 IsActivated = false,
 			 CreatedAt = DateTime.Now,

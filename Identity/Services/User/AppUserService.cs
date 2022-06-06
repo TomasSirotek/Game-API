@@ -74,17 +74,13 @@ namespace API.Services {
             user.Roles = userRoles;
             
             // hasPsw 
-            
-            string hashedPsw =  _cryptoEngine.Hash(password);
-            Console.WriteLine($" CryptoHelper hashed psw like this =>  {hashedPsw}");
-         
-            
+            var hashedPsw =  _cryptoEngine.Hash(password);
             
            //  validate EMAIL 
             if (user.Email != null)
             {
                 // Create new user 
-                AppUser createUser = await _userRepository.CreateUser(user,password);
+                AppUser createUser = await _userRepository.CreateUser(user,hashedPsw);
                     if (createUser != null)
                     {
                         // fetch new user

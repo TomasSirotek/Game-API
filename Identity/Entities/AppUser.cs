@@ -11,6 +11,8 @@ public class AppUser  {
       
       public string Email { get; set; }
       
+      public string UserName { get; set; }
+      
       public string FirstName {get; set;}
       
       public string LastName { get; set; }
@@ -30,11 +32,12 @@ public class AppUser  {
       public DateTime UpdateAt { get; set; }
     
     
-    public AppUser(string id,string email, string firstName,string lastName,string passwordHash,bool isActivated)
+    public AppUser(string id,string email, string userName,string firstName,string lastName,string passwordHash,bool isActivated)
     
     {
        Id = id;
        Email = email;
+       UserName = userName;
        FirstName = firstName;
        LastName = lastName;
        PasswordHash = passwordHash;

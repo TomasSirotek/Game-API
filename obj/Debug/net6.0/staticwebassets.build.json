@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4OECMBcM7LP0z0I3daLUlGGFp7p8nXOi79ic4KMNXd4=",
+  "Hash": "l7zb6GwK5iI01eM+GOIZMI2D4bVJgKm/cQW1pjbcKjs=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "API/wwwroot",
       "Source": "API",
-      "ContentRoot": "/Users/Tomas/Projects/API/API/wwwroot/",
+      "ContentRoot": "/Users/Tomas/Projects/Game-API/wwwroot/",
       "BasePath": "_content/API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/Tomas/Projects/API/API/wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml",
+      "Identity": "/Users/Tomas/Projects/Game-API/wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/Tomas/Projects/API/API/wwwroot/",
+      "ContentRoot": "/Users/Tomas/Projects/Game-API/wwwroot/",
       "BasePath": "_content/API",
       "RelativePath": "EmailTemplates/ConfirmEmailTemplate.cshtml",
       "AssetKind": "Build",
