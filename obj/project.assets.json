@@ -213,11 +213,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/Tomas/Projects/API/API/API.csproj",
+      "projectUniqueName": "/Users/Tomas/Projects/Game-API/API.csproj",
       "projectName": "API",
-      "projectPath": "/Users/Tomas/Projects/API/API/API.csproj",
+      "projectPath": "/Users/Tomas/Projects/Game-API/API.csproj",
       "packagesPath": "/Users/Tomas/.nuget/packages/",
-      "outputPath": "/Users/Tomas/Projects/API/API/obj/",
+      "outputPath": "/Users/Tomas/Projects/Game-API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/Tomas/.nuget/NuGet/NuGet.Config"
@@ -267,7 +267,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.200/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
       }
     }
   }
