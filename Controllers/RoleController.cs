@@ -36,7 +36,7 @@ public class RoleController : DefaultController
       
     }
     
-    [HttpGet("id")]
+    [HttpGet("{id}")]
     // [Authorize]
     //[Authorize(Roles ="Admin")]
     [AllowAnonymous]
@@ -49,14 +49,14 @@ public class RoleController : DefaultController
     }
 
     
-    // [HttpGet("name")]
-    // public async Task<IActionResult> GetRoleByName(string name)
-    // {
-    //     // AppUser user = await _userService.GetUserById(name);
-    //     // if (user != null) 
-    //     //     return Ok (user);
-    //     return BadRequest($"Could not find user with name : {name}");
-    // }
+    [HttpGet("name/{name}")]
+    public async Task<IActionResult> GetAsyncByName(string name)
+    {
+        AppRole role = await _roleService.GetAsyncByName(name);
+        if (role != null) 
+            return Ok (role);
+        return BadRequest($"Could not find role with name : {name}");
+    }
      
     #endregion
     

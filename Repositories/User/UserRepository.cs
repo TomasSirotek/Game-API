@@ -56,7 +56,7 @@ public class UserRepository : IUserRepository {
 
         return null;
     }
-    
+
     // get by email
     public async Task<AppUser> GetAsyncByEmail(string email)
     {
@@ -80,16 +80,34 @@ public class UserRepository : IUserRepository {
 
 
     // create user
-    public async Task<AppUser> CreateUser(AppUser user, string passwordHash)
+    public async Task<AppUser> CreateUser(AppUser user)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            var sql = $@"INSERT INTO app_user (id,email,userName,firstName,lastName,passwordHash,isActivated,createdat,updatedat) 
+            var sql =
+                $@"INSERT INTO app_user (id,email,userName,firstName,lastName,passwordHash,isActivated,createdat,updatedat) 
                         values (@id,@email,@userName,@firstName,@lastName,@passwordHash,@isActivated,@createdat,@updatedat)";
 
             var newUser = await cnn.ExecuteAsync(sql, user);
             if (newUser > 0)
+            {
                 return user;
+            }
+            // {
+            //     foreach (AppRole role in user.Roles)
+            //     {
+            //         var rowSql = $@"INSERT INTO user_role(userId,roleId) 
+            //             values (@userId,@roleId)";
+            //
+            //         var executeRole = await cnn.ExecuteAsync(rowSql, new
+            //         {
+            //             userId = user.Id,
+            //             roleId = role.Id
+            //         });
+            //         if (executeRole > 0)
+            //             return user;
+            //     }
+            // }
         }
 
 
@@ -101,10 +119,14 @@ public class UserRepository : IUserRepository {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
             var sql = @"insert into user_role (userId,roleId) 
-                        values (@id,@userId)";
+                        values (@userId,@roleId)";
 
-            var newUser = await cnn.ExecuteAsync(sql, user);
-            if (newUser > 1)
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+                UserId = user.Id,
+                RoleId = role.Id
+            });
+            if (newUser > 0)
             {
                 return user;
             }

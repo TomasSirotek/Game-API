@@ -7,6 +7,8 @@ namespace API.Identity.Services {
         
         Task<AppRole> GetAsyncById(string id);
 
+        Task<AppRole> GetAsyncByName(string name);
+
         Task<AppRole> CreateAsync(AppRole role);
 
        // Task<AppRole> UpdateRole(AppRole role);

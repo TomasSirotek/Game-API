@@ -34,10 +34,10 @@ public class RoleRepository : IRoleRepository {
         {
             var sql = @"select * from role as r where r.name = @name";
 
-            AppRole user = await cnn.QueryFirstAsync<AppRole>(sql, new { Name = name});
-            if (user != null)
+            AppRole role = await cnn.QueryFirstAsync<AppRole>(sql, new { Name = name});
+            if (role != null)
             {
-                return user;
+                return role;
             }
         }
 

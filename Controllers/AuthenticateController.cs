@@ -71,7 +71,7 @@ public class AuthenticateController : DefaultController {
 			 Email = model.Email,
 			 IsActivated = false,
 			 CreatedAt = DateTime.Now,
-			 UpdateAt = DateTime.Now
+			 UpdatedAt = DateTime.Now
 		 };
 		AppUser newUser = await _userService.RegisterUser(user, model.Password);
 		if (newUser != null) return Ok(newUser);

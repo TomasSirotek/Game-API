@@ -60,42 +60,38 @@ namespace API.Services {
         
         public async Task<AppUser> CreateUser(AppUser user,List<string> roles,string password)
         {
-            
             List<AppRole> appRoles = new();
             List<AppRole> userRoles = appRoles;
             foreach (string role in roles)
             {
-                var test = new AppRole
+                var roleList = new AppRole
                 {
                     Name = role
                 };
-                userRoles.Add(test);
+                userRoles.Add(roleList);
             }
             user.Roles = userRoles;
             
             // hasPsw 
             var hashedPsw =  _cryptoEngine.Hash(password);
+            user.PasswordHash = hashedPsw;
             
            //  validate EMAIL 
             if (user.Email != null)
             {
                 // Create new user 
-                AppUser createUser = await _userRepository.CreateUser(user,hashedPsw);
-                    if (createUser != null)
+                AppUser createdUser = await _userRepository.CreateUser(user);
+                    if (createdUser != null)
                     {
-                        // fetch new user
-                        AppUser userFromDb = await _userRepository.GetUserById(user.Id);
-                        if (userFromDb != null)
+                        foreach (AppRole role in user.Roles)
                         {
-                            foreach (AppRole role in user.Roles)
-                            {
-                                AppRole roleExists = await _roleRepository.GetAsyncByName(role.Name);
-                                if (roleExists != null) await _userRepository.AddToRoleAsync(userFromDb,role);
-                                return null; // return could not return role for users
-                            }
+                            AppRole fetchedRole = await _roleRepository.GetAsyncByName(role.Name);
+                            if (fetchedRole != null) await _userRepository.AddToRoleAsync(createdUser,fetchedRole);
+                            return null; // return could not return role for users
+                        }
                             
                             // IF ACTIVE SEND EMAIL set active in email confirm function
-                                if (userFromDb.IsActivated)
+                                if (user.IsActivated)
                                 {
                                    //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
                                     // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
@@ -104,8 +100,8 @@ namespace API.Services {
                                     _emailService.SendEmail(user.Email,user.FirstName,link,"Confirmation email");
                                     
                                 }
-                        }
-                        return userFromDb;
+                       // }
+                        return createdUser;
                     }
             }
             return null;

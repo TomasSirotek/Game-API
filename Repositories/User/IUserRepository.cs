@@ -12,7 +12,7 @@ public interface IUserRepository {
 
 	Task<AppUser> GetAsyncByEmail(string email);
 		
-	Task<AppUser> CreateUser(AppUser user,string passwordHash);
+	Task<AppUser> CreateUser(AppUser user);
 
 	Task<AppUser> AddToRoleAsync(AppUser user, AppRole role);
 		

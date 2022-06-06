@@ -21,7 +21,11 @@ namespace API.Identity.Services {
         {
             return await _roleRepository.GetByIdAsync(id);
         }
-
+        
+        public async Task<AppRole> GetAsyncByName(string name)
+        {
+            return await _roleRepository.GetAsyncByName(name);
+        }
         public async Task<AppRole> CreateAsync(AppRole role)
         {
             bool result  = await _roleRepository.CreateAsync(role);

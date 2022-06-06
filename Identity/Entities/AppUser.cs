@@ -29,10 +29,10 @@ public class AppUser  {
       
       public DateTime CreatedAt { get; set; }
       
-      public DateTime UpdateAt { get; set; }
+      public DateTime UpdatedAt { get; set; }
     
     
-    public AppUser(string id,string email, string userName,string firstName,string lastName,string passwordHash,bool isActivated)
+    public AppUser(string id,string email, string userName,string firstName,string lastName,bool isActivated)
     
     {
        Id = id;
@@ -40,7 +40,6 @@ public class AppUser  {
        UserName = userName;
        FirstName = firstName;
        LastName = lastName;
-       PasswordHash = passwordHash;
        IsActivated = isActivated;
     }
     
