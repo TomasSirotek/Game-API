@@ -25,11 +25,6 @@ public class AuthenticateController : DefaultController {
 	private readonly IJWToken _token;
 	private readonly IAppUserService _userService;
 	private readonly ICryptoEngine _cryptoEngine;
-
-	
-
-
-
 	public AuthenticateController (IEmailService emailService,IJWToken token,IAppUserService userService,ICryptoEngine cryptoEngine)
 	{
 		_emailService = emailService;
@@ -47,7 +42,7 @@ public class AuthenticateController : DefaultController {
 			bool varifiedPsw = _cryptoEngine.HashCheck(user.PasswordHash, request.Password);
 			if(varifiedPsw)
 			{
-				string token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
+				 string token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
 				 user.Token = token;
 				 var body = $"Recent log in to account have been noticed ! Date {DateTime.Now}";
 				 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
@@ -86,7 +81,7 @@ public class AuthenticateController : DefaultController {
 		if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
 			return NotFound();
 		
-	//	var result = await _userService.ConfirmEmailAsync(userId, token);
+		var result = await _userService.ConfirmEmailAsync(userId, token);
 	// 	if (result.Succeeded) return Ok("Email confirmed");
 		 
 		return BadRequest($"Could not confirm account for user with id {userId}");

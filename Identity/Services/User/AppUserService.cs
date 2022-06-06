@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Rest;
 
 
+
+
 namespace API.Services {
     
     public class AppUserService : IAppUserService {
@@ -93,7 +95,7 @@ namespace API.Services {
                                 {
                                    //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
                                     // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
-                                    var confirmEmailToken = "te";
+                                    var confirmEmailToken = GenerateToken();
                                     var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
                                     _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
                                     
@@ -105,14 +107,20 @@ namespace API.Services {
             return null;
         }
 
-        public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token)
+        public async Task<AppUser> ConfirmEmailAsync(string userId, string token)
         {
+            await SetEmailConfirmedAsync(userId, true);
             // AppUser user = await _userManager.FindByIdAsync(userId);
             // if (user == null) return IdentityResult.Failed();
-            // var result = await _userManager.ConfirmEmailAsync(user, token);
+           //  var result = await _userManager.ConfirmEmailAsync(user, token);
             // if(result.Succeeded) return IdentityResult.Success;
             // return IdentityResult.Failed();
             return null;
+        }
+
+        public Task<bool> SetEmailConfirmedAsync(AppUser user, bool confirmed)
+        {
+            
         }
     }
 }

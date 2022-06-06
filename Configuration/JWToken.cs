@@ -7,8 +7,7 @@ namespace API.Configuration {
     public class JWToken : IJWToken  {
         
         private readonly IConfiguration _config;
-    
-
+        
         public JWToken (IConfiguration config)
         {
             _config = config;
