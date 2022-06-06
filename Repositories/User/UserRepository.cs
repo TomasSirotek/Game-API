@@ -1,12 +1,7 @@
 using System.Data;
-using API.Dtos;
 using API.Identity.Entities;
-using API.Repositories;
 using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Npgsql;
-using NuGet.Protocol;
 
 namespace API.Repositories;
 
@@ -16,45 +11,81 @@ public class UserRepository : IUserRepository {
     public UserRepository(IConfiguration config)
     {
         _config = config;
-        // _userManager = userManager;
     }
 
     // Get all from db
     public async Task<List<AppUser>> GetAllUsers()
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = @"select * from app_user";
-
-            IEnumerable<AppUser> newUser = await cnn.QueryAsync<AppUser>(sql);
-            if (newUser != null)
-            {
-                return newUser.ToList();
-            }
-        }
-
-        return null;
+        { 
+            var sql = @"SELECT *
+                        FROM app_user u
+                        inner JOIN user_role ur ON u.id = ur.userid 
+                        inner JOIN role r ON ur.roleid = r.id";
+            
+            IEnumerable<AppUser> users = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
+                { 
+                    Dictionary<string, AppUser> userRoles = new Dictionary<string, AppUser>();
+                    AppUser user;
+                    if (!userRoles.TryGetValue(u.Id, out user))
+                    {
+                        userRoles.Add(u.Id, user = u);
+                    }
+            
+                    if (user.Roles == null)
+                        user.Roles = new List<AppRole>();
+                    user.Roles.Add(r);
+                    return user;
+                },
+                splitOn: "id"
+            ) .GroupBy(u => u.Id)
+                    .Select(group =>
+                    {
+                        AppUser user = group.First();
+                        user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                        return user;
+                    });
+            return users.ToList();
+        } 
     }
 
 
     // get by id 
     public async Task<AppUser> GetUserById(string id)
     {
+    
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var p = new DynamicParameters();
-            p.Add("@id", id);
-
-            var sql = @"select * from app_user as au where au.id = @id";
-
-            AppUser user = await cnn.QueryFirstAsync<AppUser>(sql, p);
-            if (user != null)
+        { 
+        var sql = @"SELECT *
+                        FROM app_user u
+                        inner JOIN user_role ur ON u.id = ur.userid 
+                        inner JOIN role r ON ur.roleid = r.id
+                        where u.id = @id";
+        
+        IEnumerable<AppUser> user = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
             {
-                return user;
-            }
-        }
+                var userRoles = new Dictionary<string, AppUser>();
+                AppUser user;
+                if (!userRoles.TryGetValue(u.Id, out user))
+                {
+                    userRoles.Add(u.Id, user = u);
+                }
 
-        return null;
+                if (user.Roles == null)
+                    user.Roles = new List<AppRole>();
+                user.Roles.Add(r);
+                return user;
+            },
+            new{Id = id}
+        ).GroupBy(u => u.Id)
+            .Select(group =>
+            {
+                AppUser user = group.First();
+                user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                return user;
+            });
+            return user.First();
+        }
     }
 
     // get by email
@@ -93,21 +124,6 @@ public class UserRepository : IUserRepository {
             {
                 return user;
             }
-            // {
-            //     foreach (AppRole role in user.Roles)
-            //     {
-            //         var rowSql = $@"INSERT INTO user_role(userId,roleId) 
-            //             values (@userId,@roleId)";
-            //
-            //         var executeRole = await cnn.ExecuteAsync(rowSql, new
-            //         {
-            //             userId = user.Id,
-            //             roleId = role.Id
-            //         });
-            //         if (executeRole > 0)
-            //             return user;
-            //     }
-            // }
         }
 
 
@@ -142,14 +158,6 @@ public class UserRepository : IUserRepository {
     // delete user
     public async Task<bool> DeleteUser(string id)
     {
-        // AppUser user = await _userManager.FindByIdAsync(id);
-        // if (user != null)
-        // {
-        //     IdentityResult result = await _userManager.DeleteAsync(user);
-        //     if (result.Succeeded)
-        //         return false;
-        // }
-        //
         return false;
     }
 }

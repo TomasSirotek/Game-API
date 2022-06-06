@@ -49,7 +49,7 @@ public class RoleController : DefaultController
     }
 
     
-    [HttpGet("name/{name}")]
+    [HttpGet("name")]
     public async Task<IActionResult> GetAsyncByName(string name)
     {
         AppRole role = await _roleService.GetAsyncByName(name);
