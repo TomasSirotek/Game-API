@@ -86,18 +86,16 @@ namespace API.Services {
                         foreach (AppRole role in user.Roles)
                         {
                             AppRole fetchedRole = await _roleRepository.GetAsyncByName(role.Name);
-                            if (fetchedRole != null) await _userRepository.AddToRoleAsync(createdUser,fetchedRole);
-                            return null; // return could not return role for users
+                            if (fetchedRole != null) await _userRepository.AddToRoleAsync(createdUser, fetchedRole);
                         }
-                            
-                            // IF ACTIVE SEND EMAIL set active in email confirm function
-                                if (user.IsActivated)
+                        // IF ACTIVE SEND EMAIL set active in email confirm function
+                                if (user is {IsActivated: false})
                                 {
                                    //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
                                     // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
                                     var confirmEmailToken = "te";
                                     var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
-                                    _emailService.SendEmail(user.Email,user.FirstName,link,"Confirmation email");
+                                    _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
                                     
                                 }
                        // }

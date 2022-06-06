@@ -17,73 +17,72 @@ public class UserRepository : IUserRepository {
     public async Task<List<AppUser>> GetAllUsers()
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        { 
+        {
             var sql = @"SELECT *
                         FROM app_user u
                         inner JOIN user_role ur ON u.id = ur.userid 
                         inner JOIN role r ON ur.roleid = r.id";
-            
+
             IEnumerable<AppUser> users = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
-                { 
-                    Dictionary<string, AppUser> userRoles = new Dictionary<string, AppUser>();
-                    AppUser user;
-                    if (!userRoles.TryGetValue(u.Id, out user))
                     {
-                        userRoles.Add(u.Id, user = u);
-                    }
-            
-                    if (user.Roles == null)
-                        user.Roles = new List<AppRole>();
-                    user.Roles.Add(r);
-                    return user;
-                },
-                splitOn: "id"
-            ) .GroupBy(u => u.Id)
-                    .Select(group =>
-                    {
-                        AppUser user = group.First();
-                        user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                        Dictionary<string, AppUser> userRoles = new Dictionary<string, AppUser>();
+                        AppUser user;
+                        if (!userRoles.TryGetValue(u.Id, out user))
+                        {
+                            userRoles.Add(u.Id, user = u);
+                        }
+
+                        if (user.Roles == null)
+                            user.Roles = new List<AppRole>();
+                        user.Roles.Add(r);
                         return user;
-                    });
+                    },
+                    splitOn: "id"
+                ).GroupBy(u => u.Id)
+                .Select(group =>
+                {
+                    AppUser user = group.First();
+                    user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                    return user;
+                });
             return users.ToList();
-        } 
+        }
     }
 
 
     // get by id 
     public async Task<AppUser> GetUserById(string id)
     {
-    
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        { 
-        var sql = @"SELECT *
+        {
+            var sql = @"SELECT *
                         FROM app_user u
                         inner JOIN user_role ur ON u.id = ur.userid 
                         inner JOIN role r ON ur.roleid = r.id
                         where u.id = @id";
-        
-        IEnumerable<AppUser> user = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
-            {
-                var userRoles = new Dictionary<string, AppUser>();
-                AppUser user;
-                if (!userRoles.TryGetValue(u.Id, out user))
-                {
-                    userRoles.Add(u.Id, user = u);
-                }
 
-                if (user.Roles == null)
-                    user.Roles = new List<AppRole>();
-                user.Roles.Add(r);
-                return user;
-            },
-            new{Id = id}
-        ).GroupBy(u => u.Id)
-            .Select(group =>
-            {
-                AppUser user = group.First();
-                user.Roles = group.Select(u => u.Roles.Single()).ToList();
-                return user;
-            });
+            IEnumerable<AppUser> user = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
+                    {
+                        var userRoles = new Dictionary<string, AppUser>();
+                        AppUser user;
+                        if (!userRoles.TryGetValue(u.Id, out user))
+                        {
+                            userRoles.Add(u.Id, user = u);
+                        }
+
+                        if (user.Roles == null)
+                            user.Roles = new List<AppRole>();
+                        user.Roles.Add(r);
+                        return user;
+                    },
+                    new {Id = id}
+                ).GroupBy(u => u.Id)
+                .Select(group =>
+                {
+                    AppUser user = group.First();
+                    user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                    return user;
+                });
             return user.First();
         }
     }
@@ -93,20 +92,36 @@ public class UserRepository : IUserRepository {
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            // write better params 
-            var p = new DynamicParameters();
-            p.Add("@email", email);
+            var sql = @"SELECT *
+                        FROM app_user u
+                        inner JOIN user_role ur ON u.id = ur.userid 
+                        inner JOIN role r ON ur.roleid = r.id
+                        where u.email = @email";
 
-            var sql = @"select * from app_user as au where au.email = @email";
+            IEnumerable<AppUser> user = cnn.Query<AppUser, AppRole, AppUser>(sql, (u, r) =>
+                    {
+                        var userRoles = new Dictionary<string, AppUser>();
+                        AppUser user;
+                        if (!userRoles.TryGetValue(u.Id, out user))
+                        {
+                            userRoles.Add(u.Id, user = u);
+                        }
 
-            AppUser user = await cnn.QueryFirstAsync<AppUser>(sql, p);
-            if (user != null)
-            {
-                return user;
-            }
+                        if (user.Roles == null)
+                            user.Roles = new List<AppRole>();
+                        user.Roles.Add(r);
+                        return user;
+                    },
+                    new {Email = email}
+                ).GroupBy(u => u.Id)
+                .Select(group =>
+                {
+                    AppUser user = group.First();
+                    user.Roles = group.Select(u => u.Roles.Single()).ToList();
+                    return user;
+                });
+            return user.First();
         }
-
-        return null;
     }
 
 

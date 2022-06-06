@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using API.Configuration;
 using API.Dtos;
 using API.Engines.Cryptography;
+using API.ExternalServices;
 using API.Identity.Entities;
 using API.Models;
 using API.Services.Interfaces;
@@ -20,7 +21,7 @@ namespace API.Controllers;
 
 public class AuthenticateController : DefaultController {
 
-	private readonly IConfiguration _configuration;
+	private readonly IEmailService _emailService;
 	private readonly IJWToken _token;
 	private readonly IAppUserService _userService;
 	private readonly ICryptoEngine _cryptoEngine;
@@ -29,13 +30,12 @@ public class AuthenticateController : DefaultController {
 
 
 
-	public AuthenticateController (IConfiguration configuration,IJWToken token,IAppUserService userService,ICryptoEngine cryptoEngine)
+	public AuthenticateController (IEmailService emailService,IJWToken token,IAppUserService userService,ICryptoEngine cryptoEngine)
 	{
-		_configuration = configuration;
+		_emailService = emailService;
 		_token = token;
 		_userService = userService;
 		_cryptoEngine = cryptoEngine;
-
 	}
 
 	[HttpPost ()] 
@@ -47,11 +47,11 @@ public class AuthenticateController : DefaultController {
 			bool varifiedPsw = _cryptoEngine.HashCheck(user.PasswordHash, request.Password);
 			if(varifiedPsw)
 			{
-				// fix role "name" to role.name
-				 string token = _token.CreateToken(user.Roles.Select(role => "name").ToList(), user.Id, 24);
+				string token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
 				 user.Token = token;
+				 var body = $"Recent log in to account have been noticed ! Date {DateTime.Now}";
+				 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
 				 return Ok(user);
-				// add email notificitation with date of loggin in DateTime.Now
 			}
 		}
 		// Make better error handeling 
@@ -91,19 +91,5 @@ public class AuthenticateController : DefaultController {
 		 
 		return BadRequest($"Could not confirm account for user with id {userId}");
 	}
-
-	// private void CreatePasswordHash (string password, out byte [] passwordHash, out byte [] passwordSalt)
-	// {
-	// 	using var hmac = new HMACSHA512 ();
-	// 	passwordSalt = hmac.Key;
-	// 	passwordHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
-	// }
-	// // Verification psw hash
-	// private bool VerifyPasswordHash(string password,byte[] passwordHash, byte[] passwordSalt)
-	// {
-	// 	using var hmac = new HMACSHA512 (passwordSalt);
-	// 	var computeHash = hmac.ComputeHash (System.Text.Encoding.UTF8.GetBytes (password));
-	// 	return computeHash.SequenceEqual (passwordHash);
-	// }
-
+	
 }

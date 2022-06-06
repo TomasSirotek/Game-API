@@ -87,7 +87,7 @@ namespace API
                 {
                     UseDefaultCredentials = false,
                     Port = Convert.ToInt32(Configuration.GetSection("Email")["Port"]) ,
-                    Credentials = new NetworkCredential("willard.orn27@ethereal.email", "HAG3njycGFEprwfqVj"),
+                    Credentials = new NetworkCredential(Configuration.GetSection("Email")["Auth:UserName"],Configuration.GetSection("Email")["Auth:Password"]),
                     EnableSsl = true,
                 });
             
