@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "viR59NlKbLLYm0BCH4hI6MSEgeCUbNONuV5yok2Bd3Om6Ccpdu7Z+AsjDsUGrEJuHLW0fm080G2UKw/jjJJVEA==",
+  "dgSpecHash": "Od+TndKCg+FXhbo4EpCXLEMxBIZfdOuaveoq7nincrN+TVthpJj1LD0/BME48PTCthwSbLnrGnAK82VR9iHU4g==",
   "success": true,
-  "projectFilePath": "/Users/Tomas/Projects/API/API/API.csproj",
+  "projectFilePath": "/Users/Tomas/Projects/Game-API/API.csproj",
   "expectedPackageFiles": [
     "/Users/Tomas/.nuget/packages/cryptohelper/3.0.2/cryptohelper.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/dapper/2.0.123/dapper.2.0.123.nupkg.sha512",

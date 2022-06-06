@@ -19,25 +19,10 @@ namespace API.Controllers;
 public class UserController : DefaultController
 {
     private readonly IConfiguration _config;
-  //  private readonly IDefaultUserManager _userService;
-    // private readonly IUserRepository _userRepository;
-    // private readonly SignInManager<AppUser> _signInManager;
-    // private readonly UserManager<AppUser> _userManager;
-    // // private readonly UserValidator<AppUser> _userValidator;
-    // private readonly IPasswordHasher<AppUser> _passwordHasher;
-    // private readonly IPasswordValidator<AppUser> _passwordValidator;
-    // private readonly RoleManager<AppRole> _roleManager;
     private readonly IAppUserService _userService;
 
     public UserController ( IConfiguration config,IAppUserService userService)
     {
-        //_userService = userService;
-        // _userManager = userManager;
-        // _userRepository = userRepository;
-        // _signInManager = signInManager;
-        // _passwordHasher = passwordHasher;
-        // _passwordValidator = passwordValidator;
-        // _roleManager = roleManager;
         _config = config;
         _userService = userService;
     }
