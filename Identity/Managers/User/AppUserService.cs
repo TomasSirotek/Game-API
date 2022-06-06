@@ -9,6 +9,7 @@ using API.Repositories;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using API.Engines.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Rest;
@@ -19,15 +20,18 @@ namespace API.Services {
     public class AppUserService : IAppUserService {
         
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly ICryptoEngine _cryptoEngine;
         
-        public AppUserService (IUserRepository userRepository,IEmailService emailService,IConfiguration configuration)
+        public AppUserService (IUserRepository userRepository,IRoleRepository roleRepository,IEmailService emailService,IConfiguration configuration,ICryptoEngine cryptoEngine)
         {
             _userRepository = userRepository;
-       
             _emailService = emailService;
             _configuration = configuration;
+            _cryptoEngine = cryptoEngine;
+            _roleRepository = roleRepository;
 
         }
 
@@ -39,6 +43,11 @@ namespace API.Services {
         public async Task<AppUser> GetUserById(string id)
         {
             return await _userRepository.GetUserById(id);
+        }
+
+        public async Task<AppUser> GetAsyncByEmail(string email)
+        {
+            return await _userRepository.GetAsyncByEmail(email);
         }
         
         public async Task<AppUser> RegisterUser(AppUser user,string password)
@@ -58,12 +67,18 @@ namespace API.Services {
             {
                 var test = new AppRole
                 {
-                    Id = Guid.NewGuid().ToString(),
                     Name = role
                 };
                 userRoles.Add(test);
             }
             user.Roles = userRoles;
+            
+            // hasPsw 
+            
+            string hashedPsw =  _cryptoEngine.Hash(password);
+            Console.WriteLine($" CryptoHelper hashed psw like this =>  {hashedPsw}");
+         
+            
             
            //  validate EMAIL 
             if (user.Email != null)
@@ -74,12 +89,13 @@ namespace API.Services {
                     {
                         // fetch new user
                         AppUser userFromDb = await _userRepository.GetUserById(user.Id);
-                        
                         if (userFromDb != null)
                         {
                             foreach (AppRole role in user.Roles)
                             {
-                                await _userRepository.AddToRoleAsync(userFromDb,role);
+                                AppRole roleExists = await _roleRepository.GetAsyncByName(role.Name);
+                                if (roleExists != null) await _userRepository.AddToRoleAsync(userFromDb,role);
+                                return null; // return could not return role for users
                             }
                             
                             // IF ACTIVE SEND EMAIL set active in email confirm function

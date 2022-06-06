@@ -569,3 +569,7 @@
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/refs/WindowsBase.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Microsoft.Rest.ClientRuntime.dll
 /Users/Tomas/Projects/API/API/bin/Debug/net6.0/Dapper.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/CryptoHelper.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Serilog.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Serilog.Sinks.Console.dll
+/Users/Tomas/Projects/API/API/bin/Debug/net6.0/Serilog.Sinks.File.dll

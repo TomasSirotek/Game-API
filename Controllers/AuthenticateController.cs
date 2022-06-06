@@ -5,9 +5,10 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using API.Configuration;
 using API.Dtos;
+using API.Engines.Cryptography;
 using API.Identity.Entities;
 using API.Models;
-
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,31 +22,35 @@ public class AuthenticateController : DefaultController {
 
 	private readonly IConfiguration _configuration;
 	private readonly IJWToken _token;
-	private readonly UserManager<AppUser> _userManager;
+	private readonly IAppUserService _userService;
+	private readonly ICryptoEngine _cryptoEngine;
+
+	
 
 
 
-	public AuthenticateController (IConfiguration configuration,UserManager<AppUser> userManager,IJWToken token)
+	public AuthenticateController (IConfiguration configuration,IJWToken token,IAppUserService userService,ICryptoEngine cryptoEngine)
 	{
 		_configuration = configuration;
-		_userManager = userManager;
 		_token = token;
+		_userService = userService;
+		_cryptoEngine = cryptoEngine;
 
 	}
 
 	[HttpPost ()] 
 	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
-		AppUser user = await _userManager.FindByEmailAsync(request.Email);
+		AppUser user = await _userService.GetAsyncByEmail(request.Email);
 		if (user != null)
 		{
-			bool result = await _userManager.CheckPasswordAsync(user, request.Password);
-			if(result)
+			bool varifiedPsw = _cryptoEngine.HashCheck(user.PasswordHash, request.Password);
+			if(varifiedPsw)
 			{
 				// fix role "name" to role.name
-				// string token = _token.CreateToken(user.Roles.Select(role => "name").ToList(), user.Id, 24);
-				// user.Token = token;
-				// return Ok(user);
+				 string token = _token.CreateToken(user.Roles.Select(role => "name").ToList(), user.Id, 24);
+				 user.Token = token;
+				 return Ok(user);
 				// add email notificitation with date of loggin in DateTime.Now
 			}
 		}
@@ -56,15 +61,20 @@ public class AuthenticateController : DefaultController {
 	
 	
 	[HttpPost ("register")] 
-	public async Task<IActionResult> Register ([FromBody]RegisterPostBindingModel request)
+	public async Task<IActionResult> Register ([FromBody]RegisterPostBindingModel model)
 	{
-		// AppUser user = new AppUser()
-		// {
-		// 	UserName = request.UserName,
-		// 	Email = request.Email
-		// };
-	//	AppUser newUser = await _userService.RegisterUser(user, request.Password);
-	//	if (newUser != null) return Ok(newUser);
+		
+		AppUser user = new AppUser()
+		 {
+			 Id = Guid.NewGuid().ToString(),
+			 FirstName = model.UserName,
+			 Email = model.Email,
+			 IsActivated = false,
+			 CreatedAt = DateTime.Now,
+			 UpdateAt = DateTime.Now
+		 };
+		AppUser newUser = await _userService.RegisterUser(user, model.Password);
+		if (newUser != null) return Ok(newUser);
 	
 		return BadRequest($"Could not register :(");
 		

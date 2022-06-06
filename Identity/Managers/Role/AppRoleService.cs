@@ -24,14 +24,8 @@ namespace API.Identity.Managers {
 
         public async Task<AppRole> CreateAsync(AppRole role)
         {
-            AppRole model = new AppRole()
-            {
-                Id = role.Id,
-                Name = role.Name
-            };
-            
-            AppRole test  = await _roleRepository.CreateAsync(model);
-            if (result != null)
+            bool result  = await _roleRepository.CreateAsync(role);
+            if (result)
             {
                 AppRole fetchedRole = await _roleRepository.GetByIdAsync(role.Id);
                 return fetchedRole;

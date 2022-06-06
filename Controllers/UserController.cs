@@ -74,9 +74,9 @@ public class UserController : DefaultController
         AppUser user = new AppUser()
        {
            Id = Guid.NewGuid().ToString(),
+           Email = model.Email,
            FirstName = model.FirstName,
            LastName = model.LastName,
-           Email = model.Email,
            IsActivated = model.isActivated
            
        };

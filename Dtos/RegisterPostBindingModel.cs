@@ -4,6 +4,8 @@ namespace API.Dtos;
 
 public class RegisterPostBindingModel {
     [Required]
+    public string UserName { get; set; }
+    [Required]
     [EmailAddress]
     public string Email { get; set; }
 
@@ -12,6 +14,4 @@ public class RegisterPostBindingModel {
     [DataType(DataType.Password)]
     public string Password { get; set; }
     
-    public string UserName { get; set; }
-
 }

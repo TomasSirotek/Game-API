@@ -11,79 +11,98 @@ using NuGet.Protocol;
 namespace API.Repositories;
 
 public class UserRepository : IUserRepository {
-    
     private readonly IConfiguration _config;
+
     public UserRepository(IConfiguration config)
     {
         _config = config;
-       // _userManager = userManager;
+        // _userManager = userManager;
     }
 
     // Get all from db
     public async Task<List<AppUser>> GetAllUsers()
     {
-        using (IDbConnection cnn = new  NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
             var sql = @"select * from app_user";
-            
+
             IEnumerable<AppUser> newUser = await cnn.QueryAsync<AppUser>(sql);
             if (newUser != null)
-            { 
+            {
                 return newUser.ToList();
             }
         }
+
         return null;
     }
 
-    
+
     // get by id 
     public async Task<AppUser> GetUserById(string id)
-{
-    using (IDbConnection cnn = new  NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
     {
-        var p = new DynamicParameters();
-        p.Add("@id", id);
-        
-        var sql = @"select * from app_user as au where au.id = @id";
-            
-        AppUser user = await cnn.QueryFirstAsync<AppUser>(sql, p);
-        if (user != null)
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            return user;
-        }
-    }
-    return null;
+            var p = new DynamicParameters();
+            p.Add("@id", id);
 
-}
+            var sql = @"select * from app_user as au where au.id = @id";
+
+            AppUser user = await cnn.QueryFirstAsync<AppUser>(sql, p);
+            if (user != null)
+            {
+                return user;
+            }
+        }
+
+        return null;
+    }
+    
+    // get by email
+    public async Task<AppUser> GetAsyncByEmail(string email)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            // write better params 
+            var p = new DynamicParameters();
+            p.Add("@email", email);
+
+            var sql = @"select * from app_user as au where au.email = @email";
+
+            AppUser user = await cnn.QueryFirstAsync<AppUser>(sql, p);
+            if (user != null)
+            {
+                return user;
+            }
+        }
+
+        return null;
+    }
 
 
     // create user
-    public async Task<AppUser> CreateUser(AppUser user,string password)
+    public async Task<AppUser> CreateUser(AppUser user, string passwordHash)
     {
-      
-        using (IDbConnection cnn = new  NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
+            var sql = @"INSERT INTO app_user (id,email,firstName,lastName,passwordHash,isActivated,createdAt,updatedAt) 
+                        values (@id,@email,@firstName,@lastName,@passwordHash,@isActivated,@createdAt,@updatedAt)";
 
-            var sql = @"insert into app_user (id,firstName,lastName,passwordHash,isActivated,createdAt,updatedAt) 
-                        values (@id,@firstName,@lastName,@passwordHash,@isActivated,@createdAt,@updatedAt)";
-            
             var newUser = await cnn.ExecuteAsync(sql, user);
-            if (newUser > 1)
-            {
+            if (newUser > 0)
                 return user;
-            }
         }
+
 
         return null;
     }
-    
-    public async Task<AppUser> AddToRoleAsync(AppUser user,AppRole role)
+
+    public async Task<AppUser> AddToRoleAsync(AppUser user, AppRole role)
     {
-        using (IDbConnection cnn = new  NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
             var sql = @"insert into user_role (userId,roleId) 
                         values (@id,@userId)";
-            
+
             var newUser = await cnn.ExecuteAsync(sql, user);
             if (newUser > 1)
             {
@@ -95,13 +114,9 @@ public class UserRepository : IUserRepository {
     }
 
 
-    
     // update user 
-    
-    
-    
-    
-    
+
+
     // delete user
     public async Task<bool> DeleteUser(string id)
     {
@@ -116,4 +131,3 @@ public class UserRepository : IUserRepository {
         return false;
     }
 }
-

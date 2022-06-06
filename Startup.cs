@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Configuration;
 using API.Data;
+using API.Engines.Cryptography;
 using API.ExternalServices;
 using API.Identity.Entities;
 using API.Identity.Managers;
@@ -108,11 +109,10 @@ namespace API
             services.AddScoped<IAppRoleService, AppRoleService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            
             services.AddScoped<IJWToken, JWToken>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ICryptoEngine, CryptoEngine>();
             
-          
             
             services.AddMvc ();
             services.AddRazorPages ();

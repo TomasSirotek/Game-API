@@ -28,16 +28,28 @@ public class RoleRepository : IRoleRepository {
 
         return null;
     }
+    public async Task<AppRole> GetAsyncByName(string name)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            var sql = @"select * from role as r where r.name = @name";
+
+            AppRole user = await cnn.QueryFirstAsync<AppRole>(sql, new { Name = name});
+            if (user != null)
+            {
+                return user;
+            }
+        }
+
+        return null;
+    }
     public async Task<AppRole> GetByIdAsync(string id)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            var p = new DynamicParameters();
-            p.Add("@id", id);
-
             var sql = @"select * from role as au where au.id = @id";
 
-            AppRole user = await cnn.QueryFirstAsync<AppRole>(sql, p);
+            AppRole user = await cnn.QueryFirstAsync<AppRole>(sql, new {Id = id});
             if (user != null)
             {
                 return user;
@@ -47,20 +59,20 @@ public class RoleRepository : IRoleRepository {
         return null;
     }
     
-    public async Task<AppRole> CreateAsync(AppRole role)
+    public async Task<bool> CreateAsync(AppRole role)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
         {
-            var sql = @"insert into role (id,name) 
+            var sql = $@"insert into role (id,name) 
                         values (@id,@name)";
-            
-            var result = await cnn.ExecuteAsync(sql, role);
-            if (result > 1)
+
+            var affectedRows = await cnn.ExecuteAsync(sql, role);
+            if (affectedRows > 0)
             {
-                return role;
+                return true;
             }
 
-            return null;
+            return false;
         }
     }
 }
