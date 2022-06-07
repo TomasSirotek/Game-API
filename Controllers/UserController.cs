@@ -3,8 +3,8 @@ using System.Security.Claims;
 using API.Data;
 using API.Dtos;
 using API.Identity.Entities;
+using API.Identity.Services.User;
 using API.Repositories;
-using API.Services.Interfaces;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,29 +18,25 @@ namespace API.Controllers;
 
 public class UserController : DefaultController
 {
-    private readonly IConfiguration _config;
     private readonly IAppUserService _userService;
 
-    public UserController ( IConfiguration config,IAppUserService userService)
+    public UserController (IAppUserService userService)
     {
-        _config = config;
         _userService = userService;
     }
+    
     #region GET
     [HttpGet("Admin")]
-    // [Authorize]
     //[Authorize(Roles ="Admin")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllUsers ()
     {
         List<AppUser> userList = await _userService.GetAllUsers();
-        if (userList !=  null) return Ok(userList);
-        
-        return BadRequest($"Could not find any users");
-
+        if (userList.IsNullOrEmpty())
+            return BadRequest($"Could not find any users");
+        return Ok(userList);
     }
     
-    #endregion
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(string id)
@@ -51,6 +47,8 @@ public class UserController : DefaultController
         return BadRequest($"Could not find user with Id : {id}");
     }
 
+    #endregion
+    
     #region POST
     [HttpPost()]
     public async Task<IActionResult> CreateUser([FromBody]UserPostBindingModel model)
@@ -67,8 +65,9 @@ public class UserController : DefaultController
        };
         AppUser resultUser = await _userService.CreateUser(user,model.Roles, model.Password);
         
-       return resultUser.Email != null ? Ok(user) : BadRequest($"Could not create user with Email : {model.Email}");
- 
+        if(resultUser == null) 
+            return BadRequest($"Could not create user with Email : {model.Email}");
+        return Ok(resultUser);
     }
  
     

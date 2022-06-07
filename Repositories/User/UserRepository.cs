@@ -120,7 +120,13 @@ public class UserRepository : IUserRepository {
                     user.Roles = group.Select(u => u.Roles.Single()).ToList();
                     return user;
                 });
-            return user.First();
+            AppUser[] appUsers = user as AppUser[] ?? user.ToArray();
+            if (appUsers.Any())
+            {
+                return appUsers.First();
+            }
+
+            return null;
         }
     }
 

@@ -51,6 +51,8 @@
     <None Remove="Microsoft.AspNetCore.Mvc.DataAnnotations" />
     <None Remove="System.Data.SqlClient" />
     <None Remove="NuGet.PackageManagement" />
+    <None Include="wwwroot\Logs\log20220606.txt" />
+    <None Include="wwwroot\Logs\log20220607.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

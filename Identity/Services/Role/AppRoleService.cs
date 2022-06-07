@@ -1,8 +1,7 @@
 using API.Identity.Entities;
 using API.Repositories;
-using Microsoft.AspNetCore.Identity;
 
-namespace API.Identity.Services {
+namespace API.Identity.Services.Role {
     
     public class AppRoleService : IAppRoleService {
         

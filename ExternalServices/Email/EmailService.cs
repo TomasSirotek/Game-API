@@ -1,11 +1,6 @@
-using System.Net;
-using System.Net.Mail;
 using FluentEmail.Core;
-using FluentEmail.Smtp;
-using Microsoft.AspNetCore.Mvc;
 
-
-namespace API.ExternalServices {
+namespace API.ExternalServices.Email {
     
     public class EmailService : IEmailService{
         private readonly IConfiguration _config;

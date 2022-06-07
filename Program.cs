@@ -12,7 +12,7 @@ namespace API
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.Console()
-                .WriteTo.File("log.txt",
+                .WriteTo.File("/wwwroot/Logs/log.txt",
                     rollingInterval: RollingInterval.Day,
                     rollOnFileSizeLimit: true)
                 .CreateLogger();
@@ -21,12 +21,6 @@ namespace API
         
             Log.CloseAndFlush();
         }
-
-        // public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //     Host.CreateDefaultBuilder(args)
-        //         .ConfigureWebHostDefaults(webBuilder => {
-        //             webBuilder.UseStartup<Startup>();
-        //         });
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>

@@ -1,37 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 using API.Configuration;
-using API.Data;
 using API.Engines.Cryptography;
-using API.ExternalServices;
-using API.Identity.Entities;
-using API.Identity.Services;
+using API.ExternalServices.Email;
+using API.Identity.Services.Role;
+using API.Identity.Services.User;
 using API.Repositories;
-using API.Services;
-using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Filters;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace API
 {
@@ -47,17 +27,11 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           //  services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresAppCon")));
-          
-          // services.AddEntityFrameworkNpgsql()
-          //       .AddDbContext<DataContext>(o => Configuration.GetConnectionString("PostgresAppCon"));
-          
             // Enable CORS
             services.AddCors(c =>
             {
                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-
             
             // needs more look into it 
             services.ConfigureApplicationCookie(options =>
@@ -71,14 +45,12 @@ namespace API
                 options.SlidingExpiration = true;
             });
             
-            // wtf I need this ? 
             // JSON Serialization // Nuget package
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             
-             // Email Service ( could use reformat and taking from appsettings ) 
              // Smtp Sender settings 
             services
                 .AddFluentEmail(Configuration.GetSection("Email")["Sender"])
@@ -99,7 +71,7 @@ namespace API
             services.AddScoped<IJWToken, JWToken>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ICryptoEngine, CryptoEngine>();
-            
+            // DI end
             
             services.AddMvc ();
             services.AddRazorPages ();
@@ -169,7 +141,6 @@ namespace API
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
-          //  CreateRoles(serviceProvider).Wait();
         }
     }
 

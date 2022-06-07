@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.ExternalServices; 
+namespace API.ExternalServices.Email; 
 
 public interface IEmailService {
     

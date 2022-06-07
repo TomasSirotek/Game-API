@@ -1,7 +1,6 @@
 using API.Identity.Entities;
-using Microsoft.AspNetCore.Identity;
 
-namespace API.Identity.Services {
+namespace API.Identity.Services.Role {
     public interface IAppRoleService {
         Task<List<AppRole>> GetAsync();
         

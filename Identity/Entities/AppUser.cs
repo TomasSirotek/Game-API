@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using API.Models;
 using MessagePack;
 
-
 namespace API.Identity.Entities; 
 
 public class AppUser  {

@@ -1,21 +1,10 @@
-﻿using System.Data;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using API.Configuration;
+﻿using API.Configuration;
 using API.Dtos;
 using API.Engines.Cryptography;
-using API.ExternalServices;
+using API.ExternalServices.Email;
 using API.Identity.Entities;
-using API.Models;
-using API.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using API.Identity.Services.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
-
 
 namespace API.Controllers;
 
@@ -34,26 +23,22 @@ public class AuthenticateController : DefaultController {
 	}
 
 	[HttpPost ()] 
-	public async Task<ActionResult<string>> Authenticate ([FromBody]AuthPostBindingModel request)
+	public async Task<ActionResult> Authenticate ([FromBody]AuthPostBindingModel request)
 	{
 		AppUser user = await _userService.GetAsyncByEmail(request.Email);
-		if (user != null)
-		{
-			bool varifiedPsw = _cryptoEngine.HashCheck(user.PasswordHash, request.Password);
-			if(varifiedPsw)
-			{
-				 string token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
+		if (user == null)
+			return BadRequest($"User email: {request.Email} is not correct!");
+
+		if (!_cryptoEngine.HashCheck(user.PasswordHash, request.Password))
+			return BadRequest("Password incorrect !");
+
+		var token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
 				 user.Token = token;
-				 var body = $"Recent log in to account have been noticed ! Date {DateTime.Now}";
-				 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
-				 return Ok(user);
-			}
-		}
-		// Make better error handeling 
-		return NotFound("404");
-		
+				 var body = $"Recent log in to account have been noticed ! Date {DateTime.Now}"; // move separately 
+		if(!string.IsNullOrWhiteSpace(token))
+					 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
+		return Ok(user);
 	}
-	
 	
 	[HttpPost ("register")] 
 	public async Task<IActionResult> Register ([FromBody]RegisterPostBindingModel model)
@@ -69,10 +54,9 @@ public class AuthenticateController : DefaultController {
 			 UpdatedAt = DateTime.Now
 		 };
 		AppUser newUser = await _userService.RegisterUser(user, model.Password);
-		if (newUser != null) return Ok(newUser);
-	
-		return BadRequest($"Could not register :(");
-		
+		if (newUser == null) return BadRequest($"Could not register ");
+		return Ok(newUser);
+
 	}
 	// this end-point works and confirms the email
 	[HttpPost ("confirm")] 
@@ -82,9 +66,10 @@ public class AuthenticateController : DefaultController {
 			return NotFound();
 		
 		var result = await _userService.ConfirmEmailAsync(userId, token);
-	// 	if (result.Succeeded) return Ok("Email confirmed");
-		 
-		return BadRequest($"Could not confirm account for user with id {userId}");
+	  	if (!result.Succeeded) 
+		    return BadRequest($"Could not confirm account for user with id {userId}");
+
+		return Ok("Email confirmed !");
 	}
 	
 }

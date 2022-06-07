@@ -1,23 +1,10 @@
-using System.Net;
-using System.Security.Policy;
-using System.Security.Principal;
-using System.Text;
-using API.Dtos;
-using API.ExternalServices;
+using API.Engines.Cryptography;
+using API.ExternalServices.Email;
 using API.Identity.Entities;
 using API.Repositories;
-using API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using API.Engines.Cryptography;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Rest;
 
-
-
-
-namespace API.Services {
+namespace API.Identity.Services.User {
     
     public class AppUserService : IAppUserService {
         
@@ -95,7 +82,7 @@ namespace API.Services {
                                 {
                                    //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
                                     // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
-                                    var confirmEmailToken = GenerateToken();
+                                    var confirmEmailToken = "tes";
                                     var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
                                     _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
                                     
@@ -107,9 +94,9 @@ namespace API.Services {
             return null;
         }
 
-        public async Task<AppUser> ConfirmEmailAsync(string userId, string token)
+        public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token)
         {
-            await SetEmailConfirmedAsync(userId, true);
+          //  await SetEmailConfirmedAsync(userId, true);
             // AppUser user = await _userManager.FindByIdAsync(userId);
             // if (user == null) return IdentityResult.Failed();
            //  var result = await _userManager.ConfirmEmailAsync(user, token);
@@ -120,7 +107,7 @@ namespace API.Services {
 
         public Task<bool> SetEmailConfirmedAsync(AppUser user, bool confirmed)
         {
-            
+            return null;
         }
     }
 }

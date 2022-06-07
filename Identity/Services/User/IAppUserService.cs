@@ -1,7 +1,7 @@
 using API.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.Services.Interfaces {
+namespace API.Identity.Services.User {
     public interface IAppUserService {
         Task<List<AppUser>> GetAllUsers();
         Task<AppUser> GetUserById(string id);

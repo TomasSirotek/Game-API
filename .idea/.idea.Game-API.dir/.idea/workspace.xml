@@ -6,9 +6,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3dab68c8-5ccb-4b47-b28d-e5bebbe8428c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Configuration/JWToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/JWToken.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/AuthenticateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuthenticateController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/RoleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/RoleController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalServices/email/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalServices/Email/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalServices/email/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalServices/Email/IEmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Entities/AppUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Entities/AppUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Services/Role/AppRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/Role/AppRoleService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Services/Role/IAppRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/Role/IAppRoleService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Services/User/IAppUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/User/IAppUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log20220606.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wwwroot/Logs/log20220606.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log20220607.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wwwroot/Logs/log20220607.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,12 +46,16 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/efba74977a3f49308bc4c731e573a00d67000/72/41e84dca/0200002Cpdb.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/417d629c735f3f86aa5cdc5d37b632255e37a20226f3b4a7c2f8febe4b418be/IUserStore.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/dff8ffa1dd61a829347f4c55da1c9bc9826878d247ac12174749733bbce8f0/IdentityUserLogin.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5ab6faffee9ea2ff63cc9d3c17a346160b7d7d1a05e64a058bb9142e581ba31/RoleStoreBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/12777fc8c60ccaa6418271ef2ea6562485b67c10b3799e4e6062947118bf65/Object.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/37fd4334d17851bf6a28fda6f29411dae03ba36a1690fbd5e364be472ab46/UserStoreBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/91a84fe4b35624290abf32df61ac6c77c502a5bbb0616172bdce8fee8fdc2a/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6267f0fa7ec9d68f43849c927414f678538dc156c695b8ed81e830bc7deb/IUserTwoFactorTokenProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1c497f459aa592aa6ac4d4767577dbc4634916341dc724c8c0158bb02c2cb9/IdentityUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ff22cf104531a83b8144fd1768cdbffe5e2236f80b66146704b3b9fd3dd3d/IUserEmailStore.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/17bb201e147c973f5cb56d5f6cf28e4d139ac3238ae5e64c223f745d21dcf7b/IdentityUserRole.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -86,7 +112,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1654557047428</updated>
-      <workItem from="1654557056201" duration="1806000" />
+      <workItem from="1654557056201" duration="6330000" />
     </task>
     <servers />
   </component>
@@ -109,5 +135,37 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Repositories/User/UserRepository.cs</url>
+          <line>122</line>
+          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="122" containingFunctionPresentation="method 'GetAsyncByEmail'">
+            <startOffsets>
+              <option value="4511" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4559" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Repositories/User/UserRepository.cs</url>
+          <line>128</line>
+          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="128" containingFunctionPresentation="method 'GetAsyncByEmail'">
+            <startOffsets>
+              <option value="4674" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4686" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
