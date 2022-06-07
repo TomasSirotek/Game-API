@@ -3,17 +3,17 @@ using API.Identity.Entities;
 using Dapper;
 using Npgsql;
 
-namespace API.Repositories;
+namespace API.Repositories.User;
 
 public class UserRepository : IUserRepository {
+    
     private readonly IConfiguration _config;
 
     public UserRepository(IConfiguration config)
     {
         _config = config;
     }
-
-    // Get all from db
+    
     public async Task<List<AppUser>> GetAllUsers()
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
@@ -48,9 +48,7 @@ public class UserRepository : IUserRepository {
             return users.ToList();
         }
     }
-
-
-    // get by id 
+    
     public async Task<AppUser> GetUserById(string id)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
@@ -86,8 +84,7 @@ public class UserRepository : IUserRepository {
             return user.First();
         }
     }
-
-    // get by email
+    
     public async Task<AppUser> GetAsyncByEmail(string email)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
@@ -122,16 +119,12 @@ public class UserRepository : IUserRepository {
                 });
             AppUser[] appUsers = user as AppUser[] ?? user.ToArray();
             if (appUsers.Any())
-            {
                 return appUsers.First();
-            }
-
-            return null;
+            
         }
+        return null;
     }
-
-
-    // create user
+    
     public async Task<AppUser> CreateUser(AppUser user)
     {
         using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
@@ -141,13 +134,9 @@ public class UserRepository : IUserRepository {
                         values (@id,@email,@userName,@firstName,@lastName,@passwordHash,@isActivated,@createdat,@updatedat)";
 
             var newUser = await cnn.ExecuteAsync(sql, user);
-            if (newUser > 0)
-            {
+            if (newUser > 0) 
                 return user;
-            }
         }
-
-
         return null;
     }
 
@@ -164,12 +153,11 @@ public class UserRepository : IUserRepository {
                 RoleId = role.Id
             });
             if (newUser > 0)
-            {
                 return user;
-            }
+            
         }
-
         return null;
+
     }
 
 

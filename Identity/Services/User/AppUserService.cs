@@ -65,9 +65,6 @@ namespace API.Identity.Services.User {
             var hashedPsw =  _cryptoEngine.Hash(password);
             user.PasswordHash = hashedPsw;
             
-           //  validate EMAIL 
-            if (user.Email != null)
-            {
                 // Create new user 
                 AppUser createdUser = await _userRepository.CreateUser(user);
                     if (createdUser != null)
@@ -90,7 +87,6 @@ namespace API.Identity.Services.User {
                        // }
                         return createdUser;
                     }
-            }
             return null;
         }
 
