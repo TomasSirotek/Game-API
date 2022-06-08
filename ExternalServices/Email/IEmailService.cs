@@ -1,3 +1,5 @@
+using API.Enums;
+
 namespace API.ExternalServices.Email; 
 
 public interface IEmailService {

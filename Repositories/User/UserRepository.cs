@@ -8,10 +8,12 @@ namespace API.Repositories.User;
 public class UserRepository : IUserRepository {
     
     private readonly IConfiguration _config;
+    private readonly IDbConnection _dbConnection;
 
-    public UserRepository(IConfiguration config)
+    public UserRepository(IConfiguration config,IDbConnection dbConnection)
     {
         _config = config;
+        _dbConnection = dbConnection;
     }
     
     public async Task<List<AppUser>> GetAllUsers()
@@ -167,13 +169,13 @@ public class UserRepository : IUserRepository {
             var sql = $@"update
                         app_user
                         set 
-                        isActivated = @result
+                        isActivated = @active
                         where id = @id;";
             
             var newUser = await cnn.ExecuteAsync(sql, new
             {
                 Id = id,
-                isActivated = result
+                active = result
             });
             if (newUser > 0) 
                 return true;
@@ -243,11 +245,11 @@ public class UserRepository : IUserRepository {
             
             var sql = $@"Delete 
                          from user 
-                         where id = @id";
+                         where id = @Id";
             
             var newUser = await cnn.ExecuteAsync(sql, new
             {
-                id = id
+                Id = id
             });
             if (newUser > 0) 
                 return true;

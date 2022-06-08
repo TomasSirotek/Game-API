@@ -29,7 +29,7 @@ public class AppUser  {
       
       public DateTime CreatedAt { get; set; }
       
-      public Timestamp UpdatedAt { get; set; }
+      public DateTime UpdatedAt { get; set; }
     
     
     public AppUser(string id,string email, string userName,string firstName,string lastName,bool isActivated)

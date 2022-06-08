@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Data;
+using System.Data.SqlClient;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using API.Configuration;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Npgsql;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace API
@@ -28,6 +31,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string dbConnectionString = Configuration.GetConnectionString("PostgresAppCon");
+            // Inject IDbConnection, with implementation from SqlConnection class.
+            services.AddTransient<IDbConnection>((sp) => new NpgsqlConnection(dbConnectionString));
             // Enable CORS
             services.AddCors(c =>
             {

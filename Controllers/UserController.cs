@@ -1,6 +1,8 @@
 ﻿using API.BindingModels.Authorization;
 using API.BindingModels.User;
 using API.Engines.Cryptography;
+using API.Enums;
+using API.Helpers;
 using API.Identity.Entities;
 using API.Identity.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +26,8 @@ public class UserController : DefaultController
     #region GET
     [HttpGet()]
     //[Authorize(Roles ="Admin")]
-    [AllowAnonymous]
+    [AllowAuthorized(AccessRoles.Admin)]
+    //[AllowAnonymous]
     public async Task<IActionResult> GetAllAsync ()
     {
         List<AppUser> userList = await _userService.GetAsync();
@@ -35,7 +38,7 @@ public class UserController : DefaultController
     
     
     [HttpGet("{id}")]
-    //[Authorize(Roles ="Admin")]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> GetAsyncById(string id)
     {
         AppUser user = await _userService.GetAsyncById(id);
@@ -48,7 +51,7 @@ public class UserController : DefaultController
     
     #region POST
     [HttpPost()]
-    //[Authorize(Roles ="Admin")]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> CreateAsync([FromBody]UserPostBindingModel request)
     {
         // move to services 
@@ -87,6 +90,7 @@ public class UserController : DefaultController
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
+            UpdatedAt = DateTime.Now
     
         };
         AppUser updatedUser = await _userService.UpdateAsync(requestUser);

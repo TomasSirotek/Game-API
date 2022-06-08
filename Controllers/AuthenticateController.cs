@@ -37,7 +37,7 @@ public class AuthenticateController : DefaultController {
 				 user.Token = token;
 				 var body = $"Recent log in to account have been noticed ! Date {new Timestamp()}"; // move separately 
 		if(!string.IsNullOrWhiteSpace(token))
-					 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
+			_emailService.SendEmail(user.Email,user.UserName,body,"Recent activity");
 		return Ok(user);
 	}
 	
@@ -51,8 +51,7 @@ public class AuthenticateController : DefaultController {
 			 UserName = model.UserName,
 			 Email = model.Email,
 			 IsActivated = false,
-			 CreatedAt = DateTime.Now,
-			 UpdatedAt = new Timestamp()
+			 CreatedAt = DateTime.Now
 		 };
 		AppUser newUser = await _userService.RegisterAsync(user, model.Password);
 		if (newUser == null) return BadRequest($"Could not register ");
@@ -60,7 +59,7 @@ public class AuthenticateController : DefaultController {
 
 	}
 	// this end-point works and confirms the email
-	[HttpPost ("confirm")] 
+	[HttpPost ("confirm-email")] 
 	public async Task<IActionResult> ConfirmEmail(string userId,string token)
 	{
 		if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))

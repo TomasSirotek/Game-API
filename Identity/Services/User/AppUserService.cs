@@ -1,5 +1,6 @@
 using API.Configuration;
 using API.Engines.Cryptography;
+using API.Enums;
 using API.ExternalServices.Email;
 using API.Identity.Entities;
 using API.Repositories;
@@ -81,9 +82,10 @@ namespace API.Identity.Services.User {
             {
                 var confirmEmailToken = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);;
                 var link = $"https://localhost:5000/Authenticate/confirm?userId={user.Id}&token={confirmEmailToken}";
-                _emailService.SendEmail(user.Email,user.UserName,link,"Confirmation email");
+                _emailService.SendEmail(user.Email,user.UserName,link,"Confirm email");
             }
-            return createdUser;
+            AppUser fetchedNewUser = await _userRepository.GetUserById(createdUser.Id);
+            return fetchedNewUser;
         }
             
             //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
@@ -105,12 +107,6 @@ namespace API.Identity.Services.User {
                 return updatedUser;
             }
             
-          
-        public async Task<bool> DeleteAsync(string id)
-        {
-            return await _userRepository.DeleteUser(id);
-        }
-
         public async Task<bool> ChangePasswordAsync(AppUser user, string newPassword)
         {
             var hashedPsw =  _cryptoEngine.Hash(newPassword);
@@ -123,13 +119,16 @@ namespace API.Identity.Services.User {
             var activated =  await SetEmailConfirmedAsync(user, true);
              //  var result = await _userManager.ConfirmEmailAsync(user, token);
               if(!activated)  throw new Exception($"Could not confirm user with email {user.Email}");;
-             // return IdentityResult.Failed();
-             return null;
+              return null;
         }
 
         public async Task<bool> SetEmailConfirmedAsync(AppUser user, bool confirmed)
         {
             return await _userRepository.SetActiveAsync(user.Id, confirmed);
+        }
+        public async Task<bool> DeleteAsync(string id)
+        {
+            return await _userRepository.DeleteUser(id);
         }
     }
 }

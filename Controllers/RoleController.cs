@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using API.BindingModels.Role;
 using API.Data;
+using API.Enums;
+using API.Helpers;
 using API.Identity.Entities;
 using API.Identity.Services;
 using API.Identity.Services.Role;
@@ -24,7 +26,7 @@ public class RoleController : DefaultController
     
     #region GET
     [HttpGet()]
-    //[Authorize(Roles ="Admin")]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     [AllowAnonymous]
     public async Task<IActionResult> GetAsync ()
     {
@@ -35,7 +37,7 @@ public class RoleController : DefaultController
     }
     
     [HttpGet("{id}")]
-    //[Authorize(Roles ="Admin")]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     [AllowAnonymous]
     public async Task<IActionResult> GetAsyncById (string id)
     {
@@ -47,7 +49,7 @@ public class RoleController : DefaultController
 
     
     [HttpGet("name")]
-    //[Authorize(Roles ="Admin")]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> GetAsyncByName(string name)
     {
         AppRole role = await _roleService.GetAsyncByName(name);
@@ -61,6 +63,7 @@ public class RoleController : DefaultController
     // Create Role 
     #region POST
     [HttpPost()]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> CreateAsync([FromBody]RolePostBindingModel model)
     {
         // move to services 
@@ -77,8 +80,8 @@ public class RoleController : DefaultController
     #endregion
     
     #region PUT
-    
     [HttpPut()]
+    //[AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> UpdateAsync([FromBody]RolePutBindingModel request)
     {
         if (string.IsNullOrWhiteSpace(request.Id) || string.IsNullOrWhiteSpace(request.Name))
@@ -94,10 +97,12 @@ public class RoleController : DefaultController
         return Ok(updatedRole);
     }
     
+    
     #endregion
-
+    
     #region DELETE
     [HttpDelete]
+    [AllowAuthorizedAttribute(AccessRoles.Admin)]
     public async Task<IActionResult> DeleteAsync(string id)
     {
         AppRole fetchedRole = await _roleService.GetAsyncById(id);

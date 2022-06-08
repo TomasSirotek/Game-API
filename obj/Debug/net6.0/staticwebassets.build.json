@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "c3k78uoYBVBnrci3CTsr+NcJPcEBa16fbOIelPuJCzI=",
+  "Hash": "zVkqmmLooyQfMtmtIpbq3DCzfWT2uzKnw+JgipkMXPg=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -32,6 +32,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml"
+    },
+    {
+      "Identity": "/Users/Tomas/Projects/Game-API/wwwroot/EmailTemplates/LoginNotificationEmailTemplate.cshtml",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/Tomas/Projects/Game-API/wwwroot/",
+      "BasePath": "_content/API",
+      "RelativePath": "EmailTemplates/LoginNotificationEmailTemplate.cshtml",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "wwwroot/EmailTemplates/LoginNotificationEmailTemplate.cshtml"
     },
     {
       "Identity": "/Users/Tomas/Projects/Game-API/wwwroot/Logs/log20220606.txt",
