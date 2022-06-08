@@ -1,6 +1,6 @@
 using API.Identity.Entities;
 
-namespace API.Repositories {
+namespace API.Repositories.Role {
     public interface IRoleRepository {
         
         Task<List<AppRole>> GetAsync();

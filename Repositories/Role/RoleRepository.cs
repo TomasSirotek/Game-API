@@ -3,7 +3,7 @@ using API.Identity.Entities;
 using Dapper;
 using Npgsql;
 
-namespace API.Repositories;
+namespace API.Repositories.Role;
 
 public class RoleRepository : IRoleRepository {
     private readonly IConfiguration _config;

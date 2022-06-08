@@ -9,6 +9,7 @@ using API.ExternalServices.Email;
 using API.Identity.Services.Role;
 using API.Identity.Services.User;
 using API.Repositories;
+using API.Repositories.Role;
 using API.Repositories.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

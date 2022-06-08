@@ -1,5 +1,6 @@
 using API.Identity.Entities;
 using API.Repositories;
+using API.Repositories.Role;
 
 namespace API.Identity.Services.Role {
     

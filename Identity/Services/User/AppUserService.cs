@@ -1,9 +1,9 @@
 using API.Configuration;
 using API.Engines.Cryptography;
-using API.Enums;
 using API.ExternalServices.Email;
 using API.Identity.Entities;
-using API.Repositories;
+using API.Repositories.Role;
+using API.Repositories.User;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Identity.Services.User {
@@ -12,16 +12,14 @@ namespace API.Identity.Services.User {
         
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
-        private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly ICryptoEngine _cryptoEngine;
         private readonly IJWToken _token;
         
-        public AppUserService (IUserRepository userRepository,IRoleRepository roleRepository,IEmailService emailService,IConfiguration configuration,ICryptoEngine cryptoEngine,IJWToken token)
+        public AppUserService (IUserRepository userRepository,IRoleRepository roleRepository,IEmailService emailService,ICryptoEngine cryptoEngine,IJWToken token)
         {
             _userRepository = userRepository;
             _emailService = emailService;
-            _configuration = configuration;
             _cryptoEngine = cryptoEngine;
             _roleRepository = roleRepository;
             _token = token;
@@ -87,16 +85,14 @@ namespace API.Identity.Services.User {
             AppUser fetchedNewUser = await _userRepository.GetUserById(createdUser.Id);
             return fetchedNewUser;
         }
-            
-            //  await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
-            // Add Types of Emails as enums (OPTIONS FOR EMAIL) repair the url 
-            
-            public async Task<AppUser> UpdateAsync(AppUser user)
+
+        public async Task<AppUser> UpdateAsync(AppUser user)
             {
                 AppUser updatedUser = await _userRepository.UpdateAsync(user);
                 if (updatedUser == null) throw new Exception("Could not update user ");
                 updatedUser.Roles.Clear();
                 
+                // fix reasigning roles for user when updating
                 foreach (AppRole role in user.Roles)
                 {
                     AppRole fetchedRole = await _roleRepository.GetAsyncByName(role.Name);

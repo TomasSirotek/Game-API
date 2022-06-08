@@ -1,7 +1,6 @@
 using API.Identity.Entities;
-using Microsoft.AspNetCore.Identity;
 
-namespace API.Repositories; 
+namespace API.Repositories.User; 
 
 public interface IUserRepository {
 

@@ -25,8 +25,7 @@ public class UserController : DefaultController
     
     #region GET
     [HttpGet()]
-    //[Authorize(Roles ="Admin")]
-    [AllowAuthorized(AccessRoles.Admin)]
+    // [AllowAuthorized(AccessRoles.Admin)]
     //[AllowAnonymous]
     public async Task<IActionResult> GetAllAsync ()
     {
@@ -59,6 +58,7 @@ public class UserController : DefaultController
        {
            Id = Guid.NewGuid().ToString(),
            Email = request.Email,
+           UserName = request.UserName,
            FirstName = request.FirstName,
            LastName = request.LastName,
            IsActivated = request.isConfirmed
@@ -159,7 +159,7 @@ public class UserController : DefaultController
         if(fetchedUser == null) BadRequest($"Could not find user with {id}");
         bool result = await _userService.DeleteAsync(fetchedUser.Id); 
         if(result == null) BadRequest($"Could not delete user with {id}");
-        return Ok($"User with {id} has been deleted !");
+        return Ok($"User with Id : {id} has been deleted !");
     }
     #endregion
     
