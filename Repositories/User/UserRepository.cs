@@ -10,7 +10,7 @@ public class UserRepository : IUserRepository {
 
     public UserRepository(IDbConnection dbConnection)
     {
-        _dbConnection = dbConnection;
+        _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
     }
     
     public async Task<List<AppUser>> GetAllUsers()

@@ -6,21 +6,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3dab68c8-5ccb-4b47-b28d-e5bebbe8428c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game-API.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Helpers/Tools.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/Services/Role/AppRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/Role/AppRoleService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Repositories/Role/IRoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/Role/IRoleRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Repositories/Role/RoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/Role/RoleRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Repositories/User/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/User/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/project.razor.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/project.razor.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" afterDir="false" />
@@ -58,6 +53,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="SWEA" />
   </component>
   <component name="ProjectId" id="2ADvc0XyVR0TXJ7bf0fajynz6iI" />
   <component name="ProjectViewState">
@@ -111,7 +109,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1654557047428</updated>
-      <workItem from="1654557056201" duration="33796000" />
+      <workItem from="1654557056201" duration="37225000" />
     </task>
     <servers />
   </component>
@@ -143,10 +141,10 @@
           <line>171</line>
           <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="193" containingFunctionPresentation="method 'ChangePasswordAsync'">
             <startOffsets>
-              <option value="6056" />
+              <option value="6113" />
             </startOffsets>
             <endOffsets>
-              <option value="6214" />
+              <option value="6271" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="7" />
@@ -156,10 +154,10 @@
           <line>176</line>
           <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="198" containingFunctionPresentation="method 'ChangePasswordAsync'">
             <startOffsets>
-              <option value="6227" />
+              <option value="6284" />
             </startOffsets>
             <endOffsets>
-              <option value="6243" />
+              <option value="6300" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="8" />

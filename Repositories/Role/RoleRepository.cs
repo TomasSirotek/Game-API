@@ -7,84 +7,74 @@ namespace API.Repositories.Role;
 
 public class RoleRepository : IRoleRepository {
     private readonly IConfiguration _config;
+    private readonly IDbConnection _dbConnection;
 
-    public RoleRepository(IConfiguration config)
+    public RoleRepository(IConfiguration config,IDbConnection dbConnection)
     {
         _config = config;
+        _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
+
     }
     
     public async Task<List<AppRole>> GetAsync()
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = @"select * from role";
+        var sql = @"select * from role";
 
-            IEnumerable<AppRole> newRole = await cnn.QueryAsync<AppRole>(sql);
+            IEnumerable<AppRole> newRole = await _dbConnection.QueryAsync<AppRole>(sql);
             if (newRole != null)
             {
                 return newRole.ToList();
             }
-        }
+  
 
         return null;
     }
     public async Task<AppRole> GetAsyncByName(string name)
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = @"select * from role as r where r.name = @name";
+        var sql = @"select * from role as r where r.name = @name";
 
-            AppRole role = await cnn.QueryFirstAsync<AppRole>(sql, new { Name = name});
+            AppRole role = await _dbConnection.QueryFirstAsync<AppRole>(sql, new { Name = name});
             if (role != null)
             {
                 return role;
             }
-        }
-
+        
         return null;
     }
     public async Task<AppRole> GetByIdAsync(string id)
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = @"select * from role as au where au.id = @id";
+        var sql = @"select * from role as au where au.id = @id";
 
-            AppRole user = await cnn.QueryFirstAsync<AppRole>(sql, new {Id = id});
+            AppRole user = await _dbConnection.QueryFirstAsync<AppRole>(sql, new {Id = id});
             if (user != null)
             {
                 return user;
             }
-        }
 
-        return null;
+            return null;
     }
     
     public async Task<bool> CreateAsync(AppRole role)
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = $@"insert into role (id,name) 
+        var sql = $@"insert into role (id,name) 
                         values (@id,@name)";
 
-            var affectedRows = await cnn.ExecuteAsync(sql, role);
+            var affectedRows = await _dbConnection.ExecuteAsync(sql, role);
             if (affectedRows > 0)
             {
                 return true;
             }
 
             return false;
-        }
     }
     
     public async Task<AppRole> UpdateAsync(AppRole role)
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            var sql = $@"update role
+        var sql = $@"update role
                         SET name = @name 
                         where id = @id;";
 
-            var affectedRows = await cnn.ExecuteAsync(sql, new
+            var affectedRows = await _dbConnection.ExecuteAsync(sql, new
             {
                 id = role.Id,
                 name = role.Name
@@ -93,25 +83,21 @@ public class RoleRepository : IRoleRepository {
             if (affectedRows > 0)
                 return role;
             return null;
-        }
+      
     }
 
     public async Task<bool> DeleteAsync(string id)
     {
-        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
-        {
-            
-            var sql = $@"Delete 
+        var sql = $@"Delete 
                          from role 
                          where id = @id";
             
-            var newUser = await cnn.ExecuteAsync(sql, new
+            var newUser = await _dbConnection.ExecuteAsync(sql, new
             {
                 Id = id
             });
             if (newUser > 0) 
                 return true;
-        }
-        return false;
+            return false;
     }
 }
