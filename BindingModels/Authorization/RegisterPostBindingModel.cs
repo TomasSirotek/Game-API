@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Dtos; 
+namespace API.BindingModels.Authorization; 
 
 public class RegisterPostBindingModel {
     [Required]

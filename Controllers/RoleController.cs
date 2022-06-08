@@ -1,6 +1,6 @@
 using System.Security.Claims;
+using API.BindingModels.Role;
 using API.Data;
-using API.Dtos;
 using API.Identity.Entities;
 using API.Identity.Services;
 using API.Identity.Services.Role;
@@ -26,7 +26,7 @@ public class RoleController : DefaultController
     [HttpGet()]
     //[Authorize(Roles ="Admin")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllRoles ()
+    public async Task<IActionResult> GetAsync ()
     {
          List<AppRole> userList =  await _roleService.GetAsync();
          if(userList.IsNullOrEmpty()) 
@@ -37,7 +37,7 @@ public class RoleController : DefaultController
     [HttpGet("{id}")]
     //[Authorize(Roles ="Admin")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetRoleById (string id)
+    public async Task<IActionResult> GetAsyncById (string id)
     {
         AppRole role =  await _roleService.GetAsyncById(id);
         if(role == null) 
@@ -61,7 +61,7 @@ public class RoleController : DefaultController
     // Create Role 
     #region POST
     [HttpPost()]
-    public async Task<IActionResult> CreateRole([FromBody]RolePostBindingModel model)
+    public async Task<IActionResult> CreateAsync([FromBody]RolePostBindingModel model)
     {
         // move to services 
         AppRole modelRole = new AppRole()
@@ -78,27 +78,34 @@ public class RoleController : DefaultController
     
     #region PUT
     
-    // Update Role 
     [HttpPut()]
-    public async Task<IActionResult> UpdateRole([FromBody]RolePutBindingModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody]RolePutBindingModel request)
     {
+        if (string.IsNullOrWhiteSpace(request.Id) || string.IsNullOrWhiteSpace(request.Name))
+            return BadRequest($"Could not create user with Id : {request.Id}");
         
-        // var request = new AppRole()
-        // {
-        //     Id = model.Id,
-        //     Name = model.Name
-        // };
-        // AppRole updatedRole = await _roleManager.UpdateRole(request);
-        //
-        // return updatedRole.Name != null ? Ok(request) : BadRequest($"Could not create role with Name : {model.Name}");
-        return null;
+        AppRole requestRole = new AppRole
+        {
+            Id = request.Id,
+            Name = request.Name
+        };
+        AppRole updatedRole = await _roleService.UpdateAsync(requestRole);
+        if (updatedRole == null) BadRequest($"Could not update role with {request.Id}");
+        return Ok(updatedRole);
     }
     
     #endregion
 
     #region DELETE
-    
-    // Delete Role 
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAsync(string id)
+    {
+        AppRole fetchedRole = await _roleService.GetAsyncById(id);
+        if(fetchedRole == null) BadRequest($"Could not find role with {id}");
+        bool result = await _roleService.DeleteAsync(fetchedRole.Id); 
+        if(result == null) BadRequest($"Could not delete role with {id}");
+         return Ok($"Role with {id} has been deleted !");
+    }
     
     #endregion
    

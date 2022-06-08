@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "l7zb6GwK5iI01eM+GOIZMI2D4bVJgKm/cQW1pjbcKjs=",
+  "Hash": "c3k78uoYBVBnrci3CTsr+NcJPcEBa16fbOIelPuJCzI=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -32,6 +32,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml"
+    },
+    {
+      "Identity": "/Users/Tomas/Projects/Game-API/wwwroot/Logs/log20220606.txt",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/Tomas/Projects/Game-API/wwwroot/",
+      "BasePath": "_content/API",
+      "RelativePath": "Logs/log20220606.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/Logs/log20220606.txt"
+    },
+    {
+      "Identity": "/Users/Tomas/Projects/Game-API/wwwroot/Logs/log20220607.txt",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/Tomas/Projects/Game-API/wwwroot/",
+      "BasePath": "_content/API",
+      "RelativePath": "Logs/log20220607.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/Logs/log20220607.txt"
     }
   ]
 }

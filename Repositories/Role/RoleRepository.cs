@@ -75,4 +75,43 @@ public class RoleRepository : IRoleRepository {
             return false;
         }
     }
+    
+    public async Task<AppRole> UpdateAsync(AppRole role)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            var sql = $@"update role
+                        SET name = @name 
+                        where id = @id;";
+
+            var affectedRows = await cnn.ExecuteAsync(sql, new
+            {
+                id = role.Id,
+                name = role.Name
+            });
+            
+            if (affectedRows > 0)
+                return role;
+            return null;
+        }
+    }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            
+            var sql = $@"Delete 
+                         from role 
+                         where id = @id";
+            
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+                Id = id
+            });
+            if (newUser > 0) 
+                return true;
+        }
+        return false;
+    }
 }

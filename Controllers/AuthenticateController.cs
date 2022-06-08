@@ -1,10 +1,11 @@
-﻿using API.Configuration;
-using API.Dtos;
+﻿using API.BindingModels.Authorization;
+using API.Configuration;
 using API.Engines.Cryptography;
 using API.ExternalServices.Email;
 using API.Identity.Entities;
 using API.Identity.Services.User;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Packaging.Signing;
 
 namespace API.Controllers;
 
@@ -34,7 +35,7 @@ public class AuthenticateController : DefaultController {
 
 		var token = _token.CreateToken(user.Roles.Select(role => role.Name).ToList(), user.Id, 24);
 				 user.Token = token;
-				 var body = $"Recent log in to account have been noticed ! Date {DateTime.Now}"; // move separately 
+				 var body = $"Recent log in to account have been noticed ! Date {new Timestamp()}"; // move separately 
 		if(!string.IsNullOrWhiteSpace(token))
 					 _emailService.SendEmail(user.Email,user.UserName,body,"Account sign in !");
 		return Ok(user);
@@ -51,16 +52,16 @@ public class AuthenticateController : DefaultController {
 			 Email = model.Email,
 			 IsActivated = false,
 			 CreatedAt = DateTime.Now,
-			 UpdatedAt = DateTime.Now
+			 UpdatedAt = new Timestamp()
 		 };
-		AppUser newUser = await _userService.RegisterUser(user, model.Password);
+		AppUser newUser = await _userService.RegisterAsync(user, model.Password);
 		if (newUser == null) return BadRequest($"Could not register ");
 		return Ok(newUser);
 
 	}
 	// this end-point works and confirms the email
 	[HttpPost ("confirm")] 
-	public async Task<IActionResult> ConfirmEmail (string userId,string token)
+	public async Task<IActionResult> ConfirmEmail(string userId,string token)
 	{
 		if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
 			return NotFound();

@@ -10,6 +10,9 @@ namespace API.Identity.Services.Role {
 
         Task<AppRole> CreateAsync(AppRole role);
 
-       // Task<AppRole> UpdateRole(AppRole role);
+        Task<AppRole> UpdateAsync(AppRole role);
+        
+        Task<bool> DeleteAsync(string id);
+
     }
 }

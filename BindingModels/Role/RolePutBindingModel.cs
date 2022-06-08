@@ -1,7 +1,10 @@
-namespace API.Dtos {
-    public class RolePutBindingModel {
-        
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
+using System.ComponentModel.DataAnnotations;
+
+namespace API.BindingModels.Role; 
+
+public class RolePutBindingModel {
+    [Required]
+    public string Id { get; set; }
+    [Required]
+    public string Name { get; set; }
 }

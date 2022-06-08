@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Identity;
 
 namespace API.Identity.Services.User {
     public interface IAppUserService {
-        Task<List<AppUser>> GetAllUsers();
-        Task<AppUser> GetUserById(string id);
+        Task<List<AppUser>> GetAsync();
+        Task<AppUser> GetAsyncById(string id);
 
         Task<AppUser> GetAsyncByEmail(string email);
 
-        Task<AppUser> RegisterUser(AppUser user, string password);
-        Task<AppUser> CreateUser(AppUser user,List<string> roles,string password);
-
+        Task<AppUser> RegisterAsync(AppUser user, string password);
+        Task<AppUser> CreateAsync(AppUser user,List<string> roles,string password);
+        
+        Task<AppUser> UpdateAsync(AppUser user);
+        
         Task<IdentityResult> ConfirmEmailAsync(string userId, string token);
 
+        Task<bool> DeleteAsync(string id);
 
+        Task<bool> ChangePasswordAsync(AppUser user,string newPassword);
+        
     }
 }

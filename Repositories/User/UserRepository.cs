@@ -160,13 +160,98 @@ public class UserRepository : IUserRepository {
 
     }
 
+    public async Task<bool> SetActiveAsync(string id, bool result)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            var sql = $@"update
+                        app_user
+                        set 
+                        isActivated = @result
+                        where id = @id;";
+            
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+                Id = id,
+                isActivated = result
+            });
+            if (newUser > 0) 
+                return true;
 
+        }
+        return false;
+    }
+    public async Task<bool> ChangePasswordAsync(AppUser user, string newPasswordHash)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            var sql = $@"update
+                        app_user
+                        set 
+                        passwordHash = @password
+                        where id = @id;";
+            
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+                id = user.Id,
+                password = newPasswordHash
+            });
+            if (newUser > 0) 
+                return true;
+
+        }
+        return false;
+    }
     // update user 
+    public async Task<AppUser> UpdateAsync(AppUser user)
+    {
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            
+            var sql = $@"update
+                        app_user
+                        set 
+                        email = @email,
+                        username = @userName,
+                        firstname = @firstName,
+                        lastName = @lastName,
+                        updatedat = current_timestamp
+                        where id = @id;";
+            
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+               id = user.Id,
+               email = user.Email,
+               username = user.UserName,
+               firstName = user.FirstName,
+               lastName = user.LastName
 
+            });
+            if (newUser > 0) 
+                return user;
+
+        }
+        return null;
+    }
 
     // delete user
     public async Task<bool> DeleteUser(string id)
     {
+        
+        using (IDbConnection cnn = new NpgsqlConnection(_config.GetConnectionString("PostgresAppCon")))
+        {
+            
+            var sql = $@"Delete 
+                         from user 
+                         where id = @id";
+            
+            var newUser = await cnn.ExecuteAsync(sql, new
+            {
+                id = id
+            });
+            if (newUser > 0) 
+                return true;
+        }
         return false;
     }
 }

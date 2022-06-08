@@ -1,4 +1,3 @@
-using API.Dtos;
 using API.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,8 +14,11 @@ public interface IUserRepository {
 	Task<AppUser> CreateUser(AppUser user);
 
 	Task<AppUser> AddToRoleAsync(AppUser user, AppRole role);
-		
-	// Task<AppUser> UpdateUser(UserPutBindingModel model);
-		
+
+	Task<bool> ChangePasswordAsync(AppUser user, string newPasswordHash);
+
+	Task<AppUser> UpdateAsync(AppUser user);
+
+	Task<bool> SetActiveAsync(string id, bool result);
 	Task<bool> DeleteUser(string id);
 }

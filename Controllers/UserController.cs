@@ -1,37 +1,33 @@
-﻿using System.Data;
-using System.Security.Claims;
-using API.Data;
-using API.Dtos;
+﻿using API.BindingModels.Authorization;
+using API.BindingModels.User;
+using API.Engines.Cryptography;
 using API.Identity.Entities;
 using API.Identity.Services.User;
-using API.Repositories;
-using Dapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
-using static API.Helpers.Tools;
 
 namespace API.Controllers; 
 
 public class UserController : DefaultController
 {
     private readonly IAppUserService _userService;
+    private readonly ICryptoEngine _cryptoEngine;
 
-    public UserController (IAppUserService userService)
+    public UserController (IAppUserService userService,ICryptoEngine cryptoEngine)
     {
         _userService = userService;
+        _cryptoEngine = cryptoEngine;
+
     }
     
     #region GET
-    [HttpGet("Admin")]
+    [HttpGet()]
     //[Authorize(Roles ="Admin")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllUsers ()
+    public async Task<IActionResult> GetAllAsync ()
     {
-        List<AppUser> userList = await _userService.GetAllUsers();
+        List<AppUser> userList = await _userService.GetAsync();
         if (userList.IsNullOrEmpty())
             return BadRequest($"Could not find any users");
         return Ok(userList);
@@ -39,9 +35,10 @@ public class UserController : DefaultController
     
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(string id)
+    //[Authorize(Roles ="Admin")]
+    public async Task<IActionResult> GetAsyncById(string id)
     {
-        AppUser user = await _userService.GetUserById(id);
+        AppUser user = await _userService.GetAsyncById(id);
         if (user != null) 
             return Ok (user);
         return BadRequest($"Could not find user with Id : {id}");
@@ -51,80 +48,59 @@ public class UserController : DefaultController
     
     #region POST
     [HttpPost()]
-    public async Task<IActionResult> CreateUser([FromBody]UserPostBindingModel model)
+    //[Authorize(Roles ="Admin")]
+    public async Task<IActionResult> CreateAsync([FromBody]UserPostBindingModel request)
     {
         // move to services 
         AppUser user = new AppUser()
        {
            Id = Guid.NewGuid().ToString(),
-           Email = model.Email,
-           FirstName = model.FirstName,
-           LastName = model.LastName,
-           IsActivated = model.isActivated
+           Email = request.Email,
+           FirstName = request.FirstName,
+           LastName = request.LastName,
+           IsActivated = request.isConfirmed
            
        };
-        AppUser resultUser = await _userService.CreateUser(user,model.Roles, model.Password);
+        AppUser resultUser = await _userService.CreateAsync(user,request.Roles, request.Password);
         
         if(resultUser == null) 
-            return BadRequest($"Could not create user with Email : {model.Email}");
+            return BadRequest($"Could not create user with Email : {request.Email}");
         return Ok(resultUser);
     }
  
     
     #endregion
-    //
-    // #region PUT
-    //
-    // // create address from manager 
-    //
-    // // update address
-    //
-    // // get /profile currently logged user 
-    //
-    // // forgot psw
-    //
-    // // reset psw
-    //
-    //
-    // // Update User 
-    // [HttpPut()]
-    // public async Task<IActionResult> UpdateUser(UserPutBindingModel model)
-    // {
-    //     // AppUser user = await _userManager.FindByEmailAsync(model.Email);
-    //     // if (user != null)
-    //     // {
-    //     //     IdentityResult validPass = null;
-    //     //     if (model.Password != null)
-    //     //     {
-    //     //         validPass = await _passwordValidator.ValidateAsync(_userManager, user, model.Password);
-    //     //         if (validPass.Succeeded)
-    //     //             user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
-    //     //         else
-    //     //             BadRequest($"Could not Update user psw: {validPass}");
-    //     //     }
-    //     //     user.UserName = model.UserName;
-    //     //     
-    //     //     IdentityResult result = await _userManager.UpdateAsync(user);
-    //     //     if (result.Succeeded) return Ok(user);
-    //    // }
-    //    
-    //  //  GetRolesAsync(AppUser user)
-    //     return Ok ("role");
-    //     
-    //    // return BadRequest($"Could not find user with Id : {id}");
-    // }
-    //
-    // #endregion
-    //
-    // [HttpDelete]
-    // public async Task<IActionResult> DeleteUserById(string id)
-    // {
-    //     AppUser user = await _userManager.FindByIdAsync(id);
-    //     if (user != null) return Ok($"User with id {id} was successfully deleted");
-    //     
-    //     return BadRequest($"Could not delete user with Id : {id}");
-    // }
-    //
+    
+    #region PUT
+    [HttpPut()]
+    //[Authorize(Roles ="Admin")]
+    public async Task<IActionResult> UpdateAsync([FromBody]UserPutBindingModel request)
+    {
+        // move to services 
+        AppUser fetchedUser = await _userService.GetAsyncById(request.Id);
+        if(fetchedUser == null) 
+            return BadRequest($"Could not find user with Id : {request.Id}");
+        
+        AppUser requestUser = new AppUser()
+        {
+            UserName = request.UserName,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+    
+        };
+        AppUser updatedUser = await _userService.UpdateAsync(requestUser);
+        
+        if(updatedUser == null) 
+            return BadRequest($"Could not update user with Id : {request.Id}");
+        return Ok(updatedUser);
+    }
+    
+    #endregion
+    //TODO: - create address for user
+    //TODO: - update address
+    //TODO: get /profile currently logged user 
+    
     // private AppUser GetCurrentUser ()
     // {
     //     var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -143,5 +119,44 @@ public class UserController : DefaultController
     //     }
     //     return null;
     
+    // TODO: forgot psw
+    [HttpPut("forgot-password")]
+    public async Task<IActionResult> ResetPasswordAsync([FromBody] ForgotPasswordBindingModel request)
+    {
+        if (request.Email.IsNullOrEmpty()) 
+            return BadRequest($"Email cannot be empty");
+        // send token to email to reset password link
+        return Ok("for now !");
+    }
+    
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordBindingModel request)
+    {
+        AppUser user = await _userService.GetAsyncById(request.UserId);
+        if(user == null)
+            return BadRequest($"Could not find user with {request.UserId}");
+        if (!_cryptoEngine.HashCheck(user.PasswordHash, request.OldPassword))
+            return BadRequest($"Old password is incorrect !");
+        
+        bool result = await _userService.ChangePasswordAsync(user,request.NewPassword);
+    
+        if(!result) 
+            return BadRequest($"Could not update password");
+        return Ok($"Password has been changed");
+    }
+    
+    #region DELETE
 
+    [HttpDelete("{id}")]
+    //[Authorize(Roles ="Admin")]
+    public async Task<IActionResult> DeleteAsync(string id)
+    {
+        AppUser fetchedUser = await _userService.GetAsyncById(id);
+        if(fetchedUser == null) BadRequest($"Could not find user with {id}");
+        bool result = await _userService.DeleteAsync(fetchedUser.Id); 
+        if(result == null) BadRequest($"Could not delete user with {id}");
+        return Ok($"User with {id} has been deleted !");
+    }
+    #endregion
+    
 }

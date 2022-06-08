@@ -28,30 +28,29 @@ namespace API.Identity.Services.Role {
         public async Task<AppRole> CreateAsync(AppRole role)
         {
             bool result  = await _roleRepository.CreateAsync(role);
-            if (result)
-            {
-                AppRole fetchedRole = await _roleRepository.GetByIdAsync(role.Id);
-                return fetchedRole;
-            }
-            return null;
-            // return exceptions
+            if (!result)  throw new Exception("Role cannot be empty");
+            AppRole fetchedRole = await _roleRepository.GetByIdAsync(role.Id);
+            return fetchedRole;
         }
         
-        // public async Task<AppRole> UpdateRole(AppRole role)
-        // {
-        //     if (role != null)
-        //     {
-        //         // try to update
-        //         IdentityResult roleUpdated = await _roleManager.UpdateAsync(role);
-        //         // fetch updated role
-        //         AppRole updatedRole = await _roleManager.FindByIdAsync(role.Id);
-        //         // if done return back 
-        //         if (roleUpdated.Succeeded) return updatedRole;
-        //         
-        //     }
-        //
-        //     return null;
-        // }
+        public async Task<AppRole> UpdateAsync(AppRole role)
+        {
+            if (role == null) 
+                throw new Exception("Role cannot be empty");
+            // try to update
+            AppRole roleUpdated = await _roleRepository.UpdateAsync(role);
+            if (roleUpdated == null) 
+                throw new Exception("Role could not be created");
+            // fetch updated role
+            AppRole updatedRole = await _roleRepository.GetByIdAsync(role.Id);
+            // if done return back 
+            return updatedRole;
+        }
+        
+        public async Task<bool> DeleteAsync(string id)
+        {
+            return await _roleRepository.DeleteAsync(id);
+        }
         
     }
 }

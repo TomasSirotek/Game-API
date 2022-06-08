@@ -8,10 +8,10 @@ namespace API.Repositories {
         Task<AppRole> GetByIdAsync(string id);
 
         Task<bool> CreateAsync(AppRole user);
-        //
-        // //  Task<AppRole> UpdateAsync(AppRole role);
-        //
-        //  Task<bool> DeleteAsync(string id);
+        
+        Task<AppRole> UpdateAsync(AppRole role);
+        
+        Task<bool> DeleteAsync(string id);
 
     }
 }
