@@ -136,7 +136,7 @@ namespace API
 
             app.UseCors((options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
 
             app.UseRouting();
 
