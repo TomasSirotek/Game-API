@@ -1,6 +1,7 @@
 using System.Data;
 using API.Identity.Entities;
 using Dapper;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Repositories.User;
 
@@ -192,7 +193,7 @@ public class UserRepository : IUserRepository {
                         updatedat = current_timestamp
                         where id = @id;";
             
-            var newUser = await _dbConnection.ExecuteAsync(sql, new
+            var updateAffectedRows = await _dbConnection.ExecuteAsync(sql, new
             {
                id = user.Id,
                email = user.Email,
@@ -201,10 +202,41 @@ public class UserRepository : IUserRepository {
                lastName = user.LastName
 
             });
-            if (newUser > 0) 
-                return user;
+            
+                if (updateAffectedRows > 0) return user;
             return null;
     }
+
+    public async Task<bool> RemoveUserFromRole(AppUser user)
+    {
+        var roleSql = $@" Delete 
+                          from user_role 
+                          where user_id = @userId";
+
+        var newUser = await _dbConnection.ExecuteAsync(roleSql, new
+        {
+            RoleId = user.Id,
+        });
+        if (newUser > 0)
+            return true;
+        return false;
+    }
+    //  if (user.Roles.IsNullOrEmpty())
+    //  {
+    //      foreach (AppRole role in user.Roles)
+    //      {
+    //          var roleSql = $@" Delete 
+    //                            from user_role 
+    //                            where userId = @userId";
+    //          
+    //          var deleteAffectedRows = await _dbConnection.ExecuteAsync(roleSql, new
+    //          {
+    //              userId = user.Id
+    //          });
+    //          if (deleteAffectedRows > 0) 
+    //              return user;
+    //      }
+    // }
 
     // delete user
     public async Task<bool> DeleteUser(string id)

@@ -11,7 +11,7 @@ namespace API.Identity.Services.User {
         Task<AppUser> RegisterAsync(AppUser user, string password);
         Task<AppUser> CreateAsync(AppUser user,List<string> roles,string password);
         
-        Task<AppUser> UpdateAsync(AppUser user);
+        Task<AppUser> UpdateAsync(AppUser user,List<string> roles);
         
         Task<IdentityResult> ConfirmEmailAsync(string userId, string token);
 

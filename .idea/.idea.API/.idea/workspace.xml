@@ -6,26 +6,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a4812e9-1ed5-45e8-990c-4297a74921c1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Database/DatabaseExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SqlScripts/Script0001- Create tables.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources/ebdccf87-9508-4ecf-a378-736c74ab335e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources/ebdccf87-9508-4ecf-a378-736c74ab335e.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.API/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BindingModels/User/UserPutBindingModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BindingModels/User/UserPutBindingModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Services/User/IAppUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Services/User/IAppUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/User/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/User/IUserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/API.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/API.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/API.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/ref/API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/refint/API.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" afterDir="false" />
     </list>
@@ -55,6 +49,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.6412037" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/" value="PostgreSQL" />
     <property name="database.data.extractors.current.export.id" value="JSON-Groovy.json.groovy" />
     <property name="database.data.extractors.current.id" value="JSON-Groovy.json.groovy" />
@@ -103,6 +98,7 @@
       <updated>1654724578366</updated>
       <workItem from="1654724623612" duration="275000" />
       <workItem from="1654800307070" duration="2791000" />
+      <workItem from="1654806382281" duration="6463000" />
     </task>
     <servers />
   </component>
@@ -125,5 +121,141 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Repositories/User/UserRepository.cs</url>
+          <line>185</line>
+          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="185" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="6497" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6854" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Repositories/User/UserRepository.cs</url>
+          <line>195</line>
+          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="195" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="6880" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7165" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>98</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="90" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="3756" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3818" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>101</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="96" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="3968" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4004" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Controllers/UserController.cs</url>
+          <line>95</line>
+          <properties documentPath="$PROJECT_DIR$/Controllers/UserController.cs" initialLine="94" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="2851" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2931" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Controllers/UserController.cs</url>
+          <line>81</line>
+          <properties documentPath="$PROJECT_DIR$/Controllers/UserController.cs" initialLine="81" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="2364" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2430" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>90</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="93" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="3472" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3537" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>92</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="94" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="3567" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3610" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>94</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="99" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="3649" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3703" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
+          <line>103</line>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="104" containingFunctionPresentation="method 'UpdateAsync'">
+            <startOffsets>
+              <option value="4043" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4113" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

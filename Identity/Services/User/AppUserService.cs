@@ -86,19 +86,27 @@ namespace API.Identity.Services.User {
             return fetchedNewUser;
         }
 
-        public async Task<AppUser> UpdateAsync(AppUser user)
-            {
-                AppUser updatedUser = await _userRepository.UpdateAsync(user);
+        public async Task<AppUser> UpdateAsync(AppUser user,List<string> roles)
+        {
+            AppUser fetchedUser = await _userRepository.GetUserById(user.Id);
+            
+                foreach (AppRole role in fetchedUser.Roles)
+                {
+                    await _userRepository.RemoveUserFromRole(fetchedUser);
+                }
+        
+            
+            AppUser updatedUser = await _userRepository.UpdateAsync(user);
                 if (updatedUser == null) throw new Exception("Could not update user ");
-                updatedUser.Roles.Clear();
-                
-                // fix reasigning roles for user when updating
+              //  updatedUser.Roles.Clear();
                 foreach (AppRole role in user.Roles)
                 {
                     AppRole fetchedRole = await _roleRepository.GetAsyncByName(role.Name);
-                    if(fetchedRole == null)  throw new Exception($"Could not find role with name {role.Name}");
+                    if(fetchedRole == null) 
+                        throw new Exception($"Could not find role with name {role.Name}");
                     await _userRepository.AddToRoleAsync(updatedUser, fetchedRole);
                 }
+              
                 
                 return updatedUser;
             }

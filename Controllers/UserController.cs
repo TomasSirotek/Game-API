@@ -79,21 +79,21 @@ public class UserController : DefaultController
     //[Authorize(Roles ="Admin")]
     public async Task<IActionResult> UpdateAsync([FromBody]UserPutBindingModel request)
     {
-        // move to services 
         AppUser fetchedUser = await _userService.GetAsyncById(request.Id);
         if(fetchedUser == null) 
             return BadRequest($"Could not find user with Id : {request.Id}");
-        
+
         AppUser requestUser = new AppUser()
         {
+            Id = request.Id,
+            Email = request.Email,
             UserName = request.UserName,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            Email = request.Email,
             UpdatedAt = DateTime.Now
-    
         };
-        AppUser updatedUser = await _userService.UpdateAsync(requestUser);
+        
+        AppUser updatedUser = await _userService.UpdateAsync(requestUser,request.Roles);
         
         if(updatedUser == null) 
             return BadRequest($"Could not update user with Id : {request.Id}");
@@ -105,24 +105,6 @@ public class UserController : DefaultController
     //TODO: - update address
     //TODO: get /profile currently logged user 
     
-    // private AppUser GetCurrentUser ()
-    // {
-    //     var identity = HttpContext.User.Identity as ClaimsIdentity;
-    //
-    //
-    //     if (identity != null) {
-    //
-    //         var userClaims = identity.Claims;
-    //
-    //         return new AppUser {
-    //             // UserName = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value,
-    //             // EmailAddress = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Email)?.Value,
-    //             // Role = userClaims.FirstOrDefault (x => x.Type == ClaimTypes.Role)?.Value,
-    //         };
-    //
-    //     }
-    //     return null;
-    
     // TODO: forgot psw
     [HttpPut("forgot-password")]
     public async Task<IActionResult> ResetPasswordAsync([FromBody] ForgotPasswordBindingModel request)
@@ -130,6 +112,7 @@ public class UserController : DefaultController
         if (request.Email.IsNullOrEmpty()) 
             return BadRequest($"Email cannot be empty");
         // send token to email to reset password link
+        // needs more work 
         return Ok("for now !");
     }
     

@@ -19,5 +19,6 @@ public interface IUserRepository {
 	Task<AppUser> UpdateAsync(AppUser user);
 
 	Task<bool> SetActiveAsync(string id, bool result);
+	Task<bool> RemoveUserFromRole(AppUser user);
 	Task<bool> DeleteUser(string id);
 }
