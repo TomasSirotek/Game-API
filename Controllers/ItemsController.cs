@@ -85,18 +85,18 @@ namespace API.Controllers
 			return NoContent();
 		}
 
-		[HttpDelete("{id}")]
-		public ActionResult DeleteItem(Guid id)
-        {
-			var existingItem = _ItemRepo.GetItemById(id);
+		// [HttpDelete("{id}")]
+		// public ActionResult DeleteItem(Guid id)
+        // {
+		// 	var existingItem = _ItemRepo.GetItemById(id);
 
-			if (existingItem is null) {
-				return NotFound();
-			}
+		// 	if (existingItem is null) {
+		// 		return NotFound();
+		// 	}
 
-			_ItemRepo.DeleteItem(id);
+		// 	_ItemRepo.DeleteItem(id);
 
-			return NoContent();
-		}
+		// 	return NoContent();
+		// }
 	}
 }
