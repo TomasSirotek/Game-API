@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="CryptoHelper" Version="3.0.2" />
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="dbup-postgresql" Version="4.6.3" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -58,5 +59,9 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="SqlScripts\Script0001- Create tables.sql" />
+    <EmbeddedResource Include="SqlScripts\Script0001- Create tables.sql" />
   </ItemGroup>
 </Project>

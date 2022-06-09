@@ -1148,3 +1148,5 @@
 /Users/Tomas/Projects/Game-API/obj/Debug/net6.0/API.pdb
 /Users/Tomas/Projects/Game-API/obj/Debug/net6.0/API.genruntimeconfig.cache
 /Users/Tomas/Projects/Game-API/obj/Debug/net6.0/ref/API.dll
+/Users/Tomas/Projects/Game-API/bin/Debug/net6.0/dbup-core.dll
+/Users/Tomas/Projects/Game-API/bin/Debug/net6.0/dbup-postgresql.dll

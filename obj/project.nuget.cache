@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Od+TndKCg+FXhbo4EpCXLEMxBIZfdOuaveoq7nincrN+TVthpJj1LD0/BME48PTCthwSbLnrGnAK82VR9iHU4g==",
+  "dgSpecHash": "BBYrwbThGCP7UbKdP6nW2ElhDg3NBIT9zNfX84o9R99MZBfoa2WfDOfsFu81ZRPOY/sFMLH8jsHQMssuecZWqg==",
   "success": true,
   "projectFilePath": "/Users/Tomas/Projects/Game-API/API.csproj",
   "expectedPackageFiles": [
     "/Users/Tomas/.nuget/packages/cryptohelper/3.0.2/cryptohelper.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/dapper/2.0.123/dapper.2.0.123.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/dbup-core/4.6.3/dbup-core.4.6.3.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/dbup-postgresql/4.6.3/dbup-postgresql.4.6.3.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/fluentemail.core/3.0.2/fluentemail.core.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/fluentemail.razor/3.0.2/fluentemail.razor.3.0.2.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/fluentemail.smtp/3.0.2/fluentemail.smtp.3.0.2.nupkg.sha512",
@@ -175,6 +177,7 @@
     "/Users/Tomas/.nuget/packages/system.diagnostics.debug/4.3.0/system.diagnostics.debug.4.3.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/system.diagnostics.diagnosticsource/6.0.0/system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/system.diagnostics.tools/4.3.0/system.diagnostics.tools.4.3.0.nupkg.sha512",
+    "/Users/Tomas/.nuget/packages/system.diagnostics.tracesource/4.3.0/system.diagnostics.tracesource.4.3.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/system.diagnostics.tracing/4.3.0/system.diagnostics.tracing.4.3.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/system.drawing.common/4.7.0/system.drawing.common.4.7.0.nupkg.sha512",
     "/Users/Tomas/.nuget/packages/system.formats.asn1/5.0.0/system.formats.asn1.5.0.0.nupkg.sha512",

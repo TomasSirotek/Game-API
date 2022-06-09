@@ -1,6 +1,4 @@
-﻿using System;
-
-using Serilog;
+﻿using API.Database;
 
 namespace API
 {
@@ -8,18 +6,9 @@ namespace API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.Console()
-                .WriteTo.File("/wwwroot/Logs/log.txt",
-                    rollingInterval: RollingInterval.Day,
-                    rollOnFileSizeLimit: true)
-                .CreateLogger();
-            
-            Log.Information("Hello, Serilog!");
-        
-            Log.CloseAndFlush();
+            CreateHostBuilder(args).Build()
+               // .MigrateDatabase<Program>()
+                .Run();
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
