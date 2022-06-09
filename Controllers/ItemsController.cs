@@ -11,7 +11,7 @@ using API.Repositories;
 namespace API.Controllers
 {
 	[ApiController]
-	[Route("[controller]")] // Own route name 
+	[Route("[controller]")] 
 
 	public class ItemsController : ControllerBase
 	{

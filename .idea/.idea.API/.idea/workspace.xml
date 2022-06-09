@@ -20,19 +20,17 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a89c43b9e4639a86ef72bfbdd915cf3a88d4582ea46a7bc809f17b1baa77abf/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/appsettings.Development.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5f6c4c45aa9784d53fe3f28bfc882a8e68bc2921f1e0ca59c4b72702afeb4/SqlMapper.Async.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/86d9944d7dc6247b332d77355bfabdb7cd68928cf33921b80ea70c795ef7c26/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bb22307331e5e85550767561182cfbce172780bed0e5e9c1faf39ec237b49e/CommandDefinition.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/appsettings.json" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Startup.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b8c56d5b036f2a6fe79726c905c982bb3e77beec6526d3695d5daf1286da/SqlMapper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/953979ce79aa91ebdf926c8867d91bafb29201315c3e5783b6842c0ffc62ac2/AsyncVoidMethodBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7cc477141a9a15fde3b7c58ecd2739d1a38ca92f945ec7c8b78e90193b11c5/TaskContinuation.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d4f98ebdd878db4fbd98872756eb7be6ad9e468fe5cd6b16385d8c4993109a/List.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a89c43b9e4639a86ef72bfbdd915cf3a88d4582ea46a7bc809f17b1baa77abf/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bb22307331e5e85550767561182cfbce172780bed0e5e9c1faf39ec237b49e/CommandDefinition.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/appsettings.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Startup.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,7 +45,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="XThreadsFramesViewSplitterKey" value="0.3292683" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.6412037" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected=".NET Launch Settings Profile.API">
@@ -98,7 +96,7 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -120,53 +118,25 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Repositories/User/UserRepository.cs</url>
           <line>18</line>
-          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="35" containingFunctionPresentation="method 'GetAllUsers'">
-            <startOffsets>
-              <option value="376" />
-            </startOffsets>
-            <endOffsets>
-              <option value="471" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="$PROJECT_DIR$/Repositories/User/UserRepository.cs" initialLine="35" containingFunctionPresentation="method 'GetAllUsers'" />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
           <line>91</line>
-          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="93" containingFunctionPresentation="method 'CreateUser'">
-            <startOffsets>
-              <option value="3248" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3281" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="93" containingFunctionPresentation="method 'CreateUser'" />
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
           <line>97</line>
-          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="99" containingFunctionPresentation="method 'CreateUser'">
-            <startOffsets>
-              <option value="3767" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3843" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="99" containingFunctionPresentation="method 'CreateUser'" />
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Identity/Services/User/AppUserService.cs</url>
           <line>101</line>
-          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="103" containingFunctionPresentation="method 'CreateUser'">
-            <startOffsets>
-              <option value="3967" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3986" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="$PROJECT_DIR$/Identity/Services/User/AppUserService.cs" initialLine="103" containingFunctionPresentation="method 'CreateUser'" />
           <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
