@@ -10,6 +10,7 @@
       <change afterPath="$PROJECT_DIR$/SqlScripts/Script0001- Create tables.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.API/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UserController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/API.dll" afterDir="false" />

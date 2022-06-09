@@ -82,7 +82,7 @@ public class UserController : DefaultController
         // move to services 
         AppUser fetchedUser = await _userService.GetAsyncById(request.Id);
         if(fetchedUser == null) 
-            return BadRequest($"Could not find user with Id : {request.Id}");
+            return BadRequest($"Could not find user with Id: {request.Id}");
         
         AppUser requestUser = new AppUser()
         {
