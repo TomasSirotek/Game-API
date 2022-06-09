@@ -16296,6 +16296,17 @@
     "CSharpLanguageVersion": 1000
   },
   "RootNamespace": "API",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "/Users/Tomas/Projects/Game-API/wwwroot/EmailTemplates/LoginNotificationEmailTemplate.cshtml",
+      "TargetPath": "wwwroot\\EmailTemplates\\LoginNotificationEmailTemplate.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/Tomas/Projects/Game-API/wwwroot/EmailTemplates/ConfirmEmailTemplate.cshtml",
+      "TargetPath": "wwwroot\\EmailTemplates\\ConfirmEmailTemplate.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }
